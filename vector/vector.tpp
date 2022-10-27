@@ -6,7 +6,7 @@ namespace ft
 {
 
     template <class T, class A>
-    vector<T, A>::vector(const typename vector<T, A>::allocator_type &alloc) : _start(NULL), _end(NULL), _storage_end(NULL), _alloc(alloc)
+    vector<T, A>::vector(const typename vector<T, A>::allocator_type &alloc) :  _alloc(alloc), _start(NULL), _end(NULL), _storage_end(NULL)
     {
         _start = _alloc.allocate(10); //A CHANGER
         _end = _start;
@@ -14,13 +14,13 @@ namespace ft
         //_storage_end = _start;
     }
 
-    template <class T, class A>
+    /*template <class T, class A>
     vector<T,A>::vector(typename vector<T, A>::size_type n,
                             const typename vector<T, A>::value_type &val,
                             const typename vector<T, A>::allocator_type &alloc)
     {
 
-    }
+    }*/
 
     //Public Method
 
@@ -40,6 +40,7 @@ namespace ft
     void    vector<T, A>::assign(vector<T, A>::size_type n,
                                         const vector<T, A>::value_type &val)
     {
+		(void)val;
         if (n == 0)
             return ;
         if (n > capacity())
@@ -86,6 +87,7 @@ namespace ft
     void        vector<T, A>::deallocate_memory(const typename vector<T, A>::pointer start,
                                                     const typename vector<T, A>::pointer end)
     {
+		(void)end;
         vector<T, A>::iterator    it(start);
         
         /*while (it != end)
@@ -133,6 +135,18 @@ namespace ft
     {
         return (_end);
     }
+
+    template <class T, class A>
+    typename vector<T,A>::reverse_iterator  vector<T, A>::rend()
+	{
+		return (reverse_iterator(begin()));
+	}
+
+    template <class T, class A>
+    typename vector<T,A>::reverse_iterator  vector<T, A>::rbegin()
+	{
+		return (reverse_iterator(end()));
+	}
 
 //template <class InputIterator>
 //void assign(InputIterator first, InputIterator last);
