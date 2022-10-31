@@ -20,35 +20,35 @@ namespace ft
 
             //Member function
             reverse_iterator(); //
-            explicit reverse_iterator (iterator_type it);
-            reverse_iterator(const reverse_iterator &rev_it);
+            explicit reverse_iterator (iterator_type it);//
+            reverse_iterator(const reverse_iterator &rev_it);//
 
             iterator_type       base() const;
 
-            reference           operator*() const;
-            reverse_iterator    operator+(difference_type n) const;
+            reference           operator*() const;//
+            reverse_iterator    operator+(difference_type n) const;//
             reverse_iterator    &operator++();//
-            reverse_iterator    operator++(int);
-            reverse_iterator    &operator+= (difference_type n);
-            reverse_iterator    operator-(difference_type n) const;
-            reverse_iterator    &operator--();
-            reverse_iterator    operator--(int);
-            reverse_iterator    &operator-=(difference_type n);
-            pointer             operator->() const;
-            reference           operator[](difference_type n) const;
+            reverse_iterator    operator++(int);//
+            reverse_iterator    &operator+= (difference_type n);//
+            reverse_iterator    operator-(difference_type n) const;//
+            reverse_iterator    &operator--();//
+            reverse_iterator    operator--(int);//
+            reverse_iterator    &operator-=(difference_type n);//
+            pointer             operator->() const;//
+            reference           operator[](difference_type n) const;//
 			
 			template <class it>
             friend bool        	operator!=(const reverse_iterator<it> &lhs, const reverse_iterator<it> &rhs);//
 			template <class it>
-            friend bool         operator<(const reverse_iterator<it> &lhs, const reverse_iterator<it> &rhs);
+            friend bool         operator<(const reverse_iterator<it> &lhs, const reverse_iterator<it> &rhs);//
 			template <class it>
-            friend bool         operator<=(const reverse_iterator<it> &lhs, const reverse_iterator<it> &rhs);
+            friend bool         operator<=(const reverse_iterator<it> &lhs, const reverse_iterator<it> &rhs);//
 			template <class it>
-            friend bool         operator==(const reverse_iterator<it> &lhs, const reverse_iterator<it> &rhs);
+            friend bool         operator==(const reverse_iterator<it> &lhs, const reverse_iterator<it> &rhs);//
 			template <class it>
-            friend bool         operator>(const reverse_iterator<it> &lhs, const reverse_iterator<it> &rhs);
+            friend bool         operator>(const reverse_iterator<it> &lhs, const reverse_iterator<it> &rhs);//
 			template <class it>
-            friend bool        	operator>=(const reverse_iterator<it> &lhs, const reverse_iterator<it> &rhs);
+            friend bool        	operator>=(const reverse_iterator<it> &lhs, const reverse_iterator<it> &rhs);//
 
             friend reverse_iterator<Iterator>                              operator+(typename reverse_iterator<Iterator>::difference_type n, //pas sur pour le friend
                                                                                 const reverse_iterator<Iterator>& rev_it);
