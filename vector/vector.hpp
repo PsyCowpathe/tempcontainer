@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   vector.hpp                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: agirona <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/10/31 18:54:26 by agirona           #+#    #+#             */
+/*   Updated: 2022/10/31 19:45:34 by agirona          ###   ########lyon.fr   */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef VECTOR_HPP
 # define VECTOR_HPP
 
@@ -47,9 +59,9 @@ namespace ft
            	pointer             _end;
             pointer             _storage_end;
 
-            pointer             allocate_memory(size_type size);
-            void                deallocate_memory(const pointer start, const pointer end);
-           	iterator            set_range(const iterator start, const value_type &val, size_type end);
+           // pointer           allocate_memory(size_type size);
+           // void              deallocate_memory(const pointer start, const pointer end);
+           	pointer            	set_range(const pointer &start, const pointer &end, const value_type &val);
            	pointer             set_storage_end(const pointer start, const size_t size);
     };
 };
