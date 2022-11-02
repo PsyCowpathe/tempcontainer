@@ -1,5 +1,5 @@
-c++ -Wall -Wextra -Werror -std=c++98 -D main/reversemain.cpp && ./a.out > stl.txt
-c++ -Wall -Wextra -Werror -std=c++98 -D VALID=0 main/reversemain.cpp && ./a.out > moi.txt
+c++ -Wall -Wextra -Werror -std=c++98 reversemain.cpp && ./a.out > stl.txt
+c++ -Wall -Wextra -Werror -std=c++98 -D VALID=0 reversemain.cpp && ./a.out > moi.txt
 
 diff stl.txt moi.txt
 
