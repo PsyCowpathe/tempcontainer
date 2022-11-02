@@ -6,7 +6,7 @@
 /*   By: agirona <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 18:54:26 by agirona           #+#    #+#             */
-/*   Updated: 2022/10/31 19:45:34 by agirona          ###   ########lyon.fr   */
+/*   Updated: 2022/11/02 20:15:42 by agirona          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,17 +36,20 @@ namespace ft
             typedef typename ft::iterator_traits<iterator>::difference_type		difference_type;
             typedef size_t                                                  	size_type;
 
-
-
             //CONSTRUCTOR
             explicit    vector(const allocator_type &alloc = allocator_type());
-            explicit    vector (size_type n, const value_type& val = value_type(), const allocator_type& alloc = allocator_type());
-            
+            explicit    vector(size_type n, const value_type &val = value_type(),
+								const allocator_type &alloc = allocator_type());
+			template <class InputIterator>
+			vector(InputIterator first, InputIterator last, const allocator_type &alloc = allocator_type(),
+			typename std::enable_if<!std::is_integral<InputIterator>::value, InputIterator>::type* = 0);
+			vector(const vector &x);
+
             //Member function
             void        		assign(size_type n, const value_type &val);
             size_type   		capacity() const;
             size_type   		size() const;
-            void        		push_back(const value_type& val);
+            void        		push_back(const value_type &val);
             iterator    		begin();
             iterator    		end();
 			reverse_iterator	rend();
@@ -63,6 +66,8 @@ namespace ft
            // void              deallocate_memory(const pointer start, const pointer end);
            	pointer            	set_range(const pointer &start, const pointer &end, const value_type &val);
            	pointer             set_storage_end(const pointer start, const size_t size);
+			template <class InputIterator>
+			pointer				cpy_range(InputIterator start, InputIterator end);
     };
 };
 

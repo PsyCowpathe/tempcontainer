@@ -16,7 +16,8 @@
 
 namespace ft
 {
-
+	//Constructors
+	
     template <class T, class A>
     vector<T, A>::vector(const typename vector<T, A>::allocator_type &alloc) :  _alloc(alloc),
 	_start(NULL), _end(NULL), _storage_end(NULL)
@@ -33,8 +34,41 @@ namespace ft
 		_end = set_range(_start, _storage_end, val);
     }
 
+	template <class T, class A>
+	template <class InputIterator>
+	vector<T,A>::vector(InputIterator first, InputIterator last,
+						const vector<T, A>::allocator_type &alloc,
+	typename std::enable_if<!std::is_integral<InputIterator>::value, InputIterator>::type*) : _alloc(alloc) //change std par ft !!!
+	{
+		_end = cpy_range(first, last);
+	}
+
+	template <class T, class A>
+	vector<T, A>::vector(const vector<T, A> &x) : _alloc(x._alloc)
+	{
+		*this = x;
+	} //mouais a verif
+
 	//Private Function
 	
+	template <class T, class A>
+	template <class InputIterator>
+	typename vector<T, A>::pointer	vector<T, A>::cpy_range(InputIterator start, InputIterator end)
+	{
+		vector<T, A>::size_type	size;
+
+		size = end - start;
+		_start = _alloc.allocate(size);
+		_storage_end = set_storage_end(_start, size);
+		_end = _start;
+		while (start != end)
+		{
+			push_back(*start);
+			start++;
+		}
+		return (_start + size);
+	}
+
 	template <class T, class A>
     typename vector<T, A>::pointer  vector<T, A>::set_storage_end(const typename vector<T, A>::pointer start,
                                                                             const size_t size)
@@ -83,6 +117,18 @@ namespace ft
     typename vector<T,A>::iterator  vector<T, A>::end()
     {
         return (_end);
+    }
+
+    template <class T, class A>
+    void    vector<T, A>::push_back(const typename vector<T, A>::value_type& val)
+    {
+		if (_end == _storage_end)
+			;//add mem + copy tout
+		else
+		{
+        	_alloc.construct(_end, val);
+        	_end++;
+		}
     }
 
     /*template <class T, class A>

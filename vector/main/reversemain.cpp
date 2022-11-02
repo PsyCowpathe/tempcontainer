@@ -1,9 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   reversemain.cpp                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: agirona <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/11/02 18:17:12 by agirona           #+#    #+#             */
+/*   Updated: 2022/11/02 18:17:27 by agirona          ###   ########lyon.fr   */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef VALID
-    #include <vector>
-    #include <utility>
+    # include <vector>
+    # include <utility>
+    # include <iostream>
     namespace gg = std;
 #else
-	#include "../vector.tpp"
+	# include "../vector.tpp"
     namespace gg = ft;
 #endif
 
