@@ -6,7 +6,7 @@
 /*   By: agirona <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 18:54:26 by agirona           #+#    #+#             */
-/*   Updated: 2022/11/03 19:19:15 by agirona          ###   ########lyon.fr   */
+/*   Updated: 2022/11/07 19:40:19 by agirona          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@
 # include <iostream>
 # include "../iterator/reverse_iterator.tpp"
 # include "../iterator/random_access_iterator.tpp"
+# include "../other/enable_if.hpp"
+# include "../other/is_integral.hpp"
 
 namespace ft
 {
@@ -36,7 +38,7 @@ namespace ft
             typedef typename ft::iterator_traits<iterator>::difference_type		difference_type;
             typedef size_t                                                  	size_type;
 
-            //CONSTRUCTOR
+            //CONSTRUCTOR && DESTRUCTOR
             explicit    vector(const allocator_type &alloc = allocator_type());
 
             explicit    vector(size_type n, const value_type &val = value_type(),
@@ -46,6 +48,8 @@ namespace ft
 
 			template <class InputIterator>
 			vector(InputIterator first, InputIterator last, const allocator_type &alloc = allocator_type());
+
+			~vector();
 
             //Member function
             void        		assign(size_type n, const value_type &val);
@@ -60,7 +64,8 @@ namespace ft
 			void				insert(iterator position, size_type n, const value_type &val);
 
 			template <class InputIterator>
-			void				insert(iterator position, InputIterator first, InputIterator last);
+			typename enable_if<!is_integral<InputIterator>::value, void>::type
+								insert(iterator position, InputIterator first, InputIterator last);
 
 		private :
 
@@ -75,7 +80,9 @@ namespace ft
            	pointer             set_storage_end(const pointer start, const size_t size);
 			template <class InputIterator>
 			void				cpy_range(InputIterator start, InputIterator end);
-			void				insert_values(const iterator pos, iterator start, iterator end);
+			iterator			alloc_insert_values(const iterator pos, iterator new_start, iterator new_end);
+			iterator			insert_values(const iterator pos, iterator new_start, iterator new_end);
+			void				clear_block(const pointer start, const pointer end, const difference_type size);
     };
 };
 

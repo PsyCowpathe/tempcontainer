@@ -16,7 +16,7 @@
 
 namespace ft
 {
-	//Constructors
+	//Constructors && Destructor
 	
     template <class T, class A>
     vector<T, A>::vector(const typename vector<T, A>::allocator_type &alloc) :  _alloc(alloc),
@@ -47,8 +47,35 @@ namespace ft
 		*this = x;
 	}
 
+    template <class T, class A>
+	vector<T, A>::~vector()
+	{
+		clear_block(_start, _end, _storage_end - _start);
+	}
+
 	//Private Function
 	
+    template <class T, class A>
+	void	vector<T, A>::clear_block(const typename vector<T, A>::pointer start,
+										const typename vector<T, A>::pointer end,
+										const vector<T, A>::difference_type size)
+	{
+		vector<T, A>::iterator	it;
+		vector<T, A>::iterator	ite;
+
+		it = start;
+		ite = end;
+		if (size == 0)
+			return;
+		while (it != ite)
+		{
+			_alloc.destroy(&(*it));
+			it++;
+		}
+		_alloc.deallocate(start, size);
+
+	}
+
     template <class T, class A>
     void	vector<T, A>::allocate_memory(typename vector<T, A>::size_type size)
     {
@@ -104,39 +131,78 @@ namespace ft
 	}
 
     template <class T, class A>
-	void	vector<T, A>::insert_values(const vector<T, A>::iterator pos, typename vector<T, A>::iterator start,
-											typename vector<T, A>::iterator end)
+	typename vector<T, A>::iterator	vector<T, A>::alloc_insert_values(const vector<T, A>::iterator pos,
+																		typename vector<T, A>::iterator new_start,
+																		typename vector<T, A>::iterator new_end)
 	{
-		vector<T, A>::iterator	save_start;
-		vector<T, A>::iterator	save_end;
+		vector<T, A>::iterator	origin_start;
+		vector<T, A>::iterator	origin_end;
+		vector<T, A>::iterator	first_insert;
 		size_t					size;
 
-		save_start = _start;
-		save_end = _end;
-		size = capacity() + (end - start);
+		origin_start = _start;
+		origin_end = _end;
+		size = ((new_end - new_start) + (origin_end - pos)) * 2;
 		allocate_memory(size);
 		_end = _start;
-		while (save_start != pos)
+		while (origin_start != pos)
 		{
-			*_end = *save_start;
-			save_start++;
+			*_end = *origin_start;
+			origin_start++;
 			_end++;
 		}
-		while (start != end)
+		first_insert = _end;
+		while (new_start != new_end)
 		{
-			*_end = *start;
-			start++;
+			*_end = *new_start;
+			new_start++;
 			_end++;
 		}
-		while (save_start != save_end)
+		while (origin_start != origin_end)
 		{
-			*_end = *save_start;
-			save_start++;
+			*_end = *origin_start;
+			origin_start++;
 			_end++;
 		}
+		return (first_insert);
 	}
 
+	template <class T, class A>
+	typename vector<T, A>::iterator	vector<T, A>::insert_values(const vector<T, A>::iterator pos,
+																typename vector<T, A>::iterator new_start,
+																typename vector<T, A>::iterator new_end)
+	{
+		vector<T, A>::iterator	it;
+		vector<T, A>::iterator	first_insert;
+		size_t					shift;
+
+		it = (end() - 1);
+		shift = new_end - new_start;
+		while (it != pos)
+		{
+			*(it + shift) = *it;
+			it--;
+		}
+		*(it + shift) = *it;
+		first_insert = it;
+		while (new_start != new_end)
+		{
+			*it = *new_start;
+			new_start++;
+			it++;
+		}
+		_end = _end + shift;
+		return (first_insert);
+	}
+
+
     //Public Method
+
+	template <class T, class A>
+    typename vector<T, A>::size_type   vector<T, A>::size() const
+    {
+        return static_cast<size_type>(_end - _start);
+    }
 
     template <class T, class A>
     typename vector<T,A>::iterator  vector<T, A>::begin()
@@ -155,6 +221,7 @@ namespace ft
     {
 		vector<T, A>::pointer	save_start;
 		vector<T, A>::pointer	save_end;
+		size_t					save_storage;
 
 		if (capacity() == 0)
 		{
@@ -166,10 +233,12 @@ namespace ft
 		{
 			save_start = _start;
 			save_end = _end;
-			allocate_memory(capacity() + 1);
+			save_storage = _storage_end - _start;
+			allocate_memory(capacity() * 2);
 			_end = _start;
 			cpy_range(save_start, save_end);
 			push_back(val);
+			clear_block(save_start, save_end, save_storage);
 		}
 		else
 		{
@@ -180,9 +249,13 @@ namespace ft
 
 	template <class T, class A>
 	template <class InputIterator>
-	void 	vector<T, A>::insert(typename vector<T, A>::iterator position, InputIterator first, InputIterator last)
+	typename enable_if<!is_integral<InputIterator>::value, void>::type
+	vector<T, A>::insert(typename vector<T, A>::iterator position, InputIterator first, InputIterator last)
 	{
-		insert_values(position, first, last);
+		if (last - first + size() > capacity())
+			alloc_insert_values(position, first, last);
+		else
+			insert_values(position, first, last);
 	}
 
     template <class T, class A>
@@ -193,25 +266,15 @@ namespace ft
 		typename vector<T,A>::size_type		count;
 
 		count = 0;
-		if (capacity() == 0) // avoir flemme ce soir
+		while (count < n)
 		{
-			allocate_memory(capacity() + n);
-			_end = _start;
-			while (count < n)
-			{
-				push_back(val);
-				count++;
-			}
+			tmp.push_back(val);
+			count++;
 		}
+		if (size() + n > capacity())
+			alloc_insert_values(position, tmp.begin(), tmp.end());
 		else
-		{
-			while (count < n)
-			{
-				tmp.push_back(val);
-				count++;
-			}
-			insert_values(position, tmp.begin(), tmp.end());
-		}
+			insert_values(position, tmp.begin(), tmp.end());			
 	}
 
     template <class T, class A>
@@ -220,19 +283,11 @@ namespace ft
 	{
 		vector<T, A>	tmp;
 
-		if (capacity() == 0) //a voir flemme ce soir
-		{
-			allocate_memory(capacity() + 1);
-			_end = _start;
-			push_back(val);
-		}
+		tmp.push_back(val);
+		if (size() + 1 > capacity())
+			return (alloc_insert_values(position, tmp.begin(), tmp.end()));
 		else
-		{
-			tmp.push_back(val);
-			insert_values(position, tmp.begin(), tmp.end());
-		}
-		// (_end != _storage_end && position == end()))
-		return (_end);
+			return (insert_values(position, tmp.begin(), tmp.end()));			
 	}
 
     template <class T, class A>
@@ -241,12 +296,7 @@ namespace ft
         return static_cast<size_type>(_storage_end - _start);
     }
 
-    /*template <class T, class A>
-    typename vector<T, A>::size_type   vector<T, A>::size() const
-    {
-        return static_cast<size_type>(_end - _start);
-    }
-
+    /*
 
     template <class T, class A>
     void    vector<T, A>::assign(vector<T, A>::size_type n,
