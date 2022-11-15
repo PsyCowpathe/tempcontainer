@@ -6,7 +6,7 @@
 /*   By: agirona <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 18:54:12 by agirona           #+#    #+#             */
-/*   Updated: 2022/11/07 19:40:21 by agirona          ###   ########lyon.fr   */
+/*   Updated: 2022/11/15 18:12:40 by agirona          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,26 +31,20 @@ int		main(void)
 	gg::vector<int>::iterator		ite;
 	gg::vector<int>::iterator		ret;
 
-	/*test.push_back(4);
-	test.push_back(4);
-	test.push_back(4);
-	test.push_back(4);
-	test.push_back(4);
-	test.push_back(4);
-	test1.push_back(1);
-	test1.push_back(1);
-	test1.push_back(1);
-	test1.push_back(1);
-	test1.push_back(1);
-	test1.push_back(1);*/
-	test1.insert(test1.begin(), 5, 3);
-	//test1.insert(test1.begin(), 5, 8);
+
 	/*test1.push_back(1);
 	test1.push_back(2);
 	test1.push_back(3);
 	test1.push_back(4);
-	test1.push_back(5);*/
-	std::cout << "begin = " << *test1.begin() << std::endl;
+	test1.push_back(5);
+	test1.push_back(6);
+	test1.push_back(7);
+	test1.push_back(8);
+	test1.push_back(9);
+	test1.push_back(10);*/
+	test1.push_back(11);
+	test1.push_back(12);
+	ret = test1.erase(test1.end() - 2, test1.end());
 	it = test1.begin();
 	ite = test1.end();
 	while (it != ite)
@@ -58,6 +52,7 @@ int		main(void)
 		std::cout << *it << std::endl;
 		it++;
 	}
+	//std::cout << "ret =" << *ret << std::endl;
 }
 
 
