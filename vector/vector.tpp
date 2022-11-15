@@ -195,6 +195,30 @@ namespace ft
 		return (first_insert);
 	}
 
+	template <class T, class A>
+	typename vector<T, A>::iterator	vector<T, A>::remove_values(typename vector<T, A>::iterator first,
+																typename vector<T, A>::iterator last)
+	{
+		vector<T, A>::iterator	it;
+		vector<T, A>::iterator	ite;
+		vector<T, A>::iterator	first_shift;
+		size_t					shift;
+
+		it = begin();
+		ite = end();
+		shift = last - first;
+		while (it != last)
+			it++;
+		first_shift = it - shift;
+		while (it != ite)
+		{
+			*(it - shift) = *it;
+			_alloc.destroy(&(*it));
+			it++;
+		}
+		_end = _end - shift;
+		return (first_shift); 
+	}
 
     //Public Method
 
@@ -215,6 +239,19 @@ namespace ft
     {
         return (_end);
     }
+
+    template <class T, class A>
+	typename vector<T, A>::iterator	vector<T, A>::erase(typename vector<T, A>::iterator position)
+	{
+		return (remove_values(position, position + 1));
+	}
+
+    template <class T, class A>
+	typename vector<T,A>::iterator	vector<T, A>::erase(typename vector<T, A>::iterator first,
+											typename vector<T, A>::iterator last)
+	{
+		return (remove_values(first, last));
+	}
 
     template <class T, class A>
     void    vector<T, A>::push_back(const typename vector<T, A>::value_type &val)

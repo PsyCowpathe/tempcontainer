@@ -6,7 +6,7 @@
 /*   By: agirona <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 18:54:26 by agirona           #+#    #+#             */
-/*   Updated: 2022/11/07 19:40:19 by agirona          ###   ########lyon.fr   */
+/*   Updated: 2022/11/15 18:12:35 by agirona          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,8 @@ namespace ft
 			reverse_iterator	rbegin();
 			iterator 			insert(iterator position, const value_type &val);
 			void				insert(iterator position, size_type n, const value_type &val);
+			iterator 			erase(iterator position);
+			iterator 			erase(iterator first, iterator last);
 
 			template <class InputIterator>
 			typename enable_if<!is_integral<InputIterator>::value, void>::type
@@ -83,6 +85,7 @@ namespace ft
 			iterator			alloc_insert_values(const iterator pos, iterator new_start, iterator new_end);
 			iterator			insert_values(const iterator pos, iterator new_start, iterator new_end);
 			void				clear_block(const pointer start, const pointer end, const difference_type size);
+			iterator			remove_values(iterator first, iterator last);
     };
 };
 
