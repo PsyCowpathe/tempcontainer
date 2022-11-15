@@ -6,7 +6,7 @@
 /*   By: agirona <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 18:54:26 by agirona           #+#    #+#             */
-/*   Updated: 2022/11/15 18:12:35 by agirona          ###   ########lyon.fr   */
+/*   Updated: 2022/11/15 19:01:13 by agirona          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,8 @@ namespace ft
 			void				insert(iterator position, size_type n, const value_type &val);
 			iterator 			erase(iterator position);
 			iterator 			erase(iterator first, iterator last);
+			size_type			max_size() const;
+			void				shrink_to_fit();
 
 			template <class InputIterator>
 			typename enable_if<!is_integral<InputIterator>::value, void>::type

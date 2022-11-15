@@ -16,7 +16,9 @@
 
 namespace ft
 {
-	//Constructors && Destructor
+    //-------------		Public Method		-------------
+
+	//====		Constructors && Destructor		====
 	
     template <class T, class A>
     vector<T, A>::vector(const typename vector<T, A>::allocator_type &alloc) :  _alloc(alloc),
@@ -53,7 +55,205 @@ namespace ft
 		clear_block(_start, _end, _storage_end - _start);
 	}
 
-	//Private Function
+
+
+	//====		Iterators		====
+	
+	
+    template <class T, class A>
+    typename vector<T,A>::iterator  vector<T, A>::begin()
+    {
+        return (_start);
+    }
+
+    template <class T, class A>
+    typename vector<T,A>::iterator  vector<T, A>::end()
+    {
+        return (_end);
+    }
+
+    template <class T, class A>
+    typename vector<T,A>::reverse_iterator  vector<T, A>::rend()
+	{
+		return (reverse_iterator(begin()));
+	}
+
+    template <class T, class A>
+    typename vector<T,A>::reverse_iterator  vector<T, A>::rbegin()
+	{
+		return (reverse_iterator(end()));
+	}
+
+    
+	//====		Capacity 			====
+	
+	template <class T, class A>
+    typename vector<T, A>::size_type   vector<T, A>::size() const
+    {
+        return static_cast<size_type>(_end - _start);
+    }
+
+	template <class T, class A>
+    typename vector<T, A>::size_type   vector<T, A>::max_size() const
+    {
+		return std::numeric_limits<size_type>::max() / sizeof(T);
+    }
+
+    template <class T, class A>
+    typename vector<T, A>::size_type	vector<T, A>::capacity() const
+    {
+        return static_cast<size_type>(_storage_end - _start);
+    }
+
+    template <class T, class A>
+	bool 	vector<T, A>::empty() const
+	{
+		if (size() == 0)
+			return (1);
+		return (0);
+	}
+
+    template <class T, class A>
+	void	vector<T, A>::shrink_to_fit()
+	{
+		vector<T, A>::iterator	save_start;
+		vector<T, A>::iterator	save_end;
+		size_t					save_storage;
+		vector<T, A>::iterator	it;
+
+		save_start = begin();
+		save_end = end();
+		save_storage = capacity();
+		allocate_memory(size());
+		_end = _start;
+		it = begin();
+		while (save_start != _save_end)
+		{
+			*it = *save_start;
+			it++;
+			save_start++;
+		}
+		clear_block(save_start, save_end, save_storage);
+	}
+
+	//====		Element Access 		====
+	
+
+	//====		Modifiers 			====
+	
+	template <class T, class A>
+	typename vector<T, A>::iterator	vector<T, A>::erase(typename vector<T, A>::iterator position)
+	{
+		return (remove_values(position, position + 1));
+	}
+
+    template <class T, class A>
+	typename vector<T,A>::iterator	vector<T, A>::erase(typename vector<T, A>::iterator first,
+											typename vector<T, A>::iterator last)
+	{
+		return (remove_values(first, last));
+	}
+
+    template <class T, class A>
+    void    vector<T, A>::push_back(const typename vector<T, A>::value_type &val)
+    {
+		vector<T, A>::pointer	save_start;
+		vector<T, A>::pointer	save_end;
+		size_t					save_storage;
+
+		if (capacity() == 0)
+		{
+			allocate_memory(capacity() + 1);
+			_end = _start;
+			push_back(val);
+		}
+		else if (_end == _storage_end)
+		{
+			save_start = _start;
+			save_end = _end;
+			save_storage = capacity();
+			allocate_memory(capacity() * 2);
+			_end = _start;
+			cpy_range(save_start, save_end);
+			push_back(val);
+			clear_block(save_start, save_end, save_storage);
+		}
+		else
+		{
+        	_alloc.construct(_end, val);
+        	_end++;
+		}
+    }
+
+	template <class T, class A>
+	template <class InputIterator>
+	typename enable_if<!is_integral<InputIterator>::value, void>::type
+	vector<T, A>::insert(typename vector<T, A>::iterator position, InputIterator first, InputIterator last)
+	{
+		if (last - first + size() > capacity())
+			alloc_insert_values(position, first, last);
+		else
+			insert_values(position, first, last);
+	}
+
+    template <class T, class A>
+	void	vector<T, A>::insert(typename vector<T, A>::iterator position, typename vector<T, A>::size_type n,
+									const typename vector<T, A>::value_type &val)
+	{
+		vector<T, A>						tmp;
+		typename vector<T,A>::size_type		count;
+
+		count = 0;
+		while (count < n)
+		{
+			tmp.push_back(val);
+			count++;
+		}
+		if (size() + n > capacity())
+			alloc_insert_values(position, tmp.begin(), tmp.end());
+		else
+			insert_values(position, tmp.begin(), tmp.end());			
+	}
+
+    template <class T, class A>
+	typename vector<T, A>::iterator		vector<T, A>::insert(typename vector<T, A>::iterator position,
+																const typename vector<T, A>::value_type &val)
+	{
+		vector<T, A>	tmp;
+
+		tmp.push_back(val);
+		if (size() + 1 > capacity())
+			return (alloc_insert_values(position, tmp.begin(), tmp.end()));
+		else
+			return (insert_values(position, tmp.begin(), tmp.end()));			
+	}
+
+
+	//====		Allocator 			====
+
+    /*template <class T, class A>
+    void    vector<T, A>::assign(vector<T, A>::size_type n,
+                                        const vector<T, A>::value_type &val)
+    {
+		(void)val;
+        if (n == 0)
+            return ;
+        if (n > capacity())
+        {
+            std::cout << "manque de capacité" << std::endl; //delete
+            deallocate_memory(_start, _end);
+            _start = allocate_memory(n * 2);
+            //_end = set_range(_start, n, val);
+            _storage_end = set_storage_end(_start, n * 2);
+        }
+        else
+        {
+            std::cout << "bonne capacité, j'assigne !" << std::endl; //delete
+            //_end = set_range(0, n, val);
+        }
+    }*/
+
+    //-------------		Private Function		-------------
 	
     template <class T, class A>
 	void	vector<T, A>::clear_block(const typename vector<T, A>::pointer start,
@@ -219,193 +419,6 @@ namespace ft
 		_end = _end - shift;
 		return (first_shift); 
 	}
-
-    //Public Method
-
-	template <class T, class A>
-    typename vector<T, A>::size_type   vector<T, A>::size() const
-    {
-        return static_cast<size_type>(_end - _start);
-    }
-
-    template <class T, class A>
-    typename vector<T,A>::iterator  vector<T, A>::begin()
-    {
-        return (_start);
-    }
-
-    template <class T, class A>
-    typename vector<T,A>::iterator  vector<T, A>::end()
-    {
-        return (_end);
-    }
-
-    template <class T, class A>
-	typename vector<T, A>::iterator	vector<T, A>::erase(typename vector<T, A>::iterator position)
-	{
-		return (remove_values(position, position + 1));
-	}
-
-    template <class T, class A>
-	typename vector<T,A>::iterator	vector<T, A>::erase(typename vector<T, A>::iterator first,
-											typename vector<T, A>::iterator last)
-	{
-		return (remove_values(first, last));
-	}
-
-    template <class T, class A>
-    void    vector<T, A>::push_back(const typename vector<T, A>::value_type &val)
-    {
-		vector<T, A>::pointer	save_start;
-		vector<T, A>::pointer	save_end;
-		size_t					save_storage;
-
-		if (capacity() == 0)
-		{
-			allocate_memory(capacity() + 1);
-			_end = _start;
-			push_back(val);
-		}
-		else if (_end == _storage_end)
-		{
-			save_start = _start;
-			save_end = _end;
-			save_storage = _storage_end - _start;
-			allocate_memory(capacity() * 2);
-			_end = _start;
-			cpy_range(save_start, save_end);
-			push_back(val);
-			clear_block(save_start, save_end, save_storage);
-		}
-		else
-		{
-        	_alloc.construct(_end, val);
-        	_end++;
-		}
-    }
-
-	template <class T, class A>
-	template <class InputIterator>
-	typename enable_if<!is_integral<InputIterator>::value, void>::type
-	vector<T, A>::insert(typename vector<T, A>::iterator position, InputIterator first, InputIterator last)
-	{
-		if (last - first + size() > capacity())
-			alloc_insert_values(position, first, last);
-		else
-			insert_values(position, first, last);
-	}
-
-    template <class T, class A>
-	void	vector<T, A>::insert(typename vector<T, A>::iterator position, typename vector<T, A>::size_type n,
-									const typename vector<T, A>::value_type &val)
-	{
-		vector<T, A>						tmp;
-		typename vector<T,A>::size_type		count;
-
-		count = 0;
-		while (count < n)
-		{
-			tmp.push_back(val);
-			count++;
-		}
-		if (size() + n > capacity())
-			alloc_insert_values(position, tmp.begin(), tmp.end());
-		else
-			insert_values(position, tmp.begin(), tmp.end());			
-	}
-
-    template <class T, class A>
-	typename vector<T, A>::iterator		vector<T, A>::insert(typename vector<T, A>::iterator position,
-																const typename vector<T, A>::value_type &val)
-	{
-		vector<T, A>	tmp;
-
-		tmp.push_back(val);
-		if (size() + 1 > capacity())
-			return (alloc_insert_values(position, tmp.begin(), tmp.end()));
-		else
-			return (insert_values(position, tmp.begin(), tmp.end()));			
-	}
-
-    template <class T, class A>
-    typename vector<T, A>::size_type	vector<T, A>::capacity() const
-    {
-        return static_cast<size_type>(_storage_end - _start);
-    }
-
-    /*
-
-    template <class T, class A>
-    void    vector<T, A>::assign(vector<T, A>::size_type n,
-                                        const vector<T, A>::value_type &val)
-    {
-		(void)val;
-        if (n == 0)
-            return ;
-        if (n > capacity())
-        {
-            std::cout << "manque de capacité" << std::endl; //delete
-            deallocate_memory(_start, _end);
-            _start = allocate_memory(n * 2);
-            //_end = set_range(_start, n, val);
-            _storage_end = set_storage_end(_start, n * 2);
-        }
-        else
-        {
-            std::cout << "bonne capacité, j'assigne !" << std::endl; //delete
-            //_end = set_range(0, n, val);
-        }
-    }
-
-    //Private Method
-
-    
-    template <class T, class A>
-    void        vector<T, A>::deallocate_memory(const typename vector<T, A>::pointer start,
-                                                    const typename vector<T, A>::pointer end)
-    {
-		(void)end;
-        vector<T, A>::iterator    it(start);
-        
-       // while (it != end)
-       // {
-            //_alloc.destroy(it);
-        //    it++;
-       // }
-        _alloc.deallocate(start, size());
-    }
-
-    template <class T, class A>
-    typename vector<T, A>::iterator     vector<T, A>::set_range(const typename vector<T, A>::iterator start,
-                                                                        const typename vector<T, A>::value_type &val,
-                                                                        size_t end)
-    {
-        int         i;
-        vector<T, A>::iterator    it;
-
-        i = 0;
-        it = start;
-        while (i < end)
-        {
-            *it = val;
-            i++;
-            it++;
-        }
-        return (it);
-    }
-
-
-    template <class T, class A>
-    typename vector<T,A>::reverse_iterator  vector<T, A>::rend()
-	{
-		return (reverse_iterator(begin()));
-	}
-
-    template <class T, class A>
-    typename vector<T,A>::reverse_iterator  vector<T, A>::rbegin()
-	{
-		return (reverse_iterator(end()));
-	}*/
 
 };
 
