@@ -6,7 +6,7 @@
 /*   By: agirona <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 18:54:26 by agirona           #+#    #+#             */
-/*   Updated: 2022/11/15 19:01:13 by agirona          ###   ########lyon.fr   */
+/*   Updated: 2022/11/18 21:06:15 by agirona          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,39 +38,57 @@ namespace ft
             typedef typename ft::iterator_traits<iterator>::difference_type		difference_type;
             typedef size_t                                                  	size_type;
 
-            //CONSTRUCTOR && DESTRUCTOR
-            explicit    vector(const allocator_type &alloc = allocator_type());
-
+            
+            //-------------		Public Method		-------------
+			//====		Constructors && Destructor		====
+			
+			explicit    vector(const allocator_type &alloc = allocator_type());
             explicit    vector(size_type n, const value_type &val = value_type(),
 								const allocator_type &alloc = allocator_type());
-
 			vector(const vector &x);
+			~vector();
 
 			template <class InputIterator>
 			vector(InputIterator first, InputIterator last, const allocator_type &alloc = allocator_type());
 
-			~vector();
-
-            //Member function
-            void        		assign(size_type n, const value_type &val);
-            size_type   		capacity() const;
-            size_type   		size() const;
-            void        		push_back(const value_type &val);
-            iterator    		begin();
+			//====				Iterators				====
+			
+			iterator    		begin();
             iterator    		end();
 			reverse_iterator	rend();
 			reverse_iterator	rbegin();
-			iterator 			insert(iterator position, const value_type &val);
-			void				insert(iterator position, size_type n, const value_type &val);
+
+			//====				Capacity				====
+			
+            size_type   		size() const;
+			size_type			max_size() const;
+			void				resize(size_type n, value_type val = value_type());
+            size_type   		capacity() const;
+			bool				empty() const;
+			void    			reserve(size_type n);
+
+			//====			  Element Access			====
+			
+
+
+			//====				Modifiers				====
+			
+            //void        		assign(size_type n, const value_type &val);
 			iterator 			erase(iterator position);
 			iterator 			erase(iterator first, iterator last);
-			size_type			max_size() const;
-			void				shrink_to_fit();
+            void        		push_back(const value_type &val);
+			iterator 			insert(iterator position, const value_type &val);
+			void				insert(iterator position, size_type n, const value_type &val);
 
 			template <class InputIterator>
-			typename enable_if<!is_integral<InputIterator>::value, void>::type
+			typename 	enable_if<!is_integral<InputIterator>::value, void>::type
 								insert(iterator position, InputIterator first, InputIterator last);
 
+
+			//====				Allocator				====
+
+
+			
 		private :
 
            	allocator_type      _alloc;

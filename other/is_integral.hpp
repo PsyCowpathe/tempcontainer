@@ -6,7 +6,7 @@
 /*   By: agirona <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 17:01:36 by agirona           #+#    #+#             */
-/*   Updated: 2022/11/07 17:01:43 by agirona          ###   ########lyon.fr   */
+/*   Updated: 2022/11/18 16:07:38 by agirona          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ namespace ft
 	template <class T>
 	struct is_integral
 	{
-
+		static const bool value = false;
 	};
 
 	template <>

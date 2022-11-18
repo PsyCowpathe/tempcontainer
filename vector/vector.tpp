@@ -55,35 +55,37 @@ namespace ft
 		clear_block(_start, _end, _storage_end - _start);
 	}
 
-
-
 	//====		Iterators		====
 	
-	
     template <class T, class A>
-    typename vector<T,A>::iterator  vector<T, A>::begin()
+    typename vector<T, A>::iterator			vector<T, A>::begin()
     {
         return (_start);
     }
 
     template <class T, class A>
-    typename vector<T,A>::iterator  vector<T, A>::end()
+    typename vector<T, A>::iterator			vector<T, A>::end()
     {
         return (_end);
     }
 
     template <class T, class A>
-    typename vector<T,A>::reverse_iterator  vector<T, A>::rend()
+    typename vector<T, A>::reverse_iterator	vector<T, A>::rend()
 	{
 		return (reverse_iterator(begin()));
 	}
 
     template <class T, class A>
-    typename vector<T,A>::reverse_iterator  vector<T, A>::rbegin()
+    typename vector<T, A>::reverse_iterator	vector<T, A>::rbegin()
 	{
 		return (reverse_iterator(end()));
 	}
 
+    template <class T, class A>
+	typename vector<T, A>::const_iterator	vector<T, A>::cbegin() const noexcept
+	{
+
+	}
     
 	//====		Capacity 			====
 	
@@ -98,6 +100,26 @@ namespace ft
     {
 		return std::numeric_limits<size_type>::max() / sizeof(T);
     }
+
+	template <class T, class A>
+	void	vector<T, A>::resize(vector<T, A>::size_type n, vector<T, A>::value_type val)
+	{
+		vector<T, A>::pointer	save_start;
+		vector<T, A>::pointer	save_end;
+		size_t					save_storage;
+
+		if (n > capacity())
+		{
+			save_start = _start;
+			save_end = _end;
+			save_storage = capacity();
+			vector<T, A>	tmp(n - size(), val);
+			alloc_insert_values(end(), tmp.begin(), tmp.end());
+			clear_block(save_start, save_end, save_storage);
+		}
+		else
+			remove_values(begin() + n, end());
+	}
 
     template <class T, class A>
     typename vector<T, A>::size_type	vector<T, A>::capacity() const
@@ -114,26 +136,22 @@ namespace ft
 	}
 
     template <class T, class A>
-	void	vector<T, A>::shrink_to_fit()
+	void	vector<T, A>::reserve(vector<T, A>::size_type n)
 	{
-		vector<T, A>::iterator	save_start;
-		vector<T, A>::iterator	save_end;
+		vector<T, A>::pointer	save_start;
+		vector<T, A>::pointer	save_end;
 		size_t					save_storage;
-		vector<T, A>::iterator	it;
 
-		save_start = begin();
-		save_end = end();
-		save_storage = capacity();
-		allocate_memory(size());
-		_end = _start;
-		it = begin();
-		while (save_start != _save_end)
+		if (n > capacity())
 		{
-			*it = *save_start;
-			it++;
-			save_start++;
+			save_start = _start;
+			save_end = _end;
+			save_storage = capacity();
+			allocate_memory(n + size());
+			_end = _start;
+			insert_values(begin(), save_start, save_end);
+			clear_block(save_start, save_end, save_storage);
 		}
-		clear_block(save_start, save_end, save_storage);
 	}
 
 	//====		Element Access 		====
@@ -187,11 +205,21 @@ namespace ft
 
 	template <class T, class A>
 	template <class InputIterator>
-	typename enable_if<!is_integral<InputIterator>::value, void>::type
+	typename ft::enable_if<!ft::is_integral<InputIterator>::value, void>::type
 	vector<T, A>::insert(typename vector<T, A>::iterator position, InputIterator first, InputIterator last)
 	{
+		vector<T, A>::pointer	save_start;
+		vector<T, A>::pointer	save_end;
+		size_t					save_storage;
+
 		if (last - first + size() > capacity())
+		{
+			save_start = _start;
+			save_end = _end;
+			save_storage = capacity();
 			alloc_insert_values(position, first, last);
+			clear_block(save_start, save_end, save_storage);
+		}
 		else
 			insert_values(position, first, last);
 	}
@@ -202,6 +230,9 @@ namespace ft
 	{
 		vector<T, A>						tmp;
 		typename vector<T,A>::size_type		count;
+		vector<T, A>::pointer				save_start;
+		vector<T, A>::pointer				save_end;
+		size_t								save_storage;
 
 		count = 0;
 		while (count < n)
@@ -210,7 +241,13 @@ namespace ft
 			count++;
 		}
 		if (size() + n > capacity())
+		{
+			save_start = _start;
+			save_end = _end;
+			save_storage = capacity();
 			alloc_insert_values(position, tmp.begin(), tmp.end());
+			clear_block(save_start, save_end, save_storage);
+		}
 		else
 			insert_values(position, tmp.begin(), tmp.end());			
 	}
@@ -219,13 +256,24 @@ namespace ft
 	typename vector<T, A>::iterator		vector<T, A>::insert(typename vector<T, A>::iterator position,
 																const typename vector<T, A>::value_type &val)
 	{
-		vector<T, A>	tmp;
+		vector<T, A>			tmp;
+		vector<T, A>::pointer	save_start;
+		vector<T, A>::pointer	save_end;
+		vector<T, A>::iterator	ret;
+		size_t					save_storage;
 
 		tmp.push_back(val);
 		if (size() + 1 > capacity())
-			return (alloc_insert_values(position, tmp.begin(), tmp.end()));
+		{
+			save_start = _start;
+			save_end = _end;
+			save_storage = capacity();
+			ret = alloc_insert_values(position, tmp.begin(), tmp.end());
+			clear_block(save_start, save_end, save_storage);
+		}
 		else
-			return (insert_values(position, tmp.begin(), tmp.end()));			
+			ret = insert_values(position, tmp.begin(), tmp.end());			
+		return (ret);
 	}
 
 
@@ -376,11 +424,14 @@ namespace ft
 		vector<T, A>::iterator	first_insert;
 		size_t					shift;
 
-		it = (end() - 1);
+		it = end();
+		if (_end != _start)
+			it = (end() - 1);
 		shift = new_end - new_start;
 		while (it != pos)
 		{
-			*(it + shift) = *it;
+			if (size() != 0)
+				*(it + shift) = *it;
 			it--;
 		}
 		*(it + shift) = *it;
@@ -419,7 +470,6 @@ namespace ft
 		_end = _end - shift;
 		return (first_shift); 
 	}
-
 };
 
 #endif
