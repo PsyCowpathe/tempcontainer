@@ -6,7 +6,7 @@
 /*   By: agirona <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 18:54:12 by agirona           #+#    #+#             */
-/*   Updated: 2022/11/18 21:08:35 by agirona          ###   ########lyon.fr   */
+/*   Updated: 2022/11/18 22:02:02 by agirona          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,7 @@ int		main(void)
 	test1.push_back(8);
 	test1.push_back(9);
 	test1.push_back(10);
-	test1.resize(20, 0);
-	test1.reserve(100);
+	test1.assign(test1.begin(), test1.end());
 	it = test1.begin();
 	ite = test1.end();
 	while (it != ite)
