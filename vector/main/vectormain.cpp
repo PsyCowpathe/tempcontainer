@@ -6,7 +6,7 @@
 /*   By: agirona <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 18:54:12 by agirona           #+#    #+#             */
-/*   Updated: 2022/11/15 19:01:12 by agirona          ###   ########lyon.fr   */
+/*   Updated: 2022/11/18 20:14:40 by agirona          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int		main(void)
 	gg::vector<int>::iterator		ret;
 
 
-	/*test1.push_back(1);
+	test1.push_back(1);
 	test1.push_back(2);
 	test1.push_back(3);
 	test1.push_back(4);
@@ -41,10 +41,9 @@ int		main(void)
 	test1.push_back(7);
 	test1.push_back(8);
 	test1.push_back(9);
-	test1.push_back(10);*/
-	test1.push_back(11);
-	test1.push_back(12);
-	ret = test1.erase(test1.end() - 2, test1.end());
+	test1.push_back(10);
+	test1.resize(20, 0);
+	test1.reserve(100);
 	it = test1.begin();
 	ite = test1.end();
 	while (it != ite)
