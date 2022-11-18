@@ -81,12 +81,6 @@ namespace ft
 		return (reverse_iterator(end()));
 	}
 
-    template <class T, class A>
-	typename vector<T, A>::const_iterator	vector<T, A>::cbegin() const noexcept
-	{
-
-	}
-    
 	//====		Capacity 			====
 	
 	template <class T, class A>
@@ -158,7 +152,61 @@ namespace ft
 	
 
 	//====		Modifiers 			====
+
+    template <class T, class A>
+	template <class InputIterator>
+	typename ft::enable_if<!ft::is_integral<InputIterator>::value, void>::type
+	vector<T, A>::assign (InputIterator first, InputIterator last)
+	{
+		vector<T, A>::pointer	save_start;
+		vector<T, A>::pointer	save_end;
+		size_t					save_storage;
+		size_t					size;
+
+		size = last - first;
+		if (size > capacity())
+		{
+			save_start = _start;
+			save_end = _end;
+			save_storage = capacity();
+			allocate_memory(size * 2);
+			_end = _start;
+			insert_values(begin(), first, last);
+			clear_block(save_start, save_end, save_storage);
+		}
+		else
+		{
+			remove_values(begin(), end());
+			insert_values(begin(), first, last);
+		}
+	}
+
+    template <class T, class A>
+    void    vector<T, A>::assign(vector<T, A>::size_type n, const vector<T, A>::value_type &val)
+	{
+		vector<T, A>::pointer	save_start;
+		vector<T, A>::pointer	save_end;
+		vector<T, A>			tmp(n, val);
+		size_t					save_storage;
+
+		if (n > capacity())
+		{
+			save_start = _start;
+			save_end = _end;
+			save_storage = capacity();
+			allocate_memory(n * 2);
+			_end = _start;
+			insert_values(begin(), tmp.begin(), tmp.end());
+			clear_block(save_start, save_end, save_storage);
+		}
+		else
+		{
+			remove_values(begin(), end());
+			insert_values(begin(), tmp.begin(), tmp.end());
+		}
+	}
 	
+
 	template <class T, class A>
 	typename vector<T, A>::iterator	vector<T, A>::erase(typename vector<T, A>::iterator position)
 	{
@@ -278,6 +326,14 @@ namespace ft
 
 
 	//====		Allocator 			====
+	
+    template <class T, class A>
+	typename vector<T, A>::allocator_type	vector<T, A>::get_allocator() const
+	{
+		return (_alloc);
+	}
+
+
 
     /*template <class T, class A>
     void    vector<T, A>::assign(vector<T, A>::size_type n,

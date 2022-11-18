@@ -6,7 +6,7 @@
 /*   By: agirona <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 18:54:26 by agirona           #+#    #+#             */
-/*   Updated: 2022/11/18 21:08:33 by agirona          ###   ########lyon.fr   */
+/*   Updated: 2022/11/18 22:02:00 by agirona          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,10 @@ namespace ft
 
 			//====				Modifiers				====
 			
-            //void        		assign(size_type n, const value_type &val);
+			template <class InputIterator>
+			typename ft::enable_if<!ft::is_integral<InputIterator>::value, void>::type
+								assign(InputIterator first, InputIterator last);
+            void        		assign(size_type n, const value_type &val);
 			iterator 			erase(iterator position);
 			iterator 			erase(iterator first, iterator last);
             void        		push_back(const value_type &val);
@@ -87,6 +90,7 @@ namespace ft
 
 			//====				Allocator				====
 
+			allocator_type 		get_allocator() const;
 
 			
 		private :
