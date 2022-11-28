@@ -6,7 +6,7 @@
 /*   By: agirona <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 18:54:12 by agirona           #+#    #+#             */
-/*   Updated: 2022/11/18 22:02:02 by agirona          ###   ########lyon.fr   */
+/*   Updated: 2022/11/28 23:37:54 by agirona          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,37 +20,31 @@
 	namespace gg = ft;
 #endif
 
+#include <unistd.h>
+
 int		main(void)
 {
 	std::cout << "VECTOR TESTS"	<< std::endl;
-	//gg::vector<int>					test(10);
-	gg::vector<int>					test1;
-	//gg::vector<int>				range(test.begin(), test.end() - 2);
-	//gg::vector<int>				cpy(test);
-	gg::vector<int>::iterator		it;
-	gg::vector<int>::iterator		ite;
-	gg::vector<int>::iterator		ret;
+	gg::vector<int>::iterator	it;
+	gg::vector<int>::iterator	ite;
+	std::cout << "debut" << std::endl;
+	gg::vector<int>		test1(7, 100);
+	write(1, "salut", 5);
+	dprintf(1, "fin\n");
+	printf("fiiiiin\n");
+	std::cout << "mais wtf" << std::endl;
+	//gg::vector<int>		test2(test1.begin() + 1, test1.end() - 1);
+	//gg::vector<int>		test3;
 
-
-	test1.push_back(1);
-	test1.push_back(2);
-	test1.push_back(3);
-	test1.push_back(4);
-	test1.push_back(5);
-	test1.push_back(6);
-	test1.push_back(7);
-	test1.push_back(8);
-	test1.push_back(9);
-	test1.push_back(10);
-	test1.assign(test1.begin(), test1.end());
 	it = test1.begin();
 	ite = test1.end();
 	while (it != ite)
 	{
+		printf("tt");
+		std::cout << "fk" << std::endl;
 		std::cout << *it << std::endl;
 		it++;
 	}
-	//std::cout << "ret =" << *ret << std::endl;
 }
 
 

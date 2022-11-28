@@ -18,7 +18,7 @@ namespace ft
 {
     //-------------		Public Method		-------------
 
-	//====		Constructors && Destructor		====
+	//====		Constructors, Destructor &&	operator	====
 	
     template <class T, class A>
     vector<T, A>::vector(const typename vector<T, A>::allocator_type &alloc) :  _alloc(alloc),
@@ -32,16 +32,34 @@ namespace ft
 							const typename vector<T, A>::allocator_type &alloc) : _alloc(alloc)
     {
 		allocate_memory(n);
+		std::cout << "const start = " << _start << std::endl;
+		std::cout << "const storage = " << _storage_end << std::endl;
+		std::cout << "const diff = " << _storage_end - _start << std::endl;
 		_end = set_range(_start, _storage_end, val);
+		/*size_t	i;
+
+		i = 0;
+		while (i < n)
+		{
+			push_back(val);
+			i++;
+		}*/
     }
 
-	/*template <class T, class A>
+	template <class T, class A>
 	template <class InputIterator>
 	vector<T,A>::vector(InputIterator first, InputIterator last,
 						const vector<T, A>::allocator_type &alloc) : _alloc(alloc)
 	{
-		_end = cpy_range(first, last);
-	}*/
+		assign(first, last);
+	}
+
+    template <class T, class A>
+	vector<T, A>	&vector<T, A>::operator=(const vector<T, A> &x)
+	{
+		assign(x.begin(), x.end());
+		return (*this);
+	}
 
 	template <class T, class A>
 	vector<T, A>::vector(const vector<T, A> &x) : _alloc(x._alloc)
@@ -52,13 +70,20 @@ namespace ft
     template <class T, class A>
 	vector<T, A>::~vector()
 	{
-		clear_block(_start, _end, _storage_end - _start);
+		clear_block(_start, _end, capacity());
 	}
+
 
 	//====		Iterators		====
 	
     template <class T, class A>
     typename vector<T, A>::iterator			vector<T, A>::begin()
+    {
+        return (_start);
+    }
+
+	template <class T, class A>
+    typename vector<T, A>::const_iterator	vector<T, A>::begin() const
     {
         return (_start);
     }
@@ -69,6 +94,24 @@ namespace ft
         return (_end);
     }
 
+	template <class T, class A>
+    typename vector<T, A>::const_iterator	vector<T, A>::end() const
+    {
+        return (_end);
+    }
+
+    template <class T, class A>
+    typename vector<T, A>::reverse_iterator	vector<T, A>::rbegin()
+	{
+		return (reverse_iterator(end()));
+	}
+
+    template <class T, class A>
+    typename vector<T, A>::const_reverse_iterator	vector<T, A>::rbegin() const
+	{
+		return (reverse_iterator(end()));
+	}
+
     template <class T, class A>
     typename vector<T, A>::reverse_iterator	vector<T, A>::rend()
 	{
@@ -76,10 +119,11 @@ namespace ft
 	}
 
     template <class T, class A>
-    typename vector<T, A>::reverse_iterator	vector<T, A>::rbegin()
+    typename vector<T, A>::const_reverse_iterator	vector<T, A>::rend() const
 	{
-		return (reverse_iterator(end()));
+		return (reverse_iterator(begin()));
 	}
+
 
 	//====		Capacity 			====
 	
@@ -142,14 +186,62 @@ namespace ft
 			save_end = _end;
 			save_storage = capacity();
 			allocate_memory(n + size());
-			_end = _start;
 			insert_values(begin(), save_start, save_end);
 			clear_block(save_start, save_end, save_storage);
 		}
 	}
 
+
 	//====		Element Access 		====
+
+    template <class T, class A>
+	typename vector<T, A>::reference		vector<T, A>::operator[](vector<T, A>::size_type n)
+	{
+		return (_start[n]);
+	}
+
+	template <class T, class A>
+	typename vector<T, A>::const_reference	vector<T, A>::operator[](vector<T, A>::size_type n) const
+	{
+		return (_start[n]);
+	}
+
+	template <class T, class A>
+	typename vector<T, A>::reference		vector<T, A>::at(vector<T, A>::size_type n)
+	{
+		return (_start[n]);
+	}
 	
+	template <class T, class A>
+	typename vector<T, A>::const_reference	vector<T, A>::at(vector<T, A>::size_type n) const
+	{
+		return (_start[n]);
+	}
+
+	template <class T, class A>
+	typename vector<T, A>::reference		vector<T, A>::front()
+	{
+		return (*begin());
+	}
+	
+	template <class T, class A>
+	typename vector<T, A>::const_reference	vector<T, A>::front() const
+	{
+		return (*begin());
+	}
+
+	template <class T, class A>
+	typename vector<T, A>::reference		vector<T, A>::back()
+	{
+		return (*(end() - 1));
+	}
+	
+	template <class T, class A>
+	typename vector<T, A>::const_reference	vector<T, A>::back() const
+	{
+		return (*(end() - 1));
+	}
+
 
 	//====		Modifiers 			====
 
@@ -170,7 +262,6 @@ namespace ft
 			save_end = _end;
 			save_storage = capacity();
 			allocate_memory(size * 2);
-			_end = _start;
 			insert_values(begin(), first, last);
 			clear_block(save_start, save_end, save_storage);
 		}
@@ -195,7 +286,6 @@ namespace ft
 			save_end = _end;
 			save_storage = capacity();
 			allocate_memory(n * 2);
-			_end = _start;
 			insert_values(begin(), tmp.begin(), tmp.end());
 			clear_block(save_start, save_end, save_storage);
 		}
@@ -204,20 +294,6 @@ namespace ft
 			remove_values(begin(), end());
 			insert_values(begin(), tmp.begin(), tmp.end());
 		}
-	}
-	
-
-	template <class T, class A>
-	typename vector<T, A>::iterator	vector<T, A>::erase(typename vector<T, A>::iterator position)
-	{
-		return (remove_values(position, position + 1));
-	}
-
-    template <class T, class A>
-	typename vector<T,A>::iterator	vector<T, A>::erase(typename vector<T, A>::iterator first,
-											typename vector<T, A>::iterator last)
-	{
-		return (remove_values(first, last));
 	}
 
     template <class T, class A>
@@ -230,7 +306,6 @@ namespace ft
 		if (capacity() == 0)
 		{
 			allocate_memory(capacity() + 1);
-			_end = _start;
 			push_back(val);
 		}
 		else if (_end == _storage_end)
@@ -239,7 +314,6 @@ namespace ft
 			save_end = _end;
 			save_storage = capacity();
 			allocate_memory(capacity() * 2);
-			_end = _start;
 			cpy_range(save_start, save_end);
 			push_back(val);
 			clear_block(save_start, save_end, save_storage);
@@ -250,6 +324,13 @@ namespace ft
         	_end++;
 		}
     }
+
+	template <class T, class A>
+	void	vector<T, A>::pop_back()
+	{
+		_alloc.destroy(_end);
+		_end -= 1;
+	}
 
 	template <class T, class A>
 	template <class InputIterator>
@@ -324,6 +405,50 @@ namespace ft
 		return (ret);
 	}
 
+	template <class T, class A>
+	typename vector<T, A>::iterator	vector<T, A>::erase(typename vector<T, A>::iterator position)
+	{
+		return (remove_values(position, position + 1));
+	}
+
+    template <class T, class A>
+	typename vector<T,A>::iterator	vector<T, A>::erase(typename vector<T, A>::iterator first,
+											typename vector<T, A>::iterator last)
+	{
+		return (remove_values(first, last));
+	}
+
+    template <class T, class A>
+	void	vector<T, A>::swap(vector<T, A>	&x)
+	{
+		vector<T, A>::allocator_type	tmp_alloc;
+		vector<T, A>::pointer			tmp_start;
+		vector<T, A>::pointer			tmp_end;
+		vector<T, A>::pointer			tmp_storage_end;
+
+		tmp_alloc = _alloc;
+		tmp_start = _start;
+		tmp_end = _end;
+		tmp_storage_end = _storage_end;
+		_alloc = x._alloc;
+		_start = x._start;
+		_end = x._end;
+		_storage_end = x._storage_end;
+		x._alloc = tmp_alloc;
+		x._start = tmp_start;
+		x._end = tmp_end;
+		x._storage_end = tmp_storage_end;
+	}
+
+    template <class T, class A>
+	void	vector<T, A>::clear()
+	{
+		clear_block(_start, _end, capacity());
+		_start = NULL;
+		_end = _start;
+		_storage_end = _end;
+	}
+
 
 	//====		Allocator 			====
 	
@@ -334,31 +459,9 @@ namespace ft
 	}
 
 
-
-    /*template <class T, class A>
-    void    vector<T, A>::assign(vector<T, A>::size_type n,
-                                        const vector<T, A>::value_type &val)
-    {
-		(void)val;
-        if (n == 0)
-            return ;
-        if (n > capacity())
-        {
-            std::cout << "manque de capacité" << std::endl; //delete
-            deallocate_memory(_start, _end);
-            _start = allocate_memory(n * 2);
-            //_end = set_range(_start, n, val);
-            _storage_end = set_storage_end(_start, n * 2);
-        }
-        else
-        {
-            std::cout << "bonne capacité, j'assigne !" << std::endl; //delete
-            //_end = set_range(0, n, val);
-        }
-    }*/
-
     //-------------		Private Function		-------------
 	
+
     template <class T, class A>
 	void	vector<T, A>::clear_block(const typename vector<T, A>::pointer start,
 										const typename vector<T, A>::pointer end,
@@ -376,15 +479,21 @@ namespace ft
 			_alloc.destroy(&(*it));
 			it++;
 		}
-		_alloc.deallocate(start, size);
+		if (capacity() != 0)
+			_alloc.deallocate(start, size);
 
 	}
 
     template <class T, class A>
     void	vector<T, A>::allocate_memory(typename vector<T, A>::size_type size)
     {
+		dprintf(1, "here4\n");
 		_start = _alloc.allocate(size);
+		dprintf(1, "here5\n");
 		_storage_end = set_storage_end(_start, size);
+		dprintf(1, "here6\n");
+		_end = _start;
+		dprintf(1, "here7\n");
     }
 
 	template <class T, class A>
@@ -400,8 +509,8 @@ namespace ft
 	}
 
 	template <class T, class A>
-    typename vector<T, A>::pointer  vector<T, A>::set_storage_end(const typename vector<T, A>::pointer start,
-                                                                            const size_t size)
+    typename vector<T, A>::pointer  vector<T, A>::set_storage_end(const typename vector<T, A>::pointer &start,
+                                                                            const size_t &size)
     {
         vector<T, A>::pointer     it;
         size_t      i;
@@ -448,7 +557,6 @@ namespace ft
 		origin_end = _end;
 		size = ((new_end - new_start) + (origin_end - pos)) * 2;
 		allocate_memory(size);
-		_end = _start;
 		while (origin_start != pos)
 		{
 			*_end = *origin_start;
