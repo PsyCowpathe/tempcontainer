@@ -6,7 +6,7 @@
 /*   By: agirona <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 18:54:26 by agirona           #+#    #+#             */
-/*   Updated: 2022/11/28 23:37:52 by agirona          ###   ########lyon.fr   */
+/*   Updated: 2022/11/29 00:49:57 by agirona          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ namespace ft
 
             
             //-------------		Public Method		-------------
+
 			//====		Constructors, Destructor && operator	====
 			
 			explicit    vector(const allocator_type &alloc = allocator_type());
@@ -49,8 +50,10 @@ namespace ft
 			~vector();
 
 			template <class InputIterator>
-			vector(InputIterator first, InputIterator last, const allocator_type &alloc = allocator_type());
+			vector(InputIterator first, InputIterator last, const allocator_type &alloc = allocator_type(),
+				typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type* = 0);
 			vector	&operator=(const vector &x);
+
 
 			//====				Iterators				====
 			
@@ -63,6 +66,7 @@ namespace ft
 			reverse_iterator		rend();
 			const_reverse_iterator 	rend() const;
 
+
 			//====				Capacity				====
 			
             size_type   		size() const;
@@ -71,6 +75,7 @@ namespace ft
             size_type   		capacity() const;
 			bool				empty() const;
 			void    			reserve(size_type n);
+
 
 			//====			  Element Access			====
 
@@ -83,8 +88,8 @@ namespace ft
 			reference 			back();
 			const_reference 	back() const;
 
+
 			//====				Modifiers				====
-			
 
 			template <class InputIterator>
 			typename ft::enable_if<!ft::is_integral<InputIterator>::value, void>::type
@@ -102,6 +107,8 @@ namespace ft
 			iterator 			erase(iterator first, iterator last);
 			void 				swap(vector &x);
 			void 				clear();
+
+
 			//====				Allocator				====
 
 			allocator_type 		get_allocator() const;
@@ -116,7 +123,7 @@ namespace ft
 
            	void				allocate_memory(size_type size);
            // void              deallocate_memory(const pointer start, const pointer end);
-           	pointer	        	set_range(const pointer &start, const pointer &end, const value_type &val);
+           	pointer        		set_range(const pointer &start, const pointer &end, const value_type &val);
            	pointer             set_storage_end(const pointer &start, const size_t &size);
 			template <class InputIterator>
 			void				cpy_range(InputIterator start, InputIterator end);

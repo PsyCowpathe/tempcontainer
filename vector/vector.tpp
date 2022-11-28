@@ -32,25 +32,18 @@ namespace ft
 							const typename vector<T, A>::allocator_type &alloc) : _alloc(alloc)
     {
 		allocate_memory(n);
-		std::cout << "const start = " << _start << std::endl;
-		std::cout << "const storage = " << _storage_end << std::endl;
-		std::cout << "const diff = " << _storage_end - _start << std::endl;
 		_end = set_range(_start, _storage_end, val);
-		/*size_t	i;
-
-		i = 0;
-		while (i < n)
-		{
-			push_back(val);
-			i++;
-		}*/
     }
 
 	template <class T, class A>
 	template <class InputIterator>
 	vector<T,A>::vector(InputIterator first, InputIterator last,
-						const vector<T, A>::allocator_type &alloc) : _alloc(alloc)
+						const vector<T, A>::allocator_type &alloc,
+						typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type*) : _alloc(alloc)
 	{
+		_start = NULL;
+		_end = _start;
+		_storage_end = _start;
 		assign(first, last);
 	}
 
@@ -64,6 +57,10 @@ namespace ft
 	template <class T, class A>
 	vector<T, A>::vector(const vector<T, A> &x) : _alloc(x._alloc)
 	{
+		_start = NULL;
+		_end = _start;
+		_storage_end = _start;
+
 		*this = x;
 	}
 
@@ -197,24 +194,32 @@ namespace ft
     template <class T, class A>
 	typename vector<T, A>::reference		vector<T, A>::operator[](vector<T, A>::size_type n)
 	{
+		if (n > size())
+			throw (std::out_of_range("operator[] vector's function"));
 		return (_start[n]);
 	}
 
 	template <class T, class A>
 	typename vector<T, A>::const_reference	vector<T, A>::operator[](vector<T, A>::size_type n) const
 	{
+		if (n > size())
+			throw (std::out_of_range("operator[] vector's function"));
 		return (_start[n]);
 	}
 
 	template <class T, class A>
 	typename vector<T, A>::reference		vector<T, A>::at(vector<T, A>::size_type n)
 	{
+		if (n > size())
+			throw (std::out_of_range("at vector's function"));
 		return (_start[n]);
 	}
 	
 	template <class T, class A>
 	typename vector<T, A>::const_reference	vector<T, A>::at(vector<T, A>::size_type n) const
-	{
+	{		
+		if (n > size())
+			throw (std::out_of_range("at vector's function"));
 		return (_start[n]);
 	}
 
@@ -487,13 +492,9 @@ namespace ft
     template <class T, class A>
     void	vector<T, A>::allocate_memory(typename vector<T, A>::size_type size)
     {
-		dprintf(1, "here4\n");
 		_start = _alloc.allocate(size);
-		dprintf(1, "here5\n");
 		_storage_end = set_storage_end(_start, size);
-		dprintf(1, "here6\n");
 		_end = _start;
-		dprintf(1, "here7\n");
     }
 
 	template <class T, class A>
