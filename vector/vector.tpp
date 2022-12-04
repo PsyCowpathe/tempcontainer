@@ -39,7 +39,7 @@ namespace ft
 	template <class InputIterator>
 	vector<T,A>::vector(InputIterator first, InputIterator last,
 						const vector<T, A>::allocator_type &alloc,
-						typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type*) : _alloc(alloc)
+						typename enable_if<!is_integral<InputIterator>::value, InputIterator>::type*) : _alloc(alloc)
 	{
 		_start = NULL;
 		_end = _start;
@@ -82,7 +82,7 @@ namespace ft
 	template <class T, class A>
     typename vector<T, A>::const_iterator	vector<T, A>::begin() const
     {
-        return (_start);
+        return (const_iterator(_start));
     }
 
     template <class T, class A>
@@ -94,7 +94,7 @@ namespace ft
 	template <class T, class A>
     typename vector<T, A>::const_iterator	vector<T, A>::end() const
     {
-        return (_end);
+        return (const_iterator(_end));
     }
 
     template <class T, class A>
@@ -106,7 +106,7 @@ namespace ft
     template <class T, class A>
     typename vector<T, A>::const_reverse_iterator	vector<T, A>::rbegin() const
 	{
-		return (reverse_iterator(end()));
+		return (const_reverse_iterator(end()));
 	}
 
     template <class T, class A>
@@ -118,7 +118,7 @@ namespace ft
     template <class T, class A>
     typename vector<T, A>::const_reverse_iterator	vector<T, A>::rend() const
 	{
-		return (reverse_iterator(begin()));
+		return (const_reverse_iterator(begin()));
 	}
 
 
@@ -252,15 +252,22 @@ namespace ft
 
     template <class T, class A>
 	template <class InputIterator>
-	typename ft::enable_if<!ft::is_integral<InputIterator>::value, void>::type
+	typename enable_if<!is_integral<InputIterator>::value, void>::type
 	vector<T, A>::assign (InputIterator first, InputIterator last)
 	{
-		vector<T, A>::pointer	save_start;
-		vector<T, A>::pointer	save_end;
-		size_t					save_storage;
-		size_t					size;
+		InputIterator					it;
+		vector<T, A>::pointer			save_start;
+		vector<T, A>::pointer			save_end;
+		size_t							save_storage;
+		vector<T, A>::size_type			size;
 
-		size = last - first;
+		it = first;
+		size = 0;
+		while (it != last)
+		{
+			it++;
+			size++;
+		}
 		if (size > capacity())
 		{
 			save_start = _start;
@@ -339,14 +346,23 @@ namespace ft
 
 	template <class T, class A>
 	template <class InputIterator>
-	typename ft::enable_if<!ft::is_integral<InputIterator>::value, void>::type
+	typename enable_if<!is_integral<InputIterator>::value, void>::type
 	vector<T, A>::insert(typename vector<T, A>::iterator position, InputIterator first, InputIterator last)
 	{
 		vector<T, A>::pointer	save_start;
 		vector<T, A>::pointer	save_end;
+		InputIterator			tmp;
 		size_t					save_storage;
+		size_t					count;
 
-		if (last - first + size() > capacity())
+		count = 0;
+		tmp = first;
+		while (tmp != last)
+		{
+			tmp++;
+			count++;
+		}
+		if (count + size() > capacity())
 		{
 			save_start = _start;
 			save_end = _end;
@@ -499,7 +515,8 @@ namespace ft
 
 	template <class T, class A>
 	template <class InputIterator>
-	void	vector<T, A>::cpy_range(InputIterator start, InputIterator end)
+	typename enable_if<!is_integral<InputIterator>::value,
+	void>::type		vector<T, A>::cpy_range(InputIterator start, InputIterator end)
 	{
 		while (start != end)
 		{
@@ -556,7 +573,7 @@ namespace ft
 
 		origin_start = _start;
 		origin_end = _end;
-		size = ((new_end - new_start) + (origin_end - pos)) * 2;
+		size = ((new_end - new_start) + (origin_end - origin_start)) * 2;
 		allocate_memory(size);
 		while (origin_start != pos)
 		{
@@ -581,6 +598,106 @@ namespace ft
 	}
 
 	template <class T, class A>
+	template <class InputIterator>
+	typename enable_if<!is_integral<InputIterator>::value,
+	typename vector<T, A>::iterator>::type	vector<T, A>::alloc_insert_values(const vector<T, A>::iterator pos,
+																				InputIterator new_start,
+																				InputIterator new_end)
+	{
+		vector<T, A>::iterator	origin_start;
+		vector<T, A>::iterator	origin_end;
+		vector<T, A>::iterator	first_insert;
+		InputIterator			tmp;
+		size_t					size;
+
+		origin_start = _start;
+		origin_end = _end;
+		size = 0;
+		tmp = new_start;
+		while (tmp != new_end)
+		{
+			tmp++;
+			size++;
+		}
+		size = (size + (origin_end - origin_start)) * 2;
+		allocate_memory(size);
+		while (origin_start != pos)
+		{
+			*_end = *origin_start;
+			origin_start++;
+			_end++;
+		}
+		first_insert = _end;
+		while (new_start != new_end)
+		{
+			*_end = *new_start;
+			new_start++;
+			_end++;
+		}
+		while (origin_start != origin_end)
+		{
+			*_end = *origin_start;
+			origin_start++;
+			_end++;
+		}
+		return (first_insert);
+	}
+
+
+	template <class T, class A>
+	template <class InputIterator>
+	typename enable_if<!is_integral<InputIterator>::value,
+	typename vector<T, A>::iterator>::type	vector<T, A>::insert_values(const vector<T, A>::iterator pos,
+																InputIterator new_start,
+																InputIterator new_end)
+	{
+		vector<T, A>::iterator	it;
+		vector<T, A>::iterator	first_insert;
+		InputIterator			tmp;
+		size_t					shift;
+
+		if (pos == end())
+		{
+			while (new_start != new_end)
+			{
+				*_end = *new_start;
+				++_end;
+				++new_start;
+			}
+			return (pos);
+		}
+		else
+		{
+			it = end();
+			if (_end != _start)
+				it = (end() - 1);
+			tmp = new_start;
+			shift = 0;
+			while (tmp != new_end)
+			{
+				shift++;
+				tmp++;
+			}
+			while (it != pos)
+			{
+				if (size() != 0)
+					*(it + shift) = *it;
+				it--;
+			}
+			*(it + shift) = *it;
+			first_insert = it;
+			while (new_start != new_end)
+			{
+				*it = *new_start;
+				new_start++;
+				it++;
+			}
+			_end = _end + shift;
+			return (first_insert);
+		}
+	}
+
+	template <class T, class A>
 	typename vector<T, A>::iterator	vector<T, A>::insert_values(const vector<T, A>::iterator pos,
 																typename vector<T, A>::iterator new_start,
 																typename vector<T, A>::iterator new_end)
@@ -589,26 +706,39 @@ namespace ft
 		vector<T, A>::iterator	first_insert;
 		size_t					shift;
 
-		it = end();
-		if (_end != _start)
-			it = (end() - 1);
-		shift = new_end - new_start;
-		while (it != pos)
+		if (pos == end())
 		{
-			if (size() != 0)
-				*(it + shift) = *it;
-			it--;
+			while (new_start != new_end)
+			{
+				*_end = *new_start;
+				++_end;
+				++new_start;
+			}
+			return (pos);
 		}
-		*(it + shift) = *it;
-		first_insert = it;
-		while (new_start != new_end)
+		else
 		{
-			*it = *new_start;
-			new_start++;
-			it++;
+			it = end();
+			if (_end != _start)
+				it = (end() - 1);
+			shift = new_end - new_start;
+			while (it != pos)
+			{
+				if (size() != 0)
+					*(it + shift) = *it;
+				it--;
+			}
+			*(it + shift) = *it;
+			first_insert = it;
+			while (new_start != new_end)
+			{
+				*it = *new_start;
+				new_start++;
+				it++;
+			}
+			_end = _end + shift;
+			return (first_insert);
 		}
-		_end = _end + shift;
-		return (first_insert);
 	}
 
 	template <class T, class A>
