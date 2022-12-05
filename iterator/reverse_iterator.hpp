@@ -50,10 +50,13 @@ namespace ft
 			template <class it>
             friend bool        	operator>=(const reverse_iterator<it> &lhs, const reverse_iterator<it> &rhs);//
 
-            friend reverse_iterator<Iterator>                              operator+(typename reverse_iterator<Iterator>::difference_type n, //pas sur pour le friend
-                                                                                const reverse_iterator<Iterator>& rev_it);
-            friend typename reverse_iterator<Iterator>::difference_type    operator-(const reverse_iterator<Iterator>& lhs, //pas sur pour le friend
-                                                                                const reverse_iterator<Iterator>& rhs);
+			template <class it>
+            friend reverse_iterator<it>                              operator+(typename reverse_iterator<it>::difference_type n, //pas sur pour le friend
+                                                                                const reverse_iterator<it> &rev_it);
+
+			template <class it>
+            friend typename reverse_iterator<it>::difference_type    operator-(const reverse_iterator<it>& lhs, //pas sur pour le friend
+                                                                                const reverse_iterator<it>& rhs);
 
     };
 };

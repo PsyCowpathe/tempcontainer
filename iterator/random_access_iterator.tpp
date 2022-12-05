@@ -1,3 +1,15 @@
+/* **************************************************************************** */
+/*                                                                              */
+/*                                                         :::      ::::::::    */
+/*    random_access_iterator.tpp                         :+:      :+:    :+:    */
+/*                                                     +:+ +:+         +:+      */
+/*    By: agirona <marvin@42.fr>                     +#+  +:+       +#+         */
+/*                                                 +#+#+#+#+#+   +#+            */
+/*    Created: 2022/11/30 20:29:53 by agirona           #+#    #+#              */
+/*    Updated: 2022/11/30 20:29:58 by agirona          ###   ########lyon.fr    */
+/*                                                                              */
+/* **************************************************************************** */
+
 #ifndef RANDOM_ACCESS_ITERATOR_TPP
 # define RANDOM_ACCESS_ITERATOR_TPP
 # include "random_access_iterator.hpp"
@@ -66,6 +78,18 @@ bool    operator>=(const random_access_iterator<T> &lhs, const random_access_ite
 }
 
 template <class T>
+random_access_iterator<T>	operator+(const typename random_access_iterator<T>::difference_type &lhs, const random_access_iterator<T> &rhs)
+{
+	return (rhs + lhs);
+}
+
+template <class T>
+random_access_iterator<T>	operator-(const typename random_access_iterator<T>::difference_type &lhs, const random_access_iterator<T> &rhs)
+{
+	return (rhs - lhs);
+}
+
+template <class T>
 typename random_access_iterator<T>::pointer random_access_iterator<T>::operator->() const
 {
     return (_it);
@@ -127,15 +151,15 @@ random_access_iterator<T>  random_access_iterator<T>::operator-(difference_type 
 }
 
 template <class T>
-typename random_access_iterator<T>::difference_type  random_access_iterator<T>::operator+(const random_access_iterator it)
+typename random_access_iterator<T>::difference_type  random_access_iterator<T>::operator+(random_access_iterator it) const
 {
     return (_it + it._it);
 }
 
 template <class T>
-typename random_access_iterator<T>::difference_type  random_access_iterator<T>::operator-(const random_access_iterator it)
+typename random_access_iterator<T>::difference_type  random_access_iterator<T>::operator-(random_access_iterator it) const
 {
-    return (_it - it._it);
+    return (_it - it.operator->());
 }
 
 template <class T>
@@ -157,5 +181,7 @@ typename random_access_iterator<T>::reference   random_access_iterator<T>::opera
 {
     return (_it[n]);
 }
+
 };
+
 #endif

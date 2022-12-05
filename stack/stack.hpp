@@ -2,11 +2,11 @@
 # define STACK_HPP
 
 # include <iostream>
-# include <deque> //degage
+# include "../vector/vector.tpp"
 
 namespace ft
 {
-    template <class T, class Container = std::deque<T> > //"deque" ça dégagera remplacer par container 
+    template <class T, class Container = ft::vector<T> >
     class stack
     {
         public :

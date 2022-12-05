@@ -143,7 +143,7 @@ namespace ft
 		vector<T, A>::pointer	save_end;
 		size_t					save_storage;
 
-		if (n > capacity())
+		if (n > size())
 		{
 			save_start = _start;
 			save_end = _end;
