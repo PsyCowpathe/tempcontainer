@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   reverse_iterator.hpp                               :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: agirona <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/12/05 20:34:10 by agirona           #+#    #+#             */
+/*   Updated: 2022/12/05 20:39:06 by agirona          ###   ########lyon.fr   */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef     REVERSE_ITERATOR_HPP
 # define    REVERSE_ITERATOR_HPP
 
@@ -11,12 +23,12 @@ namespace ft
             private :
                 Iterator                                                            _current;
             public : 
-                typedef Iterator                                                    iterator_type;
-                typedef typename ft::iterator_traits<Iterator>::iterator_category	iterator_category;
-                typedef typename ft::iterator_traits<Iterator>::value_type	        value_type;
-                typedef typename ft::iterator_traits<Iterator>::difference_type	    difference_type;
-                typedef typename ft::iterator_traits<Iterator>::pointer	            pointer;
-                typedef typename ft::iterator_traits<Iterator>::reference	        reference;
+                typedef Iterator                                                iterator_type;
+                typedef typename iterator_traits<Iterator>::iterator_category	iterator_category;
+                typedef typename iterator_traits<Iterator>::value_type	        value_type;
+                typedef typename iterator_traits<Iterator>::difference_type	    difference_type;
+                typedef typename iterator_traits<Iterator>::pointer	            pointer;
+                typedef typename iterator_traits<Iterator>::reference	        reference;
 
             //Member function
             reverse_iterator(); //

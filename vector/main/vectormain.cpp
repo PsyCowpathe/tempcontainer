@@ -6,7 +6,7 @@
 /*   By: agirona <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 18:54:12 by agirona           #+#    #+#             */
-/*   Updated: 2022/12/05 12:19:51 by agirona          ###   ########lyon.fr   */
+/*   Updated: 2022/12/05 20:44:10 by agirona          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,22 +22,8 @@
 
 #include <unistd.h>
 #include <list>
-#include "foo.hpp"
-
-void	print(gg::vector<foo<int> > container)
-{
-	gg::vector<foo<int> >::iterator		it;
-	gg::vector<foo<int> >::iterator		ite;
-
-	it = container.begin();
-	ite = container.end();
-	while (it != ite)
-	{
-		std::cout << *it << std::endl;
-		it++;
-	}
-	std::cout << std::endl << std::endl;
-}
+#include "base.hpp"
+#include "common.hpp"
 
 int		main(void)
 {
@@ -48,7 +34,7 @@ int		main(void)
 
 	for (int i = 1; it != ite; ++i)
 		*it++ = i;
-	print(vct);
+	printSize(vct);
 
 	it = vct.begin();
 	ite = vct.begin();
