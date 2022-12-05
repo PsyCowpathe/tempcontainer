@@ -42,51 +42,51 @@ random_access_iterator<T>::~random_access_iterator()
 }
 
 template <class T>
-bool    operator!=(const random_access_iterator<T> &lhs, const random_access_iterator<T> &rhs)
+bool    random_access_iterator<T>::operator!=(const typename random_access_iterator<T>::const_it &rhs) const
 {
-    return (lhs._it != rhs._it);
+    return (_it != rhs.operator->());
 }
 
 template <class T>
-bool    operator==(const random_access_iterator<T> &lhs, const random_access_iterator<T> &rhs)
+bool    random_access_iterator<T>::operator==(const typename random_access_iterator<T>::const_it &rhs) const
 {
-    return (lhs._it == rhs._it);
+    return (_it == rhs.operator->());
 }
 
 template <class T>
-bool    operator<(const random_access_iterator<T> &lhs, const random_access_iterator<T> &rhs)
+bool    random_access_iterator<T>::operator<(const typename random_access_iterator<T>::const_it &rhs) const
 {
-    return (lhs._it < rhs._it);
+    return (_it < rhs.operator->());
 }
 
 template <class T>
-bool    operator<=(const random_access_iterator<T> &lhs, const random_access_iterator<T> &rhs)
+bool    random_access_iterator<T>::operator<=(const typename random_access_iterator<T>::const_it &rhs) const
 {
-    return (lhs._it <= rhs._it);
+    return (_it <= rhs.operator->());
 }
 
 template <class T>
-bool    operator>(const random_access_iterator<T> &lhs, const random_access_iterator<T> &rhs)
+bool    random_access_iterator<T>::operator>(const typename random_access_iterator<T>::const_it &rhs) const
 {
-    return (lhs._it > rhs._it);
+    return (_it > rhs.operator->());
 }
 
 template <class T>
-bool    operator>=(const random_access_iterator<T> &lhs, const random_access_iterator<T> &rhs)
+bool    random_access_iterator<T>::operator>=(const typename random_access_iterator<T>::const_it &rhs) const
 {
-    return (lhs._it >= rhs._it);
+    return (_it >= rhs.operator->());
 }
 
 template <class T>
-random_access_iterator<T>	operator+(const typename random_access_iterator<T>::difference_type &lhs, const random_access_iterator<T> &rhs)
+random_access_iterator<T>	operator+(const typename random_access_iterator<T>::difference_type n, const random_access_iterator<T> it)
 {
-	return (rhs + lhs);
+	return (it + n);
 }
 
 template <class T>
-random_access_iterator<T>	operator-(const typename random_access_iterator<T>::difference_type &lhs, const random_access_iterator<T> &rhs)
+random_access_iterator<T>	operator-(const typename random_access_iterator<T>::difference_type n, const random_access_iterator<T> it)
 {
-	return (rhs - lhs);
+	return (it - n);
 }
 
 template <class T>
@@ -102,7 +102,7 @@ typename random_access_iterator<T>::reference               random_access_iterat
 }
 
 template <class T>
-random_access_iterator<T>  &random_access_iterator<T>::operator=(const random_access_iterator &copy)
+random_access_iterator<T>  &random_access_iterator<T>::operator=(const random_access_iterator<T> &copy)
 {
     _it = copy._it;
     return (*this);
@@ -139,13 +139,13 @@ random_access_iterator<T>  random_access_iterator<T>::operator--(int)
 }
 
 template <class T>
-random_access_iterator<T>  random_access_iterator<T>::operator+(difference_type n) const
+random_access_iterator<T>  random_access_iterator<T>::operator+(const random_access_iterator<T>::difference_type n) const
 {
     return (random_access_iterator<value_type>(_it + n));
 }
 
 template <class T>
-random_access_iterator<T>  random_access_iterator<T>::operator-(difference_type n) const
+random_access_iterator<T>  random_access_iterator<T>::operator-(const random_access_iterator<T>::difference_type n) const
 {
     return (random_access_iterator<value_type>(_it - n));
 }
@@ -157,7 +157,7 @@ typename random_access_iterator<T>::difference_type  random_access_iterator<T>::
 }
 
 template <class T>
-typename random_access_iterator<T>::difference_type  random_access_iterator<T>::operator-(random_access_iterator it) const
+typename random_access_iterator<T>::difference_type  random_access_iterator<T>::operator-(random_access_iterator<T>::const_it it) const
 {
     return (_it - it.operator->());
 }

@@ -27,7 +27,7 @@ namespace ft
 
     }
 
-    template <class T, class A>
+   	template <class T, class A>
     vector<T,A>::vector(typename vector<T, A>::size_type n, const typename vector<T, A>::value_type &val,
 							const typename vector<T, A>::allocator_type &alloc) : _alloc(alloc)
     {
@@ -548,14 +548,15 @@ namespace ft
 															const vector<T, A>::pointer &end,
 															const vector<T, A>::value_type &val)
 	{
-		vector<T, A>::iterator	it;
-		vector<T, A>::iterator	ite;
+		vector<T, A>::pointer	it;
+		vector<T, A>::pointer	ite;
 
 		it = start;
 		ite = end;
 		while (it != ite)
 		{
-			*it = val;
+			_alloc.construct(it, val);
+			//*it = val;
 			it++;
 		}
 		return (&(*it));
@@ -577,20 +578,20 @@ namespace ft
 		allocate_memory(size);
 		while (origin_start != pos)
 		{
-			*_end = *origin_start;
+			*_end = *origin_start; //change
 			origin_start++;
 			_end++;
 		}
 		first_insert = _end;
 		while (new_start != new_end)
 		{
-			*_end = *new_start;
+			*_end = *new_start; //change
 			new_start++;
 			_end++;
 		}
 		while (origin_start != origin_end)
 		{
-			*_end = *origin_start;
+			*_end = *origin_start; //change
 			origin_start++;
 			_end++;
 		}
@@ -623,20 +624,20 @@ namespace ft
 		allocate_memory(size);
 		while (origin_start != pos)
 		{
-			*_end = *origin_start;
+			*_end = *origin_start; //change
 			origin_start++;
 			_end++;
 		}
 		first_insert = _end;
 		while (new_start != new_end)
 		{
-			*_end = *new_start;
+			*_end = *new_start; //change
 			new_start++;
 			_end++;
 		}
 		while (origin_start != origin_end)
 		{
-			*_end = *origin_start;
+			*_end = *origin_start; //change
 			origin_start++;
 			_end++;
 		}
@@ -660,7 +661,7 @@ namespace ft
 		{
 			while (new_start != new_end)
 			{
-				*_end = *new_start;
+				*_end = *new_start; //change
 				++_end;
 				++new_start;
 			}
@@ -681,14 +682,14 @@ namespace ft
 			while (it != pos)
 			{
 				if (size() != 0)
-					*(it + shift) = *it;
+					*(it + shift) = *it; //change
 				it--;
 			}
 			*(it + shift) = *it;
 			first_insert = it;
 			while (new_start != new_end)
 			{
-				*it = *new_start;
+				*it = *new_start; //change
 				new_start++;
 				it++;
 			}
@@ -710,7 +711,7 @@ namespace ft
 		{
 			while (new_start != new_end)
 			{
-				*_end = *new_start;
+				*_end = *new_start; //change
 				++_end;
 				++new_start;
 			}
@@ -725,14 +726,14 @@ namespace ft
 			while (it != pos)
 			{
 				if (size() != 0)
-					*(it + shift) = *it;
+					*(it + shift) = *it; //change
 				it--;
 			}
 			*(it + shift) = *it;
 			first_insert = it;
 			while (new_start != new_end)
 			{
-				*it = *new_start;
+				*it = *new_start; //change
 				new_start++;
 				it++;
 			}
@@ -758,7 +759,7 @@ namespace ft
 		first_shift = it - shift;
 		while (it != ite)
 		{
-			*(it - shift) = *it;
+			*(it - shift) = *it; //change
 			_alloc.destroy(&(*it));
 			it++;
 		}
