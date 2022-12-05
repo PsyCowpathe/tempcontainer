@@ -6,7 +6,7 @@
 /*   By: agirona <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 18:54:26 by agirona           #+#    #+#             */
-/*   Updated: 2022/12/04 12:21:31 by agirona          ###   ########lyon.fr   */
+/*   Updated: 2022/12/05 12:14:13 by agirona          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ namespace ft
             typedef typename allocator_type::pointer                    	  	pointer;
             typedef typename allocator_type::const_pointer          	        const_pointer;
             typedef ft::random_access_iterator<value_type>     	           		iterator;
-            typedef ft::random_access_iterator<value_type> 	           			const_iterator;
+            typedef ft::random_access_iterator<value_type> 	          	const_iterator;
             typedef ft::reverse_iterator<iterator>                     	   		reverse_iterator;
             typedef ft::reverse_iterator<const_iterator>           				const_reverse_iterator;
             typedef typename ft::iterator_traits<iterator>::difference_type		difference_type;
@@ -251,6 +251,28 @@ namespace ft
 		if (lhs < rhs)
 			return (false);
 		return (true);
+	}
+
+	template <class T, class Alloc>
+	void	swap(vector<T, Alloc> &x, vector<T, Alloc> &y)
+	{
+		typename vector<T, Alloc>::allocator_type	tmp_alloc;
+		typename vector<T, Alloc>::pointer			tmp_start;
+		typename vector<T, Alloc>::pointer			tmp_end;
+		typename vector<T, Alloc>::pointer			tmp_storage_end;
+
+		tmp_alloc = x._alloc;
+		tmp_start = x._start;
+		tmp_end = x._end;
+		tmp_storage_end = x._storage_end;
+		x._alloc = y._alloc;
+		x._start = y._start;
+		x._end = y._end;
+		x._storage_end = y._storage_end;
+		y._alloc = tmp_alloc;
+		y._start = tmp_start;
+		y._end = tmp_end;
+		y._storage_end = tmp_storage_end;
 	}
 };
 
