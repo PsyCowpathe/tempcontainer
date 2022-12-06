@@ -6,7 +6,7 @@
 /*   By: agirona <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/05 20:34:10 by agirona           #+#    #+#             */
-/*   Updated: 2022/12/05 20:39:06 by agirona          ###   ########lyon.fr   */
+/*   Updated: 2022/12/06 22:22:44 by agirona          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,27 @@
 
 namespace ft
 {
+
+	template<class Iterator>
+	class HeapReverseIterator
+	{
+		public:
+    		typedef Iterator iterator_type;
+
+    		template<class IteratorType>
+    		bool operator==(const HeapReverseIterator<IteratorType> &rhs) const
+			{
+        		return it == rhs.it;
+    		}
+
+    		template<class HeapReverseIteratorIterator>
+   	 		friend class HeapReverseIterator;
+
+		private:
+    		iterator_type it;
+    		iterator_type prev_it;
+};
+
     template <class Iterator>
     class reverse_iterator
     {
@@ -33,7 +54,9 @@ namespace ft
             //Member function
             reverse_iterator(); //
             explicit reverse_iterator (iterator_type it);//
-            reverse_iterator(const reverse_iterator &rev_it);//
+
+			template <class Iter>
+            reverse_iterator(const reverse_iterator<Iter> &rev_it);//
 
             iterator_type       base() const;
 
@@ -49,28 +72,36 @@ namespace ft
             pointer             operator->() const;//
             reference           operator[](difference_type n) const;//
 			
-			template <class it>
-            friend bool        	operator!=(const reverse_iterator<it> &lhs, const reverse_iterator<it> &rhs);//
-			template <class it>
-            friend bool         operator<(const reverse_iterator<it> &lhs, const reverse_iterator<it> &rhs);//
-			template <class it>
-            friend bool         operator<=(const reverse_iterator<it> &lhs, const reverse_iterator<it> &rhs);//
-			template <class it>
-            friend bool         operator==(const reverse_iterator<it> &lhs, const reverse_iterator<it> &rhs);//
-			template <class it>
-            friend bool         operator>(const reverse_iterator<it> &lhs, const reverse_iterator<it> &rhs);//
-			template <class it>
-            friend bool        	operator>=(const reverse_iterator<it> &lhs, const reverse_iterator<it> &rhs);//
+			
+    };
+			//STD OFFICIAL PATCH for const vs no const operation --> https://cplusplus.github.io/LWG/issue280#23.5.1.2
+
+   			template <class Iterator1, class Iterator2>
+            bool        operator!=(const reverse_iterator<Iterator1> &lhs, const reverse_iterator<Iterator2> &rhs);//
+
+   			template <class Iterator1, class Iterator2>
+            bool        operator<(const reverse_iterator<Iterator1> &lhs, const reverse_iterator<Iterator2> &rhs);//
+
+   			template <class Iterator1, class Iterator2>
+            bool        operator<=(const reverse_iterator<Iterator1> &lhs, const reverse_iterator<Iterator2> &rhs);//
+
+   			template <class Iterator1, class Iterator2>
+            bool        operator==(const reverse_iterator<Iterator1> &lhs, const reverse_iterator<Iterator2> &rhs);//
+
+   			template <class Iterator1, class Iterator2>
+            bool        operator>(const reverse_iterator<Iterator1> &lhs, const reverse_iterator<Iterator2> &rhs);//
+
+   			template <class Iterator1, class Iterator2>
+            bool		operator>=(const reverse_iterator<Iterator1> &lhs, const reverse_iterator<Iterator2> &rhs);//
 
 			template <class it>
-            friend reverse_iterator<it>                              operator+(typename reverse_iterator<it>::difference_type n, //pas sur pour le friend
+            reverse_iterator<it>                              operator+(typename reverse_iterator<it>::difference_type n,
                                                                                 const reverse_iterator<it> &rev_it);
 
-			template <class it>
-            friend typename reverse_iterator<it>::difference_type    operator-(const reverse_iterator<it>& lhs, //pas sur pour le friend
-                                                                                const reverse_iterator<it>& rhs);
+   			template <class Iterator1, class Iterator2>
+            typename reverse_iterator<Iterator1>::difference_type    operator-(const reverse_iterator<Iterator1>& lhs,
+                                                                                const reverse_iterator<Iterator2>& rhs);
 
-    };
 };
 
 #endif

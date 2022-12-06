@@ -6,7 +6,7 @@
 /*   By: agirona <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/30 20:29:39 by agirona           #+#    #+#             */
-/*   Updated: 2022/12/05 20:39:07 by agirona          ###   ########lyon.fr   */
+/*   Updated: 2022/12/06 22:22:45 by agirona          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ namespace   ft
             pointer                 operator->() const;//
             reference               operator*() const;//
             random_access_iterator  &operator=(const random_access_iterator &copy);//
+            //random_access_iterator  &operator=(const random_access_iterator &copy) const;//
             random_access_iterator  &operator++();//
             random_access_iterator  operator++(int);//
             random_access_iterator  &operator--();//
