@@ -6,7 +6,7 @@
 /*   By: agirona <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 18:54:26 by agirona           #+#    #+#             */
-/*   Updated: 2022/12/05 20:43:03 by agirona          ###   ########lyon.fr   */
+/*   Updated: 2022/12/06 22:22:46 by agirona          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@
 # include "../iterator/reverse_iterator.tpp"
 # include "../other/enable_if.hpp"
 # include "../other/is_integral.hpp"
+# include "../other/equal.hpp"
+# include "../other/lexicographical_compare.hpp"
 
 namespace ft
 {
@@ -152,105 +154,40 @@ namespace ft
 	template <class T, class Alloc>
 	bool	operator==(const vector<T, Alloc> &lhs, const vector<T, Alloc> &rhs)
 	{
-		typename vector<T, Alloc>::iterator	l_it;
-		typename vector<T, Alloc>::iterator	l_ite;
-		typename vector<T, Alloc>::iterator	r_it;
-
 		if (lhs.size() != rhs.size())
 			return (false);
-		l_it = lhs.begin();
-		l_ite = lhs.end();
-		r_it = rhs.begin();
-		while (l_it != l_ite)
-		{
-			if (*l_it != *r_it)
-				return (false);
-			l_it++;
-			r_it++;
-		}
-		return (true);
+		return (ft::equal(lhs.begin(), lhs.end(), rhs.begin()));
 	}
 
 	template <class T, class Alloc>
 	bool	operator!=(const vector<T, Alloc> &lhs, const vector<T, Alloc> &rhs)
 	{
-		if (lhs == rhs)
-			return (false);
-		return (true);
+		return (!(lhs == rhs));
 	}
 
 	template <class T, class Alloc>
 	bool	operator<(const vector<T, Alloc> &lhs, const vector<T, Alloc> &rhs)
 	{
-		typename vector<T, Alloc>::iterator	l_it;
-		typename vector<T, Alloc>::iterator	l_ite;
-		typename vector<T, Alloc>::iterator	r_it;
-		typename vector<T, Alloc>::iterator	r_ite;
-
-		l_it = lhs.begin();
-		l_ite = lhs.end();
-		r_it = rhs.begin();
-		r_ite = rhs.end();
-		while (l_it != l_ite && r_it != r_ite)
-		{
-			if (*l_it != *r_it)
-			{
-				if (*l_it < *r_it)
-					return (true);
-				return (false);
-			}
-			l_it++;
-			r_it++;
-		}
-		if (l_it == l_ite && r_it != r_ite)
-			return (true);
-		return (false);
+		return (lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end()));
+		
 	}
 
 	template <class T, class Alloc>
 	bool	operator<=(const vector<T, Alloc> &lhs, const vector<T, Alloc> &rhs)
 	{
-		typename vector<T, Alloc>::iterator	l_it;
-		typename vector<T, Alloc>::iterator	l_ite;
-		typename vector<T, Alloc>::iterator	r_it;
-		typename vector<T, Alloc>::iterator	r_ite;
-
-		l_it = lhs.begin();
-		l_ite = lhs.end();
-		r_it = rhs.begin();
-		r_ite = rhs.end();
-		while (l_it != l_ite && r_it != r_ite)
-		{
-			if (*l_it != *r_it)
-			{
-				if (*l_it < *r_it)
-					return (true);
-				return (false);
-			}
-			l_it++;
-			r_it++;
-		}
-		if ((l_it == l_ite && r_it == r_ite) || l_it == l_ite)
-			return (true);
-		return (false);
+		return ((lhs < rhs) || (lhs == rhs));
 	}
 
 	template <class T, class Alloc>
 	bool	 operator>(const vector<T, Alloc> &lhs, const vector<T, Alloc> &rhs)
 	{
-		if (lhs <= rhs)
-			return (false);
-		return (true);
+		return (rhs < lhs);
 	}
 
 	template <class T, class Alloc>
 	bool	operator>=(const vector<T, Alloc> &lhs, const vector<T, Alloc> &rhs)
 	{
-		if (lhs == rhs)
-			return (true);
-		if (lhs < rhs)
-			return (false);
-		return (true);
+		return ((lhs > rhs) || (lhs == rhs));
 	}
 
 	template <class T, class Alloc>

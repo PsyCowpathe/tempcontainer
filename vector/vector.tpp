@@ -76,7 +76,7 @@ namespace ft
     template <class T, class A>
     typename vector<T, A>::iterator			vector<T, A>::begin()
     {
-        return (_start);
+        return (iterator(_start));
     }
 
 	template <class T, class A>
@@ -88,7 +88,7 @@ namespace ft
     template <class T, class A>
     typename vector<T, A>::iterator			vector<T, A>::end()
     {
-        return (_end);
+        return (iterator(_end));
     }
 
 	template <class T, class A>
