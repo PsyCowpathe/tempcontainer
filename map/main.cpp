@@ -6,7 +6,7 @@
 /*   By: agirona <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 18:07:24 by agirona           #+#    #+#             */
-/*   Updated: 2022/12/12 19:42:13 by agirona          ###   ########lyon.fr   */
+/*   Updated: 2022/12/13 15:51:24 by agirona          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,14 +45,30 @@ int		main(void)
 {
 	ft::tree<int>			tree;
 
+	tree.insert(15);
 	tree.insert(18);
+	/*tree.insert(7);
 	tree.insert(5);
-	tree.insert(1);
-	tree.insert(171);
-	tree.insert(21);
-	tree.insert(-42);
-	tree.insert(2);
-	tree.erase(1);
+	tree.insert(122);
+	tree.insert(132);
+	tree.insert(72);
+	tree.insert(646);
+	tree.insert(55);
+	tree.insert(1);*/
+
 	printHelper(tree.get_origin(), "", true, true);
+
+	tree.erase(15);
+	printHelper(tree.get_origin(), "", true, true);
+	tree.erase(18);
+	printHelper(tree.get_origin(), "", true, true);
+	//printHelper(tree.get_origin(), "", true, true);
+	//tree.erase(18);
+	//printHelper(tree.get_origin(), "", true, true);
+	//tree.erase(7);
+	//printHelper(tree.get_origin(), "", true, true);
+	//tree.erase(5);
+
+	//printHelper(tree.get_origin(), "", true, true);
 	return (0);
 }
