@@ -123,6 +123,7 @@ namespace ft
 			else
 				return ;
 		}
+		_size += 1;
 		new_one = new_node(val); 
 		new_one->set_parent(prev);
 		if (direction == 1)
@@ -160,65 +161,77 @@ namespace ft
 	}
 
 	//private
-	
 
 	template <class T, class A, class C>
-	void	tree<T, A, C>::single_oblitarate(elem<T, T> &current)
+	void	tree<T, A, C>::single_oblitarate(elem<T, T> &to_delete)
 	{
 		elem<T, T>	*prev;
 		elem<T, T>	*tmp;
 		elem<T, T>	*substitute;
 		int			direction;
 
-		prev = current.get_parent();
-		tmp = &current;
-		substitute = current.get_right();
-		if (current.get_left() != NULL)
-			substitute = current.get_left();
+		prev = to_delete.get_parent();
+		tmp = &to_delete;
+		substitute = to_delete.get_right();
+		if (to_delete.get_left() != NULL)
+			substitute = to_delete.get_left();
+		if (prev == NULL)
+		{
+			_origin = substitute;
+			substitute->set_parent(NULL);
+			clear_node(&to_delete);
+			return ;
+		}
 		direction = 2;
-		if (prev->get_left()->get_key() == current.get_key())
+		if (prev->get_left()->get_key() == to_delete.get_key())
 			direction = 1;
 		clear_node(tmp);
 		if (direction == 1)
 			prev->set_left(substitute);
 		else
 			prev->set_right(substitute);
+		substitute->set_parent(prev);
 	}
 
 
 	template <class T, class A, class C>
-	void	tree<T, A, C>::complex_oblitarate(elem<T, T> &remove)
+	void	tree<T, A, C>::complex_oblitarate(elem<T, T> &to_replace)
 	{
 		elem<T, T>	*substitute;
-		elem<T, T>	*current;
+		elem<T, T>	*to_delete;
 		elem<T, T>	*prev;
-		typename elem<T, T>::value_type	save;
-		
-		current = &remove;
-		prev = remove.get_parent();
-		current = current->get_right();
-		while (current != NULL)
+		typename elem<T, T>::value_type	save_key;
+
+		to_delete = &to_replace;
+		prev = to_replace.get_parent();
+		to_delete = to_delete->get_right();
+		while (to_delete != NULL)
 		{
-			substitute = current;
-			current = current->get_left();
+			substitute = to_delete;
+			to_delete = to_delete->get_left();
 		}
-		save = substitute->get_key();
-		erase(save);
-		remove.set_key(save);
+		save_key = substitute->get_key();
+		erase(save_key);
+		to_replace.set_key(save_key); //potentiel problem avec la validite des iterateurs
 	}
 
 	template <class T, class A, class C>
-	elem<T, T>	*tree<T, A, C>::oblitarate(elem<T, T> &current, const int &direction)
+	elem<T, T>	*tree<T, A, C>::oblitarate(elem<T, T> &to_delete, const int &direction)
 	{
 		elem<T, T>	*prev;
 
-		prev = current.get_parent();
-		if (current.get_left() == NULL && current.get_right() == NULL)
-			(direction == 1) ? prev->set_left(NULL) : prev->set_right(NULL);
-		else if (current.get_left() != NULL && current.get_right() != NULL)
-			complex_oblitarate(current);
+		prev = to_delete.get_parent();
+		if (to_delete.get_left() == NULL && to_delete.get_right() == NULL)
+		{
+			if (_size != 1)
+				(direction == 1) ? prev->set_left(NULL) : prev->set_right(NULL);
+			clear_node(&to_delete);
+
+		}
+		else if (to_delete.get_left() != NULL && to_delete.get_right() != NULL)
+			complex_oblitarate(to_delete);
 		else
-			single_oblitarate(current);
+			single_oblitarate(to_delete);
 		return (NULL);
 	}
 
@@ -235,6 +248,9 @@ namespace ft
 	template <class T, class A,class C>
 	void	tree<T, A, C>::clear_node(elem<T, T> *to_clear)
 	{
+		_size -= 1;
+		if (_size == 0)
+			_origin = NULL;
 		_alloc.destroy(to_clear);
 		_alloc.deallocate(to_clear, sizeof(elem<T, T>));
 	}

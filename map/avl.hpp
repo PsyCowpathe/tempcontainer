@@ -6,7 +6,7 @@
 /*   By: agirona <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 17:40:51 by agirona           #+#    #+#             */
-/*   Updated: 2022/12/12 19:42:10 by agirona          ###   ########lyon.fr   */
+/*   Updated: 2022/12/13 15:50:48 by agirona          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,9 +69,9 @@ namespace ft
 			cmp_type		cmp;
 
 			node		*new_node(const T &val);
-			elem<T, T>	*oblitarate(elem<T, T> &current, const int &direction);
-			void		single_oblitarate(elem<T, T> &current);
-			void		complex_oblitarate(elem<T, T> &current);
+			elem<T, T>	*oblitarate(elem<T, T> &to_delete, const int &direction);
+			void		single_oblitarate(elem<T, T> &to_delete);
+			void		complex_oblitarate(elem<T, T> &to_delete);
 			void		clear_node(elem<T, T> *to_clear);
 
 	};
