@@ -6,7 +6,7 @@
 /*   By: agirona <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 17:40:51 by agirona           #+#    #+#             */
-/*   Updated: 2022/12/13 15:50:48 by agirona          ###   ########lyon.fr   */
+/*   Updated: 2022/12/14 21:07:14 by agirona          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,13 @@ namespace ft
 			void		single_oblitarate(elem<T, T> &to_delete);
 			void		complex_oblitarate(elem<T, T> &to_delete);
 			void		clear_node(elem<T, T> *to_clear);
+			void		balancing(elem<T, T> *new_one);
+			int			get_sub_height(elem<T, T> *current);
+			void		LL_rotate(elem<T, T> *grandpa, elem<T, T> *parent);
+			void		RR_rotate(elem<T, T> *grandpa, elem<T, T> *parent);
+			void		LR_rotate(elem<T, T> *grandpa, elem<T, T> *parent, elem<T, T> *child);
+			void		RL_rotate(elem<T, T> *grandpa, elem<T, T> *parent, elem<T, T> *child);
+			void	choose_rotate(elem<T, T> *current, int factor);
 
 	};
 };

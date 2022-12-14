@@ -132,7 +132,7 @@ namespace ft
 			prev->set_right(new_one);
 		else
 			_origin = new_one;
-		//balance
+		balancing(new_one);
 	}
 
 	template <class T, class A,class C>
@@ -161,6 +161,188 @@ namespace ft
 	}
 
 	//private
+
+
+	template <class T, class A, class C>
+	void	tree<T, A, C>::RR_rotate(elem<T, T> *grandpa, elem<T, T> *parent)
+	{
+		elem<T, T>	*tie;
+
+		tie = grandpa->get_parent();
+		grandpa->set_left(parent->get_right());
+		if (parent->get_right() != NULL)
+			parent->get_right()->set_parent(grandpa);
+		parent->set_right(grandpa);
+		parent->set_parent(tie);
+		grandpa->set_parent(parent);
+		if (tie == NULL)
+		{
+			_origin = parent;
+			return ;
+		}
+		if (tie->get_left() == grandpa)
+			tie->set_left(parent);
+		else
+			tie->set_right(parent);
+
+	}
+
+	template <class T, class A, class C>
+	void	tree<T, A, C>::LL_rotate(elem<T, T> *grandpa, elem<T, T> *parent)
+	{
+		elem<T, T>	*tie;
+
+		tie = grandpa->get_parent();
+		grandpa->set_right(parent->get_left());
+		if (parent->get_left() != NULL)
+			parent->get_left()->set_parent(grandpa);
+		parent->set_left(grandpa);
+		parent->set_parent(tie);
+		grandpa->set_parent(parent);
+		if (tie == NULL)
+		{
+			_origin = parent;
+			return ;
+		}
+		if (tie->get_left() == grandpa)
+			tie->set_left(parent);
+		else
+			tie->set_right(parent);
+
+	}
+
+	template <class T, class A, class C>
+	void	tree<T, A, C>::LR_rotate(elem<T, T> *grandpa, elem<T, T> *parent, elem<T, T> *child)
+	{
+		elem<T, T>	*tie;
+		elem<T, T>	*ltmp;
+		elem<T, T>	*rtmp;
+
+		tie = grandpa->get_parent();
+		ltmp = child->get_left();
+		rtmp = child->get_right();
+		child->set_left(parent);
+		child->set_right(grandpa);
+		parent->set_parent(child);
+		parent->set_right(ltmp);
+		if (ltmp)
+			ltmp->set_parent(parent);
+		grandpa->set_parent(child);
+		grandpa->set_left(rtmp);
+		if (rtmp)
+			rtmp->set_parent(grandpa);
+		if (tie == NULL)
+		{
+			_origin = child;
+			child->set_parent(NULL);
+			return ;
+		}
+		if (tie->get_left() == grandpa)
+			tie->set_left(child);
+		else
+			tie->set_right(child);
+		child->set_parent(tie);
+	}
+
+	template <class T, class A, class C>
+	void	tree<T, A, C>::RL_rotate(elem<T, T> *grandpa, elem<T, T> *parent, elem<T, T> *child)
+	{
+		elem<T, T>	*tie;
+		elem<T, T>	*ltmp;
+		elem<T, T>	*rtmp;
+
+		tie = grandpa->get_parent();
+		ltmp = child->get_left();
+		rtmp = child->get_right();
+		child->set_left(grandpa);
+		child->set_right(parent);
+		parent->set_parent(child);
+		parent->set_left(rtmp);
+		if (rtmp != NULL)
+			rtmp->set_parent(parent);
+		grandpa->set_parent(child);
+		grandpa->set_right(ltmp);
+		if (ltmp != NULL)
+			ltmp->set_parent(grandpa);
+		if (tie == NULL)
+		{
+			_origin = child;
+			child->set_parent(NULL);
+			return ;
+		}
+		if (tie->get_left() == grandpa)
+			tie->set_left(child);
+		else
+			tie->set_right(child);
+		child->set_parent(tie);
+	}
+
+	template <class T, class A, class C>
+	void	tree<T, A, C>::balancing(elem<T, T> *new_one)
+	{
+		elem<T, T>	*current;
+		int		left_height;
+		int		right_height;
+		int		factor;
+
+		current = NULL;
+		if (new_one->get_parent() != NULL)
+			current = new_one->get_parent();
+		if (current != NULL && current->get_parent() != NULL)
+			current = current->get_parent();
+		while (current != NULL)
+		{
+			left_height = 0;
+			right_height = 0;
+			if (current->get_left() != NULL)
+				left_height = 1 + get_sub_height(current->get_left());
+			if (current->get_right() != NULL)
+				right_height = 1 + get_sub_height(current->get_right());
+			factor = left_height - right_height;
+			if (factor > 1 || factor < -1)
+				choose_rotate(current, factor);
+			current = current->get_parent();
+		}
+	}
+
+
+	template <class T, class A, class C>
+	void	tree<T, A, C>::choose_rotate(elem<T, T> *current, int factor)
+	{
+		if (factor > 1)
+		{
+			if (current->get_left() && current->get_left()->get_left())
+				RR_rotate(current, current->get_left());
+			else
+				LR_rotate(current, current->get_left(), current->get_left()->get_right());
+		}
+		else
+		{
+			if (current->get_right() && current->get_right()->get_right())
+				LL_rotate(current, current->get_right());
+			else
+				RL_rotate(current, current->get_right(), current->get_right()->get_left());
+		}
+	}
+
+	template <class T, class A, class C>
+	int		tree<T, A, C>::get_sub_height(elem<T, T> *current)
+	{
+		int		left_height;
+		int		right_height;
+
+		left_height = 0;
+		right_height = 0;
+		if (current == NULL)
+			return (0);
+		if (current->get_right() != NULL)
+			++right_height += get_sub_height(current->get_right());
+		if (current->get_left() != NULL)
+			++left_height += get_sub_height(current->get_left());
+		if (left_height > right_height)
+			return (left_height);
+		return (right_height);
+	}
 
 	template <class T, class A, class C>
 	void	tree<T, A, C>::single_oblitarate(elem<T, T> &to_delete)
