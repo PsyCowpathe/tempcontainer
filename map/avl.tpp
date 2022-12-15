@@ -101,7 +101,6 @@ namespace ft
 
 	}
 
-
 	template <class T, class A, class C>
 	void	tree<T, A, C>::insert(const T &val)
 	{
@@ -132,13 +131,14 @@ namespace ft
 			prev->set_right(new_one);
 		else
 			_origin = new_one;
-		balancing(new_one);
+		balancing(new_one->get_parent());
 	}
 
 	template <class T, class A,class C>
 	void	tree<T, A, C>::erase(const T &val)
 	{
 		elem<T, T>	*current;
+		elem<T, T>	*parent;
 		int			direction;
 
 		current = _origin;
@@ -150,7 +150,11 @@ namespace ft
 			else if (cmp(current->get_key(), val) && (direction = 2))
 				current = current->get_right();
 			else
+			{
+				parent = current->get_parent();
 				current = oblitarate(*current, direction);
+				balancing(parent);
+			}
 		}
 	}
 
@@ -162,6 +166,27 @@ namespace ft
 
 	//private
 
+	template <class T, class A, class C>
+	void	tree<T, A, C>::balancing(elem<T, T> *current)
+	{
+		int			left_height;
+		int			right_height;
+		int			factor;
+
+		while (current != NULL)
+		{
+			left_height = 0;
+			right_height = 0;
+			if (current->get_left() != NULL)
+				left_height = 1 + get_sub_height(current->get_left());
+			if (current->get_right() != NULL)
+				right_height = 1 + get_sub_height(current->get_right());
+			factor = left_height - right_height;
+			if (factor > 1 || factor < -1)
+				choose_rotate(current, factor);
+			current = current->get_parent();
+		}
+	}
 
 	template <class T, class A, class C>
 	void	tree<T, A, C>::RR_rotate(elem<T, T> *grandpa, elem<T, T> *parent)
@@ -276,35 +301,6 @@ namespace ft
 			tie->set_right(child);
 		child->set_parent(tie);
 	}
-
-	template <class T, class A, class C>
-	void	tree<T, A, C>::balancing(elem<T, T> *new_one)
-	{
-		elem<T, T>	*current;
-		int		left_height;
-		int		right_height;
-		int		factor;
-
-		current = NULL;
-		if (new_one->get_parent() != NULL)
-			current = new_one->get_parent();
-		if (current != NULL && current->get_parent() != NULL)
-			current = current->get_parent();
-		while (current != NULL)
-		{
-			left_height = 0;
-			right_height = 0;
-			if (current->get_left() != NULL)
-				left_height = 1 + get_sub_height(current->get_left());
-			if (current->get_right() != NULL)
-				right_height = 1 + get_sub_height(current->get_right());
-			factor = left_height - right_height;
-			if (factor > 1 || factor < -1)
-				choose_rotate(current, factor);
-			current = current->get_parent();
-		}
-	}
-
 
 	template <class T, class A, class C>
 	void	tree<T, A, C>::choose_rotate(elem<T, T> *current, int factor)
