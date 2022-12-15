@@ -6,7 +6,7 @@
 /*   By: agirona <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 18:07:24 by agirona           #+#    #+#             */
-/*   Updated: 2022/12/14 21:09:32 by agirona          ###   ########lyon.fr   */
+/*   Updated: 2022/12/15 13:52:52 by agirona          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,31 +46,31 @@ int		main(void)
 {
 	ft::tree<int>			tree;
 
-	tree.insert(15);
+	tree.insert(50);
 	printHelper(tree.get_origin(), "", true, true);
 	std::cout << "==================END================" << std::endl;
 
-	tree.insert(18);
+	tree.insert(25);
 	printHelper(tree.get_origin(), "", true, true);
 	std::cout << "==================END================" << std::endl;
 
-	tree.insert(16);
+	tree.insert(75);
 	printHelper(tree.get_origin(), "", true, true);
 	std::cout << "==================END================" << std::endl;
 
-	tree.insert(5);
+	tree.insert(12);
 	printHelper(tree.get_origin(), "", true, true);
 	std::cout << "==================END================" << std::endl;
 
-	tree.insert(28);
+	tree.insert(40);
 	printHelper(tree.get_origin(), "", true, true);
 	std::cout << "==================END================" << std::endl;
 
-	tree.insert(31);
+	tree.insert(30);
 	printHelper(tree.get_origin(), "", true, true);
 	std::cout << "==================END================" << std::endl;
 
-	tree.insert(9);
+	/*tree.insert(9);
 	printHelper(tree.get_origin(), "", true, true);
 	std::cout << "==================END================" << std::endl;
 
@@ -114,7 +114,7 @@ int		main(void)
 
 	tree.insert(51);
 	printHelper(tree.get_origin(), "", true, true);
-	std::cout << "==================END================" << std::endl;
+	std::cout << "==================END================" << std::endl;*/
 
 
 
