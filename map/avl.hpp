@@ -6,7 +6,7 @@
 /*   By: agirona <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 17:40:51 by agirona           #+#    #+#             */
-/*   Updated: 2022/12/14 21:09:30 by agirona          ###   ########lyon.fr   */
+/*   Updated: 2022/12/15 12:03:51 by agirona          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ namespace ft
 			void		RR_rotate(elem<T, T> *grandpa, elem<T, T> *parent);
 			void		LR_rotate(elem<T, T> *grandpa, elem<T, T> *parent, elem<T, T> *child);
 			void		RL_rotate(elem<T, T> *grandpa, elem<T, T> *parent, elem<T, T> *child);
-			void	choose_rotate(elem<T, T> *current, int factor);
+			void		choose_rotate(elem<T, T> *current, int factor);
 
 	};
 };

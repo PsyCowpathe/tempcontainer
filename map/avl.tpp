@@ -309,19 +309,34 @@ namespace ft
 	template <class T, class A, class C>
 	void	tree<T, A, C>::choose_rotate(elem<T, T> *current, int factor)
 	{
+		int		left_height;
+		int		right_height;
+
+		left_height = 0;
+		right_height = 0;
 		if (factor > 1)
 		{
-			if (current->get_left() && current->get_left()->get_left())
+			if (current->get_left()->get_left() != NULL)
+				left_height = 1 + get_sub_height(current->get_left()->get_left());
+			if (current->get_left()->get_right() != NULL)
+				right_height = 1 + get_sub_height(current->get_left()->get_right());
+			factor = left_height - right_height;
+			if (factor > 0)
 				RR_rotate(current, current->get_left());
 			else
 				LR_rotate(current, current->get_left(), current->get_left()->get_right());
 		}
 		else
 		{
-			if (current->get_right() && current->get_right()->get_right())
-				LL_rotate(current, current->get_right());
-			else
+			if (current->get_right()->get_left() != NULL)
+				left_height = 1 + get_sub_height(current->get_right()->get_left());
+			if (current->get_right()->get_right() != NULL)
+				right_height = 1 + get_sub_height(current->get_right()->get_right());
+			factor = left_height - right_height;
+			if (factor > 0)
 				RL_rotate(current, current->get_right(), current->get_right()->get_left());
+			else
+				LL_rotate(current, current->get_right());
 		}
 	}
 
