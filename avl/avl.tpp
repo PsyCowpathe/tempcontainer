@@ -18,71 +18,124 @@
 
 namespace ft
 {
-	template <class T, class V>
-	elem<T, V>::elem() : _parent(NULL), _left(NULL), _right(NULL)
+	template <class T>
+	elem<T>::elem() : _pair(NULL), _parent(NULL), _left(NULL), _right(NULL)
 	{
 
 	}
 
-	template <class T, class V>
-	elem<T, V>::elem(elem<T, V>::key_type key) : _parent(NULL), _left(NULL), _right(NULL)
-	{
-		_key = key;
-		_value = 0;
-	}
-
-	template <class T, class V>
-	elem<T, V>::~elem()
+	template <class T>
+	elem<T>::elem(const pair_type &pair) : _pair(pair), _parent(NULL), _left(NULL), _right(NULL)
 	{
 
 	}
 
-	template <class T, class V>
-	void	elem<T, V>::set_parent(elem<T, V> *parent)
+	template <class T>
+	elem<T>::~elem()
+	{
+
+	}
+
+	template <class T>
+	void	elem<T>::set_parent(elem<T> *parent)
 	{
 		_parent = parent;
 	}
 
-	template <class T, class V>
-	void	elem<T, V>::set_left(elem<T, V> *left)
+	template <class T>
+	void	elem<T>::set_left(elem<T> *left)
 	{
 		_left = left;
 	}
 
-	template <class T, class V>
-	void	elem<T, V>::set_right(elem<T, V> *right)
+	template <class T>
+	void	elem<T>::set_right(elem<T> *right)
 	{
 		_right = right;
 	}
 
-	template <class T, class V>
-	void	elem<T, V>::set_key(const T &key)
+
+	template <class T>
+	void	elem<T>::set_key(const key_type &key)
 	{
-		_key = key;
+		_pair.first = key;
 	}
 
-	template <class T, class V>
-	elem<T, V>	*elem<T, V>::get_parent() const
+	template <class T>
+	void	elem<T>::set_value(const value_type &value)
+	{
+		_pair.second = value;
+	}
+
+	template <class T>
+	void	elem<T>::set_pair(const pair_type &pair)
+	{
+		_pair.first = pair.first;
+		_pair.second = pair.second;
+	}
+
+	template <class T>
+	elem<T>	*elem<T>::get_parent() const
 	{
 		return (_parent); 
 	}
 
-	template <class T, class V>
-	elem<T, V>	*elem<T, V>::get_left() const
+	template <class T>
+	elem<T>	*elem<T>::get_left() const
 	{
 		return (_left); 
 	}
 
-	template <class T, class V>
-	elem<T, V>	*elem<T, V>::get_right() const
+	template <class T>
+	elem<T>	*elem<T>::get_right() const
 	{
 		return (_right); 
 	}
 
-	template <class T, class V>
-	typename elem<T, V>::key_type	elem<T, V>::get_key() const
+	template <class T>
+	typename elem<T>::key_type	elem<T>::get_key() const
 	{
-		return (_key); 
+		return (_pair.first); 
+	}
+
+	template <class T>
+	typename elem<T>::value_type	elem<T>::get_value() const
+	{
+		return (_pair.second); 
+	}
+
+	template <class T>
+	typename elem<T>::pair_type	elem<T>::get_pair() const
+	{
+		return (_pair); 
+	}
+
+	template <class T>
+	elem<T>	*elem<T>::next()
+	{
+		elem<T>		*current;
+
+		current = this;
+		if (current->get_right() == NULL)
+		{
+			current = current->get_parent();
+			if (current->get_right() == this)
+			{
+				current = current->get_parent();
+				while (current->get_right() != NULL)
+					current = current->get_parent();
+			}
+			return (current->get_parent());
+		}
+		else
+		{
+		/*	while (current->get_right() == NULL || current->get_right() == this)
+				current = current->get_parent();*/
+		current = current->get_right();
+		while (current->get_left() != NULL)
+			current = current->get_left();
+		return (current);
+		}
 	}
 };
 
@@ -102,11 +155,11 @@ namespace ft
 	}
 
 	template <class T, class A, class C>
-	void	tree<T, A, C>::insert(const T &val)
+	void	tree<T, A, C>::insert(const pair_type &val)
 	{
-		elem<T, T>	*current;
-		elem<T, T>	*prev;
-		elem<T, T>	*new_one;
+		elem<T>		*current;
+		elem<T>		*prev;
+		elem<T>		*new_one;
 		int			direction;
 
 		current = _origin;
@@ -115,9 +168,9 @@ namespace ft
 		while (current != NULL)
 		{
 			prev = current;
-			if (cmp(val, current->get_key()) && (direction = 1))
+			if (cmp(val.first, current->get_key()) && (direction = 1))
 				current = current->get_left();
-			else if (cmp(current->get_key(), val) && (direction = 2))
+			else if (cmp(current->get_key(), val.first) && (direction = 2))
 				current = current->get_right();
 			else
 				return ;
@@ -135,19 +188,19 @@ namespace ft
 	}
 
 	template <class T, class A,class C>
-	void	tree<T, A, C>::erase(const T &val)
+	void	tree<T, A, C>::erase(const pair_type &val)
 	{
-		elem<T, T>	*current;
-		elem<T, T>	*parent;
+		elem<T>		*current;
+		elem<T>		*parent;
 		int			direction;
 
 		current = _origin;
 		direction = 0;
 		while (current != NULL)
 		{
-			if (cmp(val, current->get_key()) && (direction = 1))
+			if (cmp(val.first, current->get_key()) && (direction = 1))
 				current = current->get_left();
-			else if (cmp(current->get_key(), val) && (direction = 2))
+			else if (cmp(current->get_key(), val.first) && (direction = 2))
 				current = current->get_right();
 			else
 			{
@@ -167,7 +220,7 @@ namespace ft
 	//private
 
 	template <class T, class A, class C>
-	void	tree<T, A, C>::balancing(elem<T, T> *current)
+	void	tree<T, A, C>::balancing(elem<T> *current)
 	{
 		int			left_height;
 		int			right_height;
@@ -189,9 +242,9 @@ namespace ft
 	}
 
 	template <class T, class A, class C>
-	void	tree<T, A, C>::RR_rotate(elem<T, T> *grandpa, elem<T, T> *parent)
+	void	tree<T, A, C>::RR_rotate(elem<T> *grandpa, elem<T> *parent)
 	{
-		elem<T, T>	*tie;
+		elem<T>	*tie;
 
 		tie = grandpa->get_parent();
 		grandpa->set_left(parent->get_right());
@@ -213,9 +266,9 @@ namespace ft
 	}
 
 	template <class T, class A, class C>
-	void	tree<T, A, C>::LL_rotate(elem<T, T> *grandpa, elem<T, T> *parent)
+	void	tree<T, A, C>::LL_rotate(elem<T> *grandpa, elem<T> *parent)
 	{
-		elem<T, T>	*tie;
+		elem<T>	*tie;
 
 		tie = grandpa->get_parent();
 		grandpa->set_right(parent->get_left());
@@ -237,11 +290,11 @@ namespace ft
 	}
 
 	template <class T, class A, class C>
-	void	tree<T, A, C>::LR_rotate(elem<T, T> *grandpa, elem<T, T> *parent, elem<T, T> *child)
+	void	tree<T, A, C>::LR_rotate(elem<T> *grandpa, elem<T> *parent, elem<T> *child)
 	{
-		elem<T, T>	*tie;
-		elem<T, T>	*ltmp;
-		elem<T, T>	*rtmp;
+		elem<T>	*tie;
+		elem<T>	*ltmp;
+		elem<T>	*rtmp;
 
 		tie = grandpa->get_parent();
 		ltmp = child->get_left();
@@ -270,11 +323,11 @@ namespace ft
 	}
 
 	template <class T, class A, class C>
-	void	tree<T, A, C>::RL_rotate(elem<T, T> *grandpa, elem<T, T> *parent, elem<T, T> *child)
+	void	tree<T, A, C>::RL_rotate(elem<T> *grandpa, elem<T> *parent, elem<T> *child)
 	{
-		elem<T, T>	*tie;
-		elem<T, T>	*ltmp;
-		elem<T, T>	*rtmp;
+		elem<T>	*tie;
+		elem<T>	*ltmp;
+		elem<T>	*rtmp;
 
 		tie = grandpa->get_parent();
 		ltmp = child->get_left();
@@ -303,7 +356,7 @@ namespace ft
 	}
 
 	template <class T, class A, class C>
-	void	tree<T, A, C>::choose_rotate(elem<T, T> *current, int factor)
+	void	tree<T, A, C>::choose_rotate(elem<T> *current, int factor)
 	{
 		int		left_height;
 		int		right_height;
@@ -337,7 +390,7 @@ namespace ft
 	}
 
 	template <class T, class A, class C>
-	int		tree<T, A, C>::get_sub_height(elem<T, T> *current)
+	int		tree<T, A, C>::get_sub_height(elem<T> *current)
 	{
 		int		left_height;
 		int		right_height;
@@ -356,11 +409,11 @@ namespace ft
 	}
 
 	template <class T, class A, class C>
-	void	tree<T, A, C>::single_oblitarate(elem<T, T> &to_delete)
+	void	tree<T, A, C>::single_oblitarate(elem<T> &to_delete)
 	{
-		elem<T, T>	*prev;
-		elem<T, T>	*tmp;
-		elem<T, T>	*substitute;
+		elem<T>	*prev;
+		elem<T>	*tmp;
+		elem<T>	*substitute;
 		int			direction;
 
 		prev = to_delete.get_parent();
@@ -388,12 +441,12 @@ namespace ft
 
 
 	template <class T, class A, class C>
-	void	tree<T, A, C>::complex_oblitarate(elem<T, T> &to_replace)
+	void	tree<T, A, C>::complex_oblitarate(elem<T> &to_replace)
 	{
-		elem<T, T>	*substitute;
-		elem<T, T>	*to_delete;
-		elem<T, T>	*prev;
-		typename elem<T, T>::value_type	save_key;
+		elem<T>	*substitute;
+		elem<T>	*to_delete;
+		elem<T>	*prev;
+		pair_type	save;
 
 		to_delete = &to_replace;
 		prev = to_replace.get_parent();
@@ -403,15 +456,15 @@ namespace ft
 			substitute = to_delete;
 			to_delete = to_delete->get_left();
 		}
-		save_key = substitute->get_key();
-		erase(save_key);
-		to_replace.set_key(save_key); //potentiel problem avec la validite des iterateurs
+		save = substitute->get_pair();
+		erase(substitute->get_pair());
+		to_replace.set_pair(save);
 	}
 
 	template <class T, class A, class C>
-	elem<T, T>	*tree<T, A, C>::oblitarate(elem<T, T> &to_delete, const int &direction)
+	elem<T>	*tree<T, A, C>::oblitarate(elem<T> &to_delete, const int &direction)
 	{
-		elem<T, T>	*prev;
+		elem<T>	*prev;
 
 		prev = to_delete.get_parent();
 		if (to_delete.get_left() == NULL && to_delete.get_right() == NULL)
@@ -429,23 +482,23 @@ namespace ft
 	}
 
 	template <class T, class A,class C>
-	typename tree<T, A, C>::node	*tree<T, A, C>::new_node(const T &val)
+	typename tree<T, A, C>::node	*tree<T, A, C>::new_node(const pair_type &val)
 	{
-		elem<T, T>		*new_one;
+		elem<T>		*new_one;
 
-		new_one = _alloc.allocate(sizeof(elem<T, T>));
+		new_one = _alloc.allocate(sizeof(node_ptr));
 		_alloc.construct(new_one, val);
 		return (new_one);
 	}
 
 	template <class T, class A,class C>
-	void	tree<T, A, C>::clear_node(elem<T, T> *to_clear)
+	void	tree<T, A, C>::clear_node(elem<T> *to_clear)
 	{
 		_size -= 1;
 		if (_size == 0)
 			_origin = NULL;
 		_alloc.destroy(to_clear);
-		_alloc.deallocate(to_clear, sizeof(elem<T, T>));
+		_alloc.deallocate(to_clear, sizeof(elem<T>));
 	}
 	
 
