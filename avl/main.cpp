@@ -6,7 +6,7 @@
 /*   By: agirona <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 18:07:24 by agirona           #+#    #+#             */
-/*   Updated: 2022/12/20 17:49:06 by agirona          ###   ########lyon.fr   */
+/*   Updated: 2022/12/20 18:59:00 by agirona          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,14 +103,38 @@ int		main(void)
 	printHelper(tree.get_origin(), "", true, true);*/
 
 	ft::elem<ft::pair<int, int> > *it = tree.get_origin();
-
+	ft::elem<ft::pair<int, int> > *prev;
 	int		count = 0;
-	while (count < 12)
+
+
+	while (it != NULL)
+	{
+		prev = it;
+		std::cout << it->get_key() << std::endl;
+		it = it->next();
+	}
+
+	std::cout << std::endl;
+	it = prev;
+
+	while (it != NULL)
+	{
+		prev = it;
+		std::cout << it->get_key() << std::endl;
+		it = it->prev();
+		count++;
+	}
+
+	std::cout << std::endl;
+	it = prev;
+
+	while (it != NULL)
 	{
 		std::cout << it->get_key() << std::endl;
 		it = it->next();
 		count++;
 	}
+
 
 
 
