@@ -1,27 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   make_pair.hpp                                      :+:      :+:    :+:   */
+/*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: agirona <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/28 18:23:37 by agirona           #+#    #+#             */
-/*   Updated: 2022/12/20 17:48:59 by agirona          ###   ########lyon.fr   */
+/*   Created: 2022/12/20 14:01:17 by agirona           #+#    #+#             */
+/*   Updated: 2022/12/20 16:59:20 by agirona          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef	MAKE_PAIR_HPP
-# define MAKE_PAIR_HPP
+#include "bidirectional_iterator.tpp"
 
-#include "pair.hpp"
-
-namespace	ft
+int		main(void)
 {
-	template <class T1,class T2>
-	pair<T1,T2> make_pair(T1 x, T2 y)
-	{
-		return (pair<T1,T2>(x,y));
-	}
+	return (0);
 }
-
-#endif
