@@ -122,19 +122,53 @@ namespace ft
 			if (current->get_right() == this)
 			{
 				current = current->get_parent();
-				while (current->get_right() != NULL)
+				while (current->get_right() == NULL)
 					current = current->get_parent();
+				if (current->get_parent() == NULL)
+					return (NULL);
 			}
-			return (current->get_parent());
+			return (current);
 		}
 		else
 		{
-		/*	while (current->get_right() == NULL || current->get_right() == this)
-				current = current->get_parent();*/
-		current = current->get_right();
-		while (current->get_left() != NULL)
+			current = current->get_right();
+			while (current->get_left() != NULL)
+				current = current->get_left();
+			return (current);
+		}
+	}
+
+	template <class T>
+	elem<T>	*elem<T>::prev()
+	{
+		elem<T>		*current;
+		elem<T>		*previous;
+
+		current = this;
+		if (current->get_left() == NULL)
+		{
+			current = current->get_parent();
+			if (current->get_left() == this)
+			{
+				previous = current;
+				current = current->get_parent();
+				while (current->get_left() == NULL ||
+						(current->get_left() != NULL && current->get_left() == previous))
+				{
+					if (current->get_parent() == NULL)
+						return (NULL);
+					previous = current;
+					current = current->get_parent();
+				}
+			}
+			return (current);
+		}
+		else
+		{
 			current = current->get_left();
-		return (current);
+			while (current->get_right() != NULL)
+				current = current->get_right();
+			return (current);
 		}
 	}
 };

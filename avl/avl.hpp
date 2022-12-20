@@ -6,7 +6,7 @@
 /*   By: agirona <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 17:40:51 by agirona           #+#    #+#             */
-/*   Updated: 2022/12/20 17:48:57 by agirona          ###   ########lyon.fr   */
+/*   Updated: 2022/12/20 18:58:51 by agirona          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ namespace ft
 			value_type	get_value() const;
 			pair_type	get_pair() const;
 			elem		*next();
+			elem		*prev();
 			
 
 		private :
