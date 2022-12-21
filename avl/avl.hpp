@@ -6,7 +6,7 @@
 /*   By: agirona <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 17:40:51 by agirona           #+#    #+#             */
-/*   Updated: 2022/12/20 18:58:51 by agirona          ###   ########lyon.fr   */
+/*   Updated: 2022/12/21 19:38:27 by agirona          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ namespace ft
 	};
 
 
-	template <class T, class Alloc = std::allocator<elem<T> >, class compare = std::less<typename T::first_type> >
+	template <class T, class compare = std::less<typename T::first_type>, class Alloc = std::allocator<elem<T> > >
 	class	tree
 	{
 		public :
