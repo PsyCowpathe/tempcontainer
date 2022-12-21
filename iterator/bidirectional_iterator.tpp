@@ -17,7 +17,7 @@
 namespace ft
 {
 	template <class T>
-	bidirectional_iterator<T>::bidirectional_iterator() : _it(NULL)
+	bidirectional_iterator<T>::bidirectional_iterator() : _it()
 	{
 
 	}
@@ -37,7 +37,7 @@ namespace ft
 	template <class T>
 	bidirectional_iterator<T> &bidirectional_iterator<T>::operator=(const bidirectional_iterator<T> &copy)
 	{
-		_it = copy.it;
+		_it = copy._it;
 		return (*this);
 	}
 

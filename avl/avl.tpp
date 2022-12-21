@@ -19,7 +19,7 @@
 namespace ft
 {
 	template <class T>
-	elem<T>::elem() : _pair(NULL), _parent(NULL), _left(NULL), _right(NULL)
+	elem<T>::elem() : _pair(), _parent(NULL), _left(NULL), _right(NULL)
 	{
 
 	}

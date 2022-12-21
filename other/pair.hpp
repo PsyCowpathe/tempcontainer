@@ -6,7 +6,7 @@
 /*   By: agirona <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/28 17:12:49 by agirona           #+#    #+#             */
-/*   Updated: 2022/12/20 17:48:58 by agirona          ###   ########lyon.fr   */
+/*   Updated: 2022/12/21 19:38:28 by agirona          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,13 +40,16 @@ namespace	ft
 
 		}
 
-		pair	&operator=(const pair &pr)
-		{
-			first = pr.first;
-			second = pr.second;
-			return (*this);
-		}
+		pair	&operator=(const pair &pr);
 	};
+
+	template <class T1, class T2>
+	pair<T1, T2>& pair<T1, T2>::operator=(const pair& pr)
+	{
+		first = pr.first;
+		second = pr.second;
+		return *this;
+	}
 
 	template <class T1, class T2>
 	bool operator== (const pair<T1,T2> &lhs, const pair<T1,T2> &rhs)
