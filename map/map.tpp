@@ -24,15 +24,27 @@ namespace ft
 	}
 
 	template <class K, class T, class C, class A>
+	typename map<K, T, C, A>::reverse_iterator	map<K, T, C, A>::rbegin()
+	{
+		return (reverse_iterator(end()));
+	}
+
+	template <class K, class T, class C, class A>
 	typename map<K, T, C, A>::iterator	map<K, T, C, A>::end()
 	{
 		return (_tree.end());
 	}
 
 	template <class K, class T, class C, class A>
-	void	map<K, T, C, A>::insert(const value_type &val)
+	void	map<K, T, C, A>::insert(const used_value_type &val)
 	{
 		_tree.insert(val);
+	}
+
+	template <class K, class T, class C, class A>
+	void	map<K, T, C, A>::erase(const used_value_type &val)
+	{
+		_tree.erase(val);
 	}
 };
 
