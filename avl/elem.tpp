@@ -122,9 +122,9 @@ namespace ft
 			if (current->get_right() == this)
 			{
 				current = current->get_parent();
-				while (current->get_right() == NULL)
+				while (current && current->get_right() == NULL)
 					current = current->get_parent();
-				if (current->get_parent() == NULL)
+				if (current && current->get_parent() == NULL)
 					return (NULL);
 			}
 			return (current);
