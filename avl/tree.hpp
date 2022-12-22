@@ -6,7 +6,7 @@
 /*   By: agirona <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 17:40:51 by agirona           #+#    #+#             */
-/*   Updated: 2022/12/22 13:23:41 by agirona          ###   ########lyon.fr   */
+/*   Updated: 2022/12/22 15:51:45 by agirona          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,11 @@ namespace ft
 			size_t			_size;
 			allocator_type	_alloc;
 			cmp_type		cmp;
+			node			*_real_end;
+			node			*_max;
 
+
+			void		is_new_max(const pair_type &val, node *new_one);
 			node		*new_node(const pair_type &val);
 			elem<T>		*oblitarate(elem<T> &to_delete, const int &direction);
 			void		single_oblitarate(elem<T> &to_delete);

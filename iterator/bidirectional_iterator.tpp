@@ -61,7 +61,7 @@ namespace ft
 	}
 
 	template <class T>
-	typename bidirectional_iterator<T>::reference	bidirectional_iterator<T>::operator*() const //nop
+	typename bidirectional_iterator<T>::reference	bidirectional_iterator<T>::operator*() const
 	{
 		return (*_pair);
 	}
@@ -73,14 +73,14 @@ namespace ft
 	}
 
 	template <class T>
-	bidirectional_iterator<T>	&bidirectional_iterator<T>::operator++() //it++ //nop
+	bidirectional_iterator<T>	&bidirectional_iterator<T>::operator++()
 	{
 		_it = _it->next();
 		return (*this);
 	}
 
 	template <class T>
-	bidirectional_iterator<T>	bidirectional_iterator<T>::operator++(int) //++it //nop
+	bidirectional_iterator<T>	bidirectional_iterator<T>::operator++(int)
 	{
 		bidirectional_iterator	tmp = *this;
 		_it = _it->next();
@@ -90,14 +90,15 @@ namespace ft
 	template <class T>
 	bidirectional_iterator<T>	&bidirectional_iterator<T>::operator--() //nop
 	{
-		return (_it->prev()->get_pair());
+		_it = _it->prev();
+		return (*this);
 	}
 
 	template <class T>
 	bidirectional_iterator<T>	bidirectional_iterator<T>::operator--(int) //nop
 	{
 		bidirectional_iterator	tmp = *this;
-		_it->prev();
+		_it = _it->prev();
 		return (tmp);
 	}
 

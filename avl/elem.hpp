@@ -6,7 +6,7 @@
 /*   By: agirona <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 12:00:47 by agirona           #+#    #+#             */
-/*   Updated: 2022/12/22 13:23:40 by agirona          ###   ########lyon.fr   */
+/*   Updated: 2022/12/22 15:51:41 by agirona          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,12 +35,16 @@ namespace ft
 			void 		set_key(const key_type &key);
 			void 		set_value(const value_type &value);
 			void 		set_pair(const pair_type &pair);
+			void 		set_end(elem *end);
+			void 		set_print(const bool printable);
 			elem		*get_parent() const;
 			elem		*get_left() const;
 			elem		*get_right() const;
+			elem		*get_end() const;
 			key_type	get_key() const;
 			value_type	get_value() const;
 			pair_type	*get_pair();
+			bool		get_print() const;
 			elem		*next();
 			elem		*prev();
 			
@@ -50,6 +54,8 @@ namespace ft
 			elem		*_parent;
 			elem		*_left;
 			elem		*_right;
+			elem		*_end;
+			bool		_printable;
 	};
 }
 

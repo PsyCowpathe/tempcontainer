@@ -23,6 +23,7 @@ namespace ft
 	{
 		_origin = NULL;
 		_size = 0;
+		_max = NULL;
 	}
 
 	template <class T, class A, class C>
@@ -61,7 +62,35 @@ namespace ft
 			prev->set_right(new_one);
 		else
 			_origin = new_one;
+		is_new_max(val, new_one);
 		balancing(new_one->get_parent());
+	}
+
+
+	template <class T, class A,class C>
+	void	tree<T, A, C>::is_new_max(const pair_type &val, node *last_add)
+	{
+		elem<T>		*tmp;
+
+		if (_max == NULL)
+		{
+			tmp = new_node(val); 
+			_max = last_add;
+			last_add->set_end(tmp);
+			tmp->set_parent(last_add);
+			_real_end = tmp;
+			_real_end->set_print(0);
+		}
+		else
+		{
+			if (cmp(_max->get_pair()->first, last_add->get_pair()->first))
+			{
+				_max->set_end(NULL);
+				_max = last_add;
+				_max->set_end(_real_end);
+				_real_end->set_parent(_max);
+			}
+		}
 	}
 
 	template <class T, class A,class C>
@@ -105,9 +134,9 @@ namespace ft
 	template <class T, class A, class C>
 	typename tree<T, A, C>::iterator	tree<T, A, C>::end()
 	{
-		iterator	it(maxi());
+		/*iterator	it(maxi());*/
 
-		return (++it);
+		return (_real_end);
 	}
 
 	//private
