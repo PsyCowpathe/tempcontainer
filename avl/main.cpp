@@ -6,11 +6,11 @@
 /*   By: agirona <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 18:07:24 by agirona           #+#    #+#             */
-/*   Updated: 2022/12/20 18:59:00 by agirona          ###   ########lyon.fr   */
+/*   Updated: 2022/12/22 12:07:48 by agirona          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "avl.tpp"
+# include "tree.tpp"
 
 void printHelper(ft::tree<ft::pair<int, int> >::node *root, std::string indent, bool last, bool first) 
 {

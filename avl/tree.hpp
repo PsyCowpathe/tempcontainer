@@ -1,70 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   avl.hpp                                            :+:      :+:    :+:   */
+/*   tree.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: agirona <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 17:40:51 by agirona           #+#    #+#             */
-/*   Updated: 2022/12/21 19:38:27 by agirona          ###   ########lyon.fr   */
+/*   Updated: 2022/12/22 12:58:12 by agirona          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef AVL_HPP
-# define AVL_HPP
+#ifndef TREE_HPP
+# define TREE_HPP
 
 # include <iostream>
-# include "../iterator/random_access_iterator.tpp"
+# include "../iterator/bidirectional_iterator.tpp"
 # include "../other/pair.hpp"
-#include "../other/make_pair.hpp"
+# include "../other/make_pair.hpp"
+# include "elem.tpp"
 
 namespace ft
 {
-	template <class T>
-	class	elem
-	{
-		public :
-			typedef	typename T::first_type		key_type;
-			typedef	typename T::second_type		value_type;
-			typedef	T							pair_type;
-
-			elem();
-			elem(const pair_type &pair);
-			~elem();
-
-			void 		set_parent(elem *parent);
-			void 		set_left(elem *left);
-			void 		set_right(elem *right);
-			void 		set_key(const key_type &key);
-			void 		set_value(const value_type &value);
-			void 		set_pair(const pair_type &pair);
-			elem		*get_parent() const;
-			elem		*get_left() const;
-			elem		*get_right() const;
-			key_type	get_key() const;
-			value_type	get_value() const;
-			pair_type	get_pair() const;
-			elem		*next();
-			elem		*prev();
-			
-
-		private :
-			pair_type	_pair;
-			elem		*_parent;
-			elem		*_left;
-			elem		*_right;
-	};
-
-
 	template <class T, class compare = std::less<typename T::first_type>, class Alloc = std::allocator<elem<T> > >
 	class	tree
 	{
 		public :
-			typedef	elem<T>								node;
-			typedef	elem<T>								*node_ptr;
-			typedef	Alloc								allocator_type;
-			typedef compare								cmp_type;
-			typedef	T									pair_type;
+			typedef	elem<T>									node;
+			typedef	elem<T>									*node_ptr;
+			typedef	Alloc									allocator_type;
+			typedef compare									cmp_type;
+			typedef	T										pair_type;
+			typedef	bidirectional_iterator<pair_type>		iterator;
 
 			tree();
 			~tree();
@@ -72,6 +38,8 @@ namespace ft
 			void 		insert(const pair_type &val);
 			void 		erase(const pair_type &val);
 			node		*get_origin();
+			iterator	begin();
+			iterator	end();
 
 		private :
 			node			*_origin;
@@ -91,6 +59,8 @@ namespace ft
 			void		LR_rotate(elem<T> *grandpa, elem<T> *parent, elem<T> *child);
 			void		RL_rotate(elem<T> *grandpa, elem<T> *parent, elem<T> *child);
 			void		choose_rotate(elem<T> *current, int factor);
+			node		*mini() const;
+			node		*maxi() const;
 
 	};
 };

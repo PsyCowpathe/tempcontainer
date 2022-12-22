@@ -6,14 +6,15 @@
 /*   By: agirona <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/20 12:16:10 by agirona           #+#    #+#             */
-/*   Updated: 2022/12/21 19:38:27 by agirona          ###   ########lyon.fr   */
+/*   Updated: 2022/12/22 12:58:11 by agirona          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef		BIDIRECTIONAL_ITERATOR_HPP
 # define 	BIDIRECTIONAL_ITERATOR_HPP
 
-# include "../avl/avl.tpp"
+# include "../avl/elem.tpp"
+# include "../iterator/iterator_traits.hpp"
 
 namespace ft
 {
@@ -32,12 +33,13 @@ namespace ft
 			//CONSTRUCTORS
 			bidirectional_iterator();
 			bidirectional_iterator(const bidirectional_iterator &copy);
+			bidirectional_iterator(elem_type *copy);
 			~bidirectional_iterator();
 
 			bidirectional_iterator	&operator=(const bidirectional_iterator &copy); // avoir si le dereferencement est gerer
 
 			bool	operator==(const const_it &rhs) const;
-			bool	operator!=(const const_it &rhs) const;
+			bool	operator!=(const bidirectional_iterator &rhs) const;
 
 			reference	operator*() const;
 			pointer		operator->() const;
@@ -49,8 +51,8 @@ namespace ft
 
 		private :
 
-			//pointer		_it;
-			elem_type	_it;
+			elem_type	*_it;
+			pointer		_pair;
 	};
 };
 

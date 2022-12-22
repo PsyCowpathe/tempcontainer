@@ -6,7 +6,7 @@
 /*   By: agirona <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/21 18:54:40 by agirona           #+#    #+#             */
-/*   Updated: 2022/12/21 19:38:42 by agirona          ###   ########lyon.fr   */
+/*   Updated: 2022/12/22 12:47:58 by agirona          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,5 +24,11 @@ int		main(void)
 	test.insert(ft::make_pair<int, int>(2, 10));
 
 	it = test.begin();
+	ite = test.end();
+	while (it != ite)
+	{
+		std::cout << "it = " << it->first << std::endl;
+		it++;
+	}
 	return (0);
 }
