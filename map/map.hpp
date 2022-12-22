@@ -6,7 +6,7 @@
 /*   By: agirona <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/21 18:48:16 by agirona           #+#    #+#             */
-/*   Updated: 2022/12/22 15:51:46 by agirona          ###   ########lyon.fr   */
+/*   Updated: 2022/12/22 17:16:47 by agirona          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,11 @@ namespace ft
 			typedef	ptrdiff_t										difference_type;
 			typedef	size_t											size_type;
 
-			iterator	begin();
-			iterator	end();
-			void		insert(const value_type &val);
+			iterator			begin();
+			reverse_iterator	rbegin();
+			iterator			end();
+			void				insert(const used_value_type &val);
+			void				erase(const used_value_type &val);
 			//value_compare value_comp() const;
 			
 		private :
