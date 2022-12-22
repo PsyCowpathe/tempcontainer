@@ -19,13 +19,13 @@
 namespace ft
 {
 	template <class T>
-	elem<T>::elem() : _pair(), _parent(NULL), _left(NULL), _right(NULL)
+	elem<T>::elem() : _pair(), _parent(NULL), _left(NULL), _right(NULL), _end(NULL), _printable(1)
 	{
 
 	}
 
 	template <class T>
-	elem<T>::elem(const pair_type &pair) : _pair(pair), _parent(NULL), _left(NULL), _right(NULL)
+	elem<T>::elem(const pair_type &pair) : _pair(pair), _parent(NULL), _left(NULL), _right(NULL), _end(NULL), _printable(1)
 	{
 
 	}
@@ -75,6 +75,18 @@ namespace ft
 	}
 
 	template <class T>
+	void	elem<T>::set_end(elem *end)
+	{
+		_end = end;
+	}
+
+	template <class T>
+	void	elem<T>::set_print(const bool printable)
+	{
+		_printable = printable;
+	}
+
+	template <class T>
 	elem<T>	*elem<T>::get_parent() const
 	{
 		return (_parent); 
@@ -107,7 +119,22 @@ namespace ft
 	template <class T>
 	typename elem<T>::pair_type	*elem<T>::get_pair()
 	{
-		return (&_pair); 
+		if (get_print() == 1)
+			return (&_pair); 
+		else
+			return (NULL);
+	}
+
+	template <class T>
+	elem<T>	*elem<T>::get_end() const
+	{
+		return (_end);
+	}
+
+	template <class T>
+	bool	elem<T>::get_print() const
+	{
+		return (_printable);
 	}
 
 	template <class T>
@@ -171,64 +198,6 @@ namespace ft
 			return (current);
 		}
 	}
-
-
-
-	/*template <class T>
-		elem<T>    *elem<T>::mini1(elem<T> *search)
-        {
-            if (search->_left == NULL)
-                return (search);
-            while (search->_left)
-                search = search->_left;
-            return (search);
-        }
-
-	template <class T>
-        elem<T>    *elem<T>::maxi1(elem<T> *search)
-        {
-            if (search->_right == NULL)
-                return (search);
-            while (search->_right)
-                search = search->_right;
-                
-            return (search);
-        }
-
-		template <class T>
-        elem<T> *elem<T>::next()
-        {
-            elem<T> *tmp = this;
-            if (tmp->_right)
-                return mini1(tmp->_right);
-
-            elem<T>* tmpdaddy = tmp->_parent;
-
-            while (tmpdaddy && tmp == tmpdaddy->_right)
-            {
-                tmp = tmpdaddy;
-                tmpdaddy = tmpdaddy->_parent;
-            }
-            return tmpdaddy;
-        }
-
-		template <class T>
-        elem<T> *elem<T>::prev(void)
-        {
-            elem<T> *tmp = this;
-
-            if (tmp->_left)
-                return maxi1(tmp->_left);
-
-            elem<T>* p = tmp->_parent;
-            while (p && tmp == p->_left)
-            {
-                tmp = p;
-                p = p->_parent;
-            }
-            return p;
-        }*/
-
 };
 
 #endif
