@@ -24,6 +24,12 @@ namespace ft
 	}
 
 	template <class K, class T, class C, class A>
+	typename map<K, T, C, A>::iterator	map<K, T, C, A>::end()
+	{
+		return (_tree.end());
+	}
+
+	template <class K, class T, class C, class A>
 	void	map<K, T, C, A>::insert(const value_type &val)
 	{
 		_tree.insert(val);

@@ -6,7 +6,7 @@
 /*   By: agirona <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/28 17:12:49 by agirona           #+#    #+#             */
-/*   Updated: 2022/12/21 19:38:28 by agirona          ###   ########lyon.fr   */
+/*   Updated: 2022/12/22 11:47:11 by agirona          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ namespace	ft
 	{
 		typedef T1 first_type;
 		typedef T2 second_type;
+
 		first_type			first;
 		second_type			second;
 
