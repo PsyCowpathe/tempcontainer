@@ -6,7 +6,7 @@
 /*   By: agirona <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 17:40:51 by agirona           #+#    #+#             */
-/*   Updated: 2022/12/22 15:51:45 by agirona          ###   ########lyon.fr   */
+/*   Updated: 2022/12/22 17:16:46 by agirona          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ namespace ft
 
 
 			void		is_new_max(const pair_type &val, node *new_one);
+			void		is_del_max(const pair_type &val, node *new_one);
 			node		*new_node(const pair_type &val);
 			elem<T>		*oblitarate(elem<T> &to_delete, const int &direction);
 			void		single_oblitarate(elem<T> &to_delete);

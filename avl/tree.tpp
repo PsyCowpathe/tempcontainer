@@ -68,32 +68,6 @@ namespace ft
 
 
 	template <class T, class A,class C>
-	void	tree<T, A, C>::is_new_max(const pair_type &val, node *last_add)
-	{
-		elem<T>		*tmp;
-
-		if (_max == NULL)
-		{
-			tmp = new_node(val); 
-			_max = last_add;
-			last_add->set_end(tmp);
-			tmp->set_parent(last_add);
-			_real_end = tmp;
-			_real_end->set_print(0);
-		}
-		else
-		{
-			if (cmp(_max->get_pair()->first, last_add->get_pair()->first))
-			{
-				_max->set_end(NULL);
-				_max = last_add;
-				_max->set_end(_real_end);
-				_real_end->set_parent(_max);
-			}
-		}
-	}
-
-	template <class T, class A,class C>
 	void	tree<T, A, C>::erase(const pair_type &val)
 	{
 		elem<T>		*current;
@@ -111,6 +85,7 @@ namespace ft
 			else
 			{
 				parent = current->get_parent();
+				is_del_max(val, parent);
 				current = oblitarate(*current, direction);
 				balancing(parent);
 			}
@@ -141,6 +116,51 @@ namespace ft
 
 	//private
 
+	template <class T, class A,class C>
+	void	tree<T, A, C>::is_new_max(const pair_type &val, node *last_add)
+	{
+		elem<T>		*tmp;
+
+		if (_max == NULL)
+		{
+			tmp = new_node(val); 
+			_max = last_add;
+			last_add->set_end(tmp);
+			tmp->set_parent(last_add);
+			_real_end = tmp;
+			_real_end->set_print(0);
+		}
+		else
+		{
+			if (cmp(_max->get_pair()->first, last_add->get_pair()->first))
+			{
+				_max->set_end(NULL);
+				_max = last_add;
+				_max->set_end(_real_end);
+				_real_end->set_parent(_max);
+			}
+		}
+		/*std::cout << "max = " << _max->get_pair()->first << std::endl;
+		std::cout << "real = " << _real_end->get_parent()->get_pair()->first << std::endl << std::endl;*/
+	}
+
+	template <class T, class A,class C>
+	void	tree<T, A, C>::is_del_max(const pair_type &val, node *to_delete)
+	{
+		if (to_delete == NULL)
+			return ;
+		if (cmp(_max->get_pair()->first, val.first))
+			return ;
+		else if (cmp(val.first, _max->get_pair()->first))
+			return ;
+		else
+		{
+			_max->set_end(NULL);
+			_max = _max->get_parent();
+			_max->set_end(_real_end);
+			_real_end->set_parent(_max);
+		}
+	}
 
 	template <class T, class A, class C>
 	typename tree<T, A, C>::node	*tree<T, A, C>::mini() const
@@ -401,8 +421,8 @@ namespace ft
 			substitute = to_delete;
 			to_delete = to_delete->get_left();
 		}
-		save = substitute->get_pair();
-		erase(substitute->get_pair());
+		save = *substitute->get_pair();
+		erase(*substitute->get_pair());
 		to_replace.set_pair(save);
 	}
 
