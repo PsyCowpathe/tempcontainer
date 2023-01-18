@@ -18,12 +18,14 @@
 
 namespace ft
 {
+
 	template <class T, class A, class C>
 	tree<T, A, C>::tree()
 	{
 		_origin = NULL;
 		_size = 0;
 		_max = NULL;
+		_real_end = new_node(ft::pair<typename pair_type::first_type, typename pair_type::second_type>());
 	}
 
 	template <class T, class A, class C>
@@ -62,7 +64,7 @@ namespace ft
 			prev->set_right(new_one);
 		else
 			_origin = new_one;
-		is_new_max(val, new_one);
+		is_new_max(new_one);
 		balancing(new_one->get_parent());
 	}
 
@@ -93,12 +95,6 @@ namespace ft
 	}
 
 	template <class T, class A, class C>
-	typename tree<T, A, C>::node	*tree<T, A, C>::get_origin()
-	{
-		return (_origin);
-	}
-
-	template <class T, class A, class C>
 	typename tree<T, A, C>::iterator	tree<T, A, C>::begin()
 	{
 		iterator	it(mini());
@@ -117,18 +113,15 @@ namespace ft
 	//private
 
 	template <class T, class A,class C>
-	void	tree<T, A, C>::is_new_max(const pair_type &val, node *last_add)
+	void	tree<T, A, C>::is_new_max(node *last_add)
 	{
-		elem<T>		*tmp;
-
 		if (_max == NULL)
 		{
-			tmp = new_node(val); 
 			_max = last_add;
-			last_add->set_end(tmp);
-			tmp->set_parent(last_add);
-			_real_end = tmp;
+			last_add->set_end(_real_end);
+			_real_end->set_parent(last_add);
 			_real_end->set_print(0);
+			last_add->set_ptr_last(_max);
 		}
 		else
 		{
@@ -138,11 +131,27 @@ namespace ft
 				_max = last_add;
 				_max->set_end(_real_end);
 				_real_end->set_parent(_max);
+				change_max();
 			}
 		}
-		/*std::cout << "max = " << _max->get_pair()->first << std::endl;
-		std::cout << "real = " << _real_end->get_parent()->get_pair()->first << std::endl << std::endl;*/
+
+		//std::cout << "max = " << _max->get_pair()->first << std::endl;
+
+		//std::cout << "real = " << _real_end->get_parent()->get_pair()->first << std::endl << std::endl;*/
 	}
+
+	template <class T, class A, class C>
+  	void tree<T, A, C>::change_max()
+    {
+		node_ptr tmp = mini();
+		while (tmp != _max)
+		{
+			tmp->set_end(_real_end);
+			tmp->set_ptr_last(_max);
+			tmp = tmp->next();
+		}
+		_max->set_ptr_last(_max);
+     }
 
 	template <class T, class A,class C>
 	void	tree<T, A, C>::is_del_max(const pair_type &val, node *to_delete)
@@ -159,6 +168,7 @@ namespace ft
 			_max = _max->get_parent();
 			_max->set_end(_real_end);
 			_real_end->set_parent(_max);
+			change_max();
 		}
 	}
 
@@ -453,6 +463,8 @@ namespace ft
 
 		new_one = _alloc.allocate(sizeof(node_ptr));
 		_alloc.construct(new_one, val);
+		if (_max != NULL)
+			new_one->set_ptr_last(_max);
 		return (new_one);
 	}
 

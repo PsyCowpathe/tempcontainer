@@ -19,13 +19,13 @@
 namespace ft
 {
 	template <class T>
-	elem<T>::elem() : _pair(), _parent(NULL), _left(NULL), _right(NULL), _end(NULL), _printable(1)
+	elem<T>::elem() : _pair(), _parent(NULL), _left(NULL), _right(NULL), _end(NULL), _ptr_last(NULL), _printable(1)
 	{
 
 	}
 
 	template <class T>
-	elem<T>::elem(const pair_type &pair) : _pair(pair), _parent(NULL), _left(NULL), _right(NULL), _end(NULL), _printable(1)
+	elem<T>::elem(const pair_type &pair) : _pair(pair), _parent(NULL), _left(NULL), _right(NULL), _end(NULL), _ptr_last(NULL), _printable(1)
 	{
 
 	}
@@ -87,6 +87,12 @@ namespace ft
 	}
 
 	template <class T>
+	void	elem<T>::set_ptr_last(elem<T> *ptr)
+	{
+		_ptr_last = ptr;
+	}
+
+	template <class T>
 	elem<T>	*elem<T>::get_parent() const
 	{
 		return (_parent); 
@@ -138,11 +144,19 @@ namespace ft
 	}
 
 	template <class T>
+	elem<T>	*elem<T>::get_ptr_last() const
+	{
+		return (_ptr_last);
+	}
+
+	template <class T>
 	elem<T>	*elem<T>::next()
 	{
 		elem<T>		*current;
 
 		current = this;
+		if (current == _ptr_last)
+			return (_end);
 		if (current->get_right() == NULL)
 		{
 			current = current->get_parent();

@@ -6,7 +6,7 @@
 /*   By: agirona <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 17:40:51 by agirona           #+#    #+#             */
-/*   Updated: 2022/12/22 17:16:46 by agirona          ###   ########lyon.fr   */
+/*   Updated: 2023/01/18 17:14:21 by agirona          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ namespace ft
 
 			void 		insert(const pair_type &val);
 			void 		erase(const pair_type &val);
-			node		*get_origin();
 			iterator	begin();
 			iterator	end();
 
@@ -46,11 +45,11 @@ namespace ft
 			size_t			_size;
 			allocator_type	_alloc;
 			cmp_type		cmp;
-			node			*_real_end;
-			node			*_max;
+			node			*_real_end; //pointer on an empty node at the end of the tree
+			node			*_max; //pointer on a node with the highter value in the tree
 
 
-			void		is_new_max(const pair_type &val, node *new_one);
+			void		is_new_max(node *new_one);
 			void		is_del_max(const pair_type &val, node *new_one);
 			node		*new_node(const pair_type &val);
 			elem<T>		*oblitarate(elem<T> &to_delete, const int &direction);
@@ -66,6 +65,7 @@ namespace ft
 			void		choose_rotate(elem<T> *current, int factor);
 			node		*mini() const;
 			node		*maxi() const;
+			void		change_max();
 
 	};
 };
