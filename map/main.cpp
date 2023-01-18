@@ -6,7 +6,7 @@
 /*   By: agirona <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/21 18:54:40 by agirona           #+#    #+#             */
-/*   Updated: 2022/12/22 17:16:55 by agirona          ###   ########lyon.fr   */
+/*   Updated: 2023/01/18 17:14:15 by agirona          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,12 @@ int		main(void)
 	ft::map<int, int>::iterator	ite;
 	ft::map<int, int>::reverse_iterator	rite;
 
-	test.insert(ft::make_pair<int, int>(10, 10));
+	test.insert(ft::make_pair<int, int>(8, 10));
 	test.insert(ft::make_pair<int, int>(15, 10));
 	test.insert(ft::make_pair<int, int>(18, 10));
 	test.insert(ft::make_pair<int, int>(2, 10));
-	test.erase(ft::make_pair<int, int>(15, 10));
+	
+	/*test.erase(ft::make_pair<int, int>(15, 10));
 
 	it = test.begin();
 	ite = test.end();
@@ -39,6 +40,14 @@ int		main(void)
 	{
 		std::cout << "it = " << ite->first << std::endl;
 		ite--;
+	}*/
+
+	it = test.begin();
+	ite = test.end();
+	while (it != ite)
+	{
+		std::cout << "it = " << it->first << std::endl;
+		it++;
 	}
 	return (0);
 }
