@@ -42,6 +42,7 @@ namespace ft
 		elem<T>		*new_one;
 		int			direction;
 
+		std::cout << "insert of : " << val.first << std::endl;
 		current = _origin;
 		prev = NULL;
 		direction = 0;
@@ -66,6 +67,7 @@ namespace ft
 			_origin = new_one;
 		is_new_max(new_one);
 		balancing(new_one->get_parent());
+		std::cout << "max = " << new_one->get_ptr_last()->get_pair()->first << std::endl;
 	}
 
 
@@ -105,8 +107,6 @@ namespace ft
 	template <class T, class A, class C>
 	typename tree<T, A, C>::iterator	tree<T, A, C>::end()
 	{
-		/*iterator	it(maxi());*/
-
 		return (_real_end);
 	}
 
@@ -122,6 +122,7 @@ namespace ft
 			_real_end->set_parent(last_add);
 			_real_end->set_print(0);
 			last_add->set_ptr_last(_max);
+			std::cout << "[is new] ptr last set for : " << last_add->get_pair()->first << " at : " << last_add->get_ptr_last()->get_pair()->first << std::endl;
 		}
 		else
 		{
@@ -141,6 +142,7 @@ namespace ft
 	}
 
 	template <class T, class A, class C>
+
   	void tree<T, A, C>::change_max()
     {
 		node_ptr tmp = mini();
@@ -148,9 +150,11 @@ namespace ft
 		{
 			tmp->set_end(_real_end);
 			tmp->set_ptr_last(_max);
+			std::cout << "[change] ptr last set for : " << tmp->get_pair()->first << " at : " << tmp->get_ptr_last()->get_pair()->first << std::endl;
 			tmp = tmp->next();
 		}
 		_max->set_ptr_last(_max);
+		std::cout << "[change] ptr last set for : " << _max->get_pair()->first << " at : " << _max->get_ptr_last()->get_pair()->first << std::endl;
      }
 
 	template <class T, class A,class C>
@@ -464,7 +468,10 @@ namespace ft
 		new_one = _alloc.allocate(sizeof(node_ptr));
 		_alloc.construct(new_one, val);
 		if (_max != NULL)
+		{
 			new_one->set_ptr_last(_max);
+			std::cout << "[new] ptr last set for : " << new_one->get_pair()->first << " at : " << new_one->get_ptr_last()->get_pair()->first << std::endl;
+		}
 		return (new_one);
 	}
 

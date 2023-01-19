@@ -6,7 +6,7 @@
 /*   By: agirona <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 12:00:47 by agirona           #+#    #+#             */
-/*   Updated: 2023/01/18 17:14:21 by agirona          ###   ########lyon.fr   */
+/*   Updated: 2023/01/19 13:04:09 by agirona          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,13 @@ namespace ft
 			typedef	typename T::second_type		value_type;
 			typedef	T							pair_type;
 
+			//====		Constructors && Destructor		====
+
 			elem();
 			elem(const pair_type &pair);
 			~elem();
+
+			//====		Setters		====
 
 			void 		set_parent(elem *parent);
 			void 		set_left(elem *left);
@@ -38,6 +42,9 @@ namespace ft
 			void 		set_end(elem *end);
 			void 		set_print(const bool printable);
 			void		set_ptr_last(elem *ptr);
+
+			//====		Getters		====
+
 			elem		*get_parent() const;
 			elem		*get_left() const;
 			elem		*get_right() const;
@@ -47,6 +54,9 @@ namespace ft
 			pair_type	*get_pair();
 			bool		get_print() const;
 			elem		*get_ptr_last() const;
+			
+			//====		Iterators		====
+
 			elem		*next();
 			elem		*prev();
 			
@@ -59,6 +69,9 @@ namespace ft
 			elem		*_end; //pointer of real_end tree's variable 
 			elem		*_ptr_last;// pointer of max tree's variable
 			bool		_printable;
+
+			elem	*mini(elem *start) const;
+			elem	*maxi(elem *start) const;
 	};
 }
 
