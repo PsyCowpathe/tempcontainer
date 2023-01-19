@@ -6,7 +6,7 @@
 /*   By: agirona <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/21 18:54:40 by agirona           #+#    #+#             */
-/*   Updated: 2023/01/18 17:14:15 by agirona          ###   ########lyon.fr   */
+/*   Updated: 2023/01/19 13:04:15 by agirona          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,17 @@ int		main(void)
 	test.insert(ft::make_pair<int, int>(15, 10));
 	test.insert(ft::make_pair<int, int>(18, 10));
 	test.insert(ft::make_pair<int, int>(2, 10));
+	test.insert(ft::make_pair<int, int>(6, 10));
+	test.insert(ft::make_pair<int, int>(4, 10));
+	test.insert(ft::make_pair<int, int>(28, 10));
 	
-	/*test.erase(ft::make_pair<int, int>(15, 10));
-
+	test.erase(ft::make_pair<int, int>(15, 10));
+	test.erase(ft::make_pair<int, int>(18, 10));
+	test.erase(ft::make_pair<int, int>(8, 10));
+	test.erase(ft::make_pair<int, int>(2, 10));
+	test.erase(ft::make_pair<int, int>(4, 10));
+	test.erase(ft::make_pair<int, int>(28, 10));
+/*
 	it = test.begin();
 	ite = test.end();
 	std::cout << "start =" << it->first << std::endl;
@@ -44,6 +52,7 @@ int		main(void)
 
 	it = test.begin();
 	ite = test.end();
+	std::cout << std::endl << "START OF PRINT" << std::endl;
 	while (it != ite)
 	{
 		std::cout << "it = " << it->first << std::endl;
