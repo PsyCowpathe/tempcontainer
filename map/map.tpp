@@ -18,11 +18,11 @@
 namespace ft
 {
 
-explicit map (const key_compare& comp = key_compare(),              const allocator_type& alloc = allocator_type());
+/*explicit map (const key_compare& comp = key_compare(),              const allocator_type& alloc = allocator_type());
 range (2)	
 template <class InputIterator>  map (InputIterator first, InputIterator last,       const key_compare& comp = key_compare(),       const allocator_type& alloc = allocator_type());
 copy (3)	
-map (const map& x);
+map (const map& x);*/
 
 	template <class K, class T, class C, class A>
 	typename map<K, T, C, A>::iterator	map<K, T, C, A>::begin()
@@ -52,6 +52,25 @@ map (const map& x);
 	void	map<K, T, C, A>::erase(const used_value_type &val)
 	{
 		_tree.erase(val);
+	}
+
+	template <class K, class T, class C, class A>
+	void	map<K, T, C, A>::erase(iterator first, iterator last)
+	{
+		iterator	it;
+
+		it = first;
+		while (first != last)
+		{
+			std::cout << "je veux delete " << first->first << std::endl;
+			_tree.erase(*first);
+			std::cout << "j'ai delete " << std::endl;
+			if (!(first != last)) //bon en gros ta pas le bon it a la sortie, cherche a comprendre, j'ai pas le fois de le faire ce soir
+			{
+				_tree.erase(*(--first));
+				return ;
+			}
+		}
 	}
 };
 

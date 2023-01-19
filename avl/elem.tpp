@@ -205,7 +205,7 @@ namespace ft
 		prev = this;
         if (prev->get_left() != NULL)
 			return (maxi(prev->get_left()));
-		current = prev->get_daddy();
+		current = prev->get_parent();
         while (current && prev == current->get_left())
        	{
 			prev = current;

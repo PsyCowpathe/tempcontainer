@@ -67,7 +67,7 @@ namespace ft
 			_origin = new_one;
 		is_new_max(new_one);
 		balancing(new_one->get_parent());
-		std::cout << "max = " << new_one->get_ptr_last()->get_pair()->first << std::endl;
+		//std::cout << "max = " << new_one->get_ptr_last()->get_pair()->first << std::endl;
 	}
 
 
@@ -93,6 +93,7 @@ namespace ft
 				current = oblitarate(*current, direction);
 				balancing(parent);
 			}
+			std::cout << "parent de real end = " << _real_end->get_parent()->get_pair()->first << std::endl;
 		}
 	}
 
@@ -122,7 +123,7 @@ namespace ft
 			_real_end->set_parent(last_add);
 			_real_end->set_print(0);
 			last_add->set_ptr_last(_max);
-			std::cout << "[is new] ptr last set for : " << last_add->get_pair()->first << " at : " << last_add->get_ptr_last()->get_pair()->first << std::endl;
+			//std::cout << "[is new] ptr last set for : " << last_add->get_pair()->first << " at : " << last_add->get_ptr_last()->get_pair()->first << std::endl;
 		}
 		else
 		{
@@ -150,11 +151,11 @@ namespace ft
 		{
 			tmp->set_end(_real_end);
 			tmp->set_ptr_last(_max);
-			std::cout << "[change] ptr last set for : " << tmp->get_pair()->first << " at : " << tmp->get_ptr_last()->get_pair()->first << std::endl;
+			//std::cout << "[change] ptr last set for : " << tmp->get_pair()->first << " at : " << tmp->get_ptr_last()->get_pair()->first << std::endl;
 			tmp = tmp->next();
 		}
 		_max->set_ptr_last(_max);
-		std::cout << "[change] ptr last set for : " << _max->get_pair()->first << " at : " << _max->get_ptr_last()->get_pair()->first << std::endl;
+		//std::cout << "[change] ptr last set for : " << _max->get_pair()->first << " at : " << _max->get_ptr_last()->get_pair()->first << std::endl;
      }
 
 	template <class T, class A,class C>
@@ -182,6 +183,8 @@ namespace ft
 		node	*current;
 
 		current = _origin;
+		if (_size == 0)
+			return (_real_end);
 		while (current != NULL && current->get_left() != NULL)
 			current = current->get_left();
 		return (current);
@@ -435,6 +438,7 @@ namespace ft
 			substitute = to_delete;
 			to_delete = to_delete->get_left();
 		}
+		std::cout << "je remplace " << to_replace.get_pair()->first << " par " << substitute->get_pair()->first << std::endl;
 		save = *substitute->get_pair();
 		erase(*substitute->get_pair());
 		to_replace.set_pair(save);
@@ -470,7 +474,7 @@ namespace ft
 		if (_max != NULL)
 		{
 			new_one->set_ptr_last(_max);
-			std::cout << "[new] ptr last set for : " << new_one->get_pair()->first << " at : " << new_one->get_ptr_last()->get_pair()->first << std::endl;
+			//std::cout << "[new] ptr last set for : " << new_one->get_pair()->first << " at : " << new_one->get_ptr_last()->get_pair()->first << std::endl;
 		}
 		return (new_one);
 	}

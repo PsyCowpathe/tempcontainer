@@ -76,6 +76,7 @@ namespace ft
 	bidirectional_iterator<T>	&bidirectional_iterator<T>::operator++()
 	{
 		_it = _it->next();
+		_pair = _it->get_pair();
 		return (*this);
 	}
 
@@ -84,6 +85,7 @@ namespace ft
 	{
 		bidirectional_iterator	tmp = *this;
 		_it = _it->next();
+		_pair = _it->get_pair();
 		return (tmp);
 	}
 
@@ -91,6 +93,7 @@ namespace ft
 	bidirectional_iterator<T>	&bidirectional_iterator<T>::operator--() //nop
 	{
 		_it = _it->prev();
+		_pair = _it->get_pair();
 		return (*this);
 	}
 
@@ -99,6 +102,7 @@ namespace ft
 	{
 		bidirectional_iterator	tmp = *this;
 		_it = _it->prev();
+		_pair = _it->get_pair();
 		return (tmp);
 	}
 
