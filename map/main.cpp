@@ -6,7 +6,7 @@
 /*   By: agirona <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/21 18:54:40 by agirona           #+#    #+#             */
-/*   Updated: 2023/01/19 13:04:15 by agirona          ###   ########lyon.fr   */
+/*   Updated: 2023/01/19 17:49:07 by agirona          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,20 +20,33 @@ int		main(void)
 	ft::map<int, int>::iterator	ite;
 	ft::map<int, int>::reverse_iterator	rite;
 
-	test.insert(ft::make_pair<int, int>(8, 10));
-	test.insert(ft::make_pair<int, int>(15, 10));
-	test.insert(ft::make_pair<int, int>(18, 10));
-	test.insert(ft::make_pair<int, int>(2, 10));
-	test.insert(ft::make_pair<int, int>(6, 10));
-	test.insert(ft::make_pair<int, int>(4, 10));
-	test.insert(ft::make_pair<int, int>(28, 10));
+	/*test.insert(ft::make_pair<int, int>(0, 10));
+	test.insert(ft::make_pair<int, int>(123, 10));
+	test.insert(ft::make_pair<int, int>(1234, 10));
+	test.insert(ft::make_pair<int, int>(4567, 10));
+	test.insert(ft::make_pair<int, int>(1, 10));
+	test.insert(ft::make_pair<int, int>(0, 10));
+	test.insert(ft::make_pair<int, int>(0, 10));
+	test.insert(ft::make_pair<int, int>(2, 10));*/
 	
-	test.erase(ft::make_pair<int, int>(15, 10));
-	test.erase(ft::make_pair<int, int>(18, 10));
-	test.erase(ft::make_pair<int, int>(8, 10));
+	test.insert(ft::make_pair<int, int>(5, 10));
+	test.insert(ft::make_pair<int, int>(8, 10));
+	test.insert(ft::make_pair<int, int>(10, 10));
+	test.insert(ft::make_pair<int, int>(11, 10));
+
+	it = test.end();
+	it--;
+	it--;
+	it--;
+
+	test.erase(it, test.end());
+
+	/*test.erase(ft::make_pair<int, int>(0, 10));
+	test.erase(ft::make_pair<int, int>(123, 10));
 	test.erase(ft::make_pair<int, int>(2, 10));
-	test.erase(ft::make_pair<int, int>(4, 10));
-	test.erase(ft::make_pair<int, int>(28, 10));
+	test.erase(ft::make_pair<int, int>(1234, 10));
+	test.erase(ft::make_pair<int, int>(4567, 10));
+	test.erase(ft::make_pair<int, int>(1, 10));*/
 /*
 	it = test.begin();
 	ite = test.end();

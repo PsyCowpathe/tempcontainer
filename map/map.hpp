@@ -6,7 +6,7 @@
 /*   By: agirona <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/21 18:48:16 by agirona           #+#    #+#             */
-/*   Updated: 2023/01/19 13:04:10 by agirona          ###   ########lyon.fr   */
+/*   Updated: 2023/01/19 17:49:04 by agirona          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ namespace ft
 			iterator			end();
 			void				insert(const used_value_type &val);
 			void				erase(const used_value_type &val);
+			void				erase(iterator first, iterator last);
 			//value_compare value_comp() const;
 			
 		private :
