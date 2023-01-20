@@ -57,19 +57,25 @@ map (const map& x);*/
 	template <class K, class T, class C, class A>
 	void	map<K, T, C, A>::erase(iterator first, iterator last)
 	{
-		iterator	it;
+		iterator	tmp1 = first;
+		iterator	tmp2 = last;
+		int			count;
 
-		it = first;
-		while (first != last)
+		//count = last - first;
+		count = 0;
+		while (tmp1 != tmp2)
+		{
+			tmp1++;
+			count++;
+		}
+		std::cout << "count = " << count << std::endl;
+		while (count != 0)
 		{
 			std::cout << "je veux delete " << first->first << std::endl;
 			_tree.erase(*first);
+			count--;
+		//	count--;
 			std::cout << "j'ai delete " << std::endl;
-			if (!(first != last)) //bon en gros ta pas le bon it a la sortie, cherche a comprendre, j'ai pas le fois de le faire ce soir
-			{
-				_tree.erase(*(--first));
-				return ;
-			}
 		}
 	}
 };

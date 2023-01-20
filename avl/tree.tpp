@@ -18,6 +18,8 @@
 
 namespace ft
 {
+	//====		Constructors && Destructor		====
+
 
 	template <class T, class A, class C>
 	tree<T, A, C>::tree()
@@ -34,6 +36,10 @@ namespace ft
 
 	}
 
+
+	//====				Modifiers				====
+
+
 	template <class T, class A, class C>
 	void	tree<T, A, C>::insert(const pair_type &val)
 	{
@@ -42,7 +48,6 @@ namespace ft
 		elem<T>		*new_one;
 		int			direction;
 
-		std::cout << "insert of : " << val.first << std::endl;
 		current = _origin;
 		prev = NULL;
 		direction = 0;
@@ -67,9 +72,7 @@ namespace ft
 			_origin = new_one;
 		is_new_max(new_one);
 		balancing(new_one->get_parent());
-		//std::cout << "max = " << new_one->get_ptr_last()->get_pair()->first << std::endl;
 	}
-
 
 	template <class T, class A,class C>
 	void	tree<T, A, C>::erase(const pair_type &val)
@@ -90,12 +93,16 @@ namespace ft
 			{
 				parent = current->get_parent();
 				is_del_max(val, parent);
-				current = oblitarate(*current, direction);
+				oblitarate(*current, direction);
 				balancing(parent);
+				return ;
 			}
-			std::cout << "parent de real end = " << _real_end->get_parent()->get_pair()->first << std::endl;
 		}
 	}
+
+
+	//====				Iterators				====
+
 
 	template <class T, class A, class C>
 	typename tree<T, A, C>::iterator	tree<T, A, C>::begin()
@@ -111,116 +118,135 @@ namespace ft
 		return (_real_end);
 	}
 
-	//private
 
-	template <class T, class A,class C>
-	void	tree<T, A, C>::is_new_max(node *last_add)
+
+	//==========			Private functions			==========
+	
+	//====					Modifiers					====
+	
+
+	template <class T, class A, class C>
+	void	tree<T, A, C>::single_oblitarate(elem<T> &to_delete)
 	{
-		if (_max == NULL)
+		elem<T>	*prev;
+		elem<T>	*tmp;
+		elem<T>	*substitute;
+		int			direction;
+
+		prev = to_delete.get_parent();
+		tmp = &to_delete;
+		substitute = to_delete.get_right();
+		if (to_delete.get_left() != NULL)
+			substitute = to_delete.get_left();
+		if (prev == NULL)
 		{
-			_max = last_add;
-			last_add->set_end(_real_end);
-			_real_end->set_parent(last_add);
-			_real_end->set_print(0);
-			last_add->set_ptr_last(_max);
-			//std::cout << "[is new] ptr last set for : " << last_add->get_pair()->first << " at : " << last_add->get_ptr_last()->get_pair()->first << std::endl;
+			_origin = substitute;
+			substitute->set_parent(NULL);
+			clear_node(&to_delete);
+			return ;
 		}
+		direction = 2;
+		if (prev->get_left()->get_key() == to_delete.get_key())
+			direction = 1;
+		clear_node(tmp);
+		if (direction == 1)
+			prev->set_left(substitute);
 		else
-		{
-			if (cmp(_max->get_pair()->first, last_add->get_pair()->first))
-			{
-				_max->set_end(NULL);
-				_max = last_add;
-				_max->set_end(_real_end);
-				_real_end->set_parent(_max);
-				change_max();
-			}
-		}
-
-		//std::cout << "max = " << _max->get_pair()->first << std::endl;
-
-		//std::cout << "real = " << _real_end->get_parent()->get_pair()->first << std::endl << std::endl;*/
+			prev->set_right(substitute);
+		substitute->set_parent(prev);
 	}
 
 	template <class T, class A, class C>
-
-  	void tree<T, A, C>::change_max()
-    {
-		node_ptr tmp = mini();
-		while (tmp != _max)
-		{
-			tmp->set_end(_real_end);
-			tmp->set_ptr_last(_max);
-			//std::cout << "[change] ptr last set for : " << tmp->get_pair()->first << " at : " << tmp->get_ptr_last()->get_pair()->first << std::endl;
-			tmp = tmp->next();
-		}
-		_max->set_ptr_last(_max);
-		//std::cout << "[change] ptr last set for : " << _max->get_pair()->first << " at : " << _max->get_ptr_last()->get_pair()->first << std::endl;
-     }
-
-	template <class T, class A,class C>
-	void	tree<T, A, C>::is_del_max(const pair_type &val, node *to_delete)
+	void	tree<T, A, C>::complex_oblitarate(elem<T> &to_replace)
 	{
-		if (to_delete == NULL)
-			return ;
-		if (cmp(_max->get_pair()->first, val.first))
-			return ;
-		else if (cmp(val.first, _max->get_pair()->first))
-			return ;
-		else
+		elem<T>	*substitute;
+		elem<T>	*to_delete;
+		elem<T>	*prev;
+		pair_type	save;
+
+		to_delete = &to_replace;
+		prev = to_replace.get_parent();
+		to_delete = to_delete->get_right();
+		while (to_delete != NULL)
 		{
-			_max->set_end(NULL);
-			_max = _max->get_parent();
-			_max->set_end(_real_end);
-			_real_end->set_parent(_max);
-			change_max();
+			substitute = to_delete;
+			to_delete = to_delete->get_left();
 		}
+		save = *substitute->get_pair();
+		erase(*substitute->get_pair());
+		to_replace.set_pair(save);
 	}
 
 	template <class T, class A, class C>
-	typename tree<T, A, C>::node	*tree<T, A, C>::mini() const
+	void	tree<T, A, C>::oblitarate(elem<T> &to_delete, const int &direction)
 	{
-		node	*current;
+		elem<T>	*prev;
 
-		current = _origin;
+		prev = to_delete.get_parent();
+		if (to_delete.get_left() == NULL && to_delete.get_right() == NULL)
+		{
+			if (_size != 1)
+				(direction == 1) ? prev->set_left(NULL) : prev->set_right(NULL);
+			clear_node(&to_delete);
+
+		}
+		else if (to_delete.get_left() != NULL && to_delete.get_right() != NULL)
+			complex_oblitarate(to_delete);
+		else
+			single_oblitarate(to_delete);
+	}
+
+
+	//====				Capacity				====
+
+
+	template <class T, class A,class C>
+	typename tree<T, A, C>::node	*tree<T, A, C>::new_node(const pair_type &val)
+	{
+		elem<T>		*new_one;
+
+		new_one = _alloc.allocate(sizeof(node_ptr));
+		_alloc.construct(new_one, val);
+		if (_max != NULL)
+			new_one->set_ptr_last(_max);
+		return (new_one);
+	}
+
+	template <class T, class A,class C>
+	void	tree<T, A, C>::clear_node(elem<T> *to_clear)
+	{
+		_size -= 1;
 		if (_size == 0)
-			return (_real_end);
-		while (current != NULL && current->get_left() != NULL)
-			current = current->get_left();
-		return (current);
+			_origin = NULL;
+		_alloc.destroy(to_clear);
+		_alloc.deallocate(to_clear, sizeof(elem<T>));
 	}
 
-	template <class T, class A, class C>
-	typename tree<T, A, C>::node	*tree<T, A, C>::maxi() const
-	{
-		node	*current;
 
-		current = _origin;
-		while (current != NULL && current->get_right() != NULL)
-			current = current->get_right();
-		return (current);
-	}
+	//====				Rotators				====
+
 
 	template <class T, class A, class C>
-	void	tree<T, A, C>::balancing(elem<T> *current)
+	void	tree<T, A, C>::LL_rotate(elem<T> *grandpa, elem<T> *parent)
 	{
-		int			left_height;
-		int			right_height;
-		int			factor;
+		elem<T>	*tie;
 
-		while (current != NULL)
+		tie = grandpa->get_parent();
+		grandpa->set_right(parent->get_left());
+		if (parent->get_left() != NULL)
+			parent->get_left()->set_parent(grandpa);
+		parent->set_left(grandpa);
+		parent->set_parent(tie);
+		grandpa->set_parent(parent);
+		if (tie == NULL)
 		{
-			left_height = 0;
-			right_height = 0;
-			if (current->get_left() != NULL)
-				left_height = 1 + get_sub_height(current->get_left());
-			if (current->get_right() != NULL)
-				right_height = 1 + get_sub_height(current->get_right());
-			factor = left_height - right_height;
-			if (factor > 1 || factor < -1)
-				choose_rotate(current, factor);
-			current = current->get_parent();
+			_origin = parent;
+			return ;
 		}
+		if (tie->get_left() == grandpa)
+			tie->set_left(parent);
+		else
+			tie->set_right(parent);
 	}
 
 	template <class T, class A, class C>
@@ -244,31 +270,6 @@ namespace ft
 			tie->set_left(parent);
 		else
 			tie->set_right(parent);
-
-	}
-
-	template <class T, class A, class C>
-	void	tree<T, A, C>::LL_rotate(elem<T> *grandpa, elem<T> *parent)
-	{
-		elem<T>	*tie;
-
-		tie = grandpa->get_parent();
-		grandpa->set_right(parent->get_left());
-		if (parent->get_left() != NULL)
-			parent->get_left()->set_parent(grandpa);
-		parent->set_left(grandpa);
-		parent->set_parent(tie);
-		grandpa->set_parent(parent);
-		if (tie == NULL)
-		{
-			_origin = parent;
-			return ;
-		}
-		if (tie->get_left() == grandpa)
-			tie->set_left(parent);
-		else
-			tie->set_right(parent);
-
 	}
 
 	template <class T, class A, class C>
@@ -372,6 +373,119 @@ namespace ft
 	}
 
 	template <class T, class A, class C>
+	void	tree<T, A, C>::balancing(elem<T> *current)
+	{
+		int			left_height;
+		int			right_height;
+		int			factor;
+
+		while (current != NULL)
+		{
+			left_height = 0;
+			right_height = 0;
+			if (current->get_left() != NULL)
+				left_height = 1 + get_sub_height(current->get_left());
+			if (current->get_right() != NULL)
+				right_height = 1 + get_sub_height(current->get_right());
+			factor = left_height - right_height;
+			if (factor > 1 || factor < -1)
+				choose_rotate(current, factor);
+			current = current->get_parent();
+		}
+	}
+
+	//====				Tools					====
+
+	
+	template <class T, class A, class C>
+	typename tree<T, A, C>::node	*tree<T, A, C>::maxi() const
+	{
+		node	*current;
+
+		current = _origin;
+		while (current != NULL && current->get_right() != NULL)
+			current = current->get_right();
+		return (current);
+	}
+
+	template <class T, class A, class C>
+	typename tree<T, A, C>::node	*tree<T, A, C>::mini() const
+	{
+		node	*current;
+
+		current = _origin;
+		if (_size == 0)
+			return (_real_end);
+		while (current != NULL && current->get_left() != NULL)
+			current = current->get_left();
+		return (current);
+	}
+
+	template <class T, class A, class C>
+  	void tree<T, A, C>::change_max()
+    {
+		node_ptr tmp = mini();
+		while (tmp != _max)
+		{
+			tmp->set_end(_real_end);
+			tmp->set_ptr_last(_max);
+			tmp = tmp->next();
+		}
+		_max->set_ptr_last(_max);
+     }
+
+	template <class T, class A,class C>
+	void	tree<T, A, C>::is_new_max(node *last_add)
+	{
+		if (_max == NULL)
+		{
+			_max = last_add;
+			last_add->set_end(_real_end);
+			_real_end->set_parent(last_add);
+			_real_end->set_print(0);
+			last_add->set_ptr_last(_max);
+		}
+		else
+		{
+			if (cmp(_max->get_pair()->first, last_add->get_pair()->first))
+			{
+				_max->set_end(NULL);
+				_max = last_add;
+				_max->set_end(_real_end);
+				_real_end->set_parent(_max);
+				change_max();
+			}
+		}
+	}
+	
+	template <class T, class A,class C>
+	void	tree<T, A, C>::is_del_max(const pair_type &val, node *to_delete)
+	{
+		if (_max == _origin)
+		{
+			_max->set_end(NULL);
+			_max = _origin->get_left();
+			_max->set_end(_real_end);
+			_real_end->set_parent(_max);
+			change_max();
+		}
+		if (to_delete == NULL)
+			return ;
+		if (cmp(_max->get_pair()->first, val.first))
+			return ;
+		else if (cmp(val.first, _max->get_pair()->first))
+			return ;
+		else
+		{
+			_max->set_end(NULL);
+			_max = _max->get_parent();
+			_max->set_end(_real_end);
+			_real_end->set_parent(_max);
+			change_max();
+		}
+	}
+
+	template <class T, class A, class C>
 	int		tree<T, A, C>::get_sub_height(elem<T> *current)
 	{
 		int		left_height;
@@ -389,107 +503,6 @@ namespace ft
 			return (left_height);
 		return (right_height);
 	}
-
-	template <class T, class A, class C>
-	void	tree<T, A, C>::single_oblitarate(elem<T> &to_delete)
-	{
-		elem<T>	*prev;
-		elem<T>	*tmp;
-		elem<T>	*substitute;
-		int			direction;
-
-		prev = to_delete.get_parent();
-		tmp = &to_delete;
-		substitute = to_delete.get_right();
-		if (to_delete.get_left() != NULL)
-			substitute = to_delete.get_left();
-		if (prev == NULL)
-		{
-			_origin = substitute;
-			substitute->set_parent(NULL);
-			clear_node(&to_delete);
-			return ;
-		}
-		direction = 2;
-		if (prev->get_left()->get_key() == to_delete.get_key())
-			direction = 1;
-		clear_node(tmp);
-		if (direction == 1)
-			prev->set_left(substitute);
-		else
-			prev->set_right(substitute);
-		substitute->set_parent(prev);
-	}
-
-
-	template <class T, class A, class C>
-	void	tree<T, A, C>::complex_oblitarate(elem<T> &to_replace)
-	{
-		elem<T>	*substitute;
-		elem<T>	*to_delete;
-		elem<T>	*prev;
-		pair_type	save;
-
-		to_delete = &to_replace;
-		prev = to_replace.get_parent();
-		to_delete = to_delete->get_right();
-		while (to_delete != NULL)
-		{
-			substitute = to_delete;
-			to_delete = to_delete->get_left();
-		}
-		std::cout << "je remplace " << to_replace.get_pair()->first << " par " << substitute->get_pair()->first << std::endl;
-		save = *substitute->get_pair();
-		erase(*substitute->get_pair());
-		to_replace.set_pair(save);
-	}
-
-	template <class T, class A, class C>
-	elem<T>	*tree<T, A, C>::oblitarate(elem<T> &to_delete, const int &direction)
-	{
-		elem<T>	*prev;
-
-		prev = to_delete.get_parent();
-		if (to_delete.get_left() == NULL && to_delete.get_right() == NULL)
-		{
-			if (_size != 1)
-				(direction == 1) ? prev->set_left(NULL) : prev->set_right(NULL);
-			clear_node(&to_delete);
-
-		}
-		else if (to_delete.get_left() != NULL && to_delete.get_right() != NULL)
-			complex_oblitarate(to_delete);
-		else
-			single_oblitarate(to_delete);
-		return (NULL);
-	}
-
-	template <class T, class A,class C>
-	typename tree<T, A, C>::node	*tree<T, A, C>::new_node(const pair_type &val)
-	{
-		elem<T>		*new_one;
-
-		new_one = _alloc.allocate(sizeof(node_ptr));
-		_alloc.construct(new_one, val);
-		if (_max != NULL)
-		{
-			new_one->set_ptr_last(_max);
-			//std::cout << "[new] ptr last set for : " << new_one->get_pair()->first << " at : " << new_one->get_ptr_last()->get_pair()->first << std::endl;
-		}
-		return (new_one);
-	}
-
-	template <class T, class A,class C>
-	void	tree<T, A, C>::clear_node(elem<T> *to_clear)
-	{
-		_size -= 1;
-		if (_size == 0)
-			_origin = NULL;
-		_alloc.destroy(to_clear);
-		_alloc.deallocate(to_clear, sizeof(elem<T>));
-	}
-	
-
 };
 
 #endif
