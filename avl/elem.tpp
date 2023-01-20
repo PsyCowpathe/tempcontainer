@@ -18,9 +18,9 @@
 
 namespace ft
 {
-
 	//====		Constructors && Destructor		====
 	
+
 	template <class T>
 	elem<T>::elem() : _pair(), _parent(NULL), _left(NULL), _right(NULL), _end(NULL), _ptr_last(NULL), _printable(1)
 	{
@@ -39,7 +39,9 @@ namespace ft
 
 	}
 
-	//====		Setters		====
+
+	//====				Setters					====
+
 
 	template <class T>
 	void	elem<T>::set_parent(elem<T> *parent)
@@ -96,7 +98,9 @@ namespace ft
 		_ptr_last = ptr;
 	}
 
-	//====		Getters		====
+
+	//====				Getters					====
+
 
 	template <class T>
 	elem<T>	*elem<T>::get_parent() const
@@ -213,79 +217,6 @@ namespace ft
         }
         return (current);
     }
-
-
-	/*template <class T>
-	elem<T>	*elem<T>::prev()
-	{
-		elem<T>		*current;
-		elem<T>		*previous;
-
-		current = this;
-		if (current->get_left() == NULL)
-		{
-			current = current->get_parent();
-			if (current->get_left() == this)
-			{
-				previous = current;
-				current = current->get_parent();
-				while (current->get_left() == NULL ||
-						(current->get_left() != NULL && current->get_left() == previous))
-				{
-					if (current->get_parent() == NULL)
-						return (NULL);
-					previous = current;
-					current = current->get_parent();
-				}
-			}
-			return (current);
-		}
-		else
-		{
-			current = current->get_left();
-			while (current->get_right() != NULL)
-				current = current->get_right();
-			return (current);
-		}
-	}
-
-	template <class T>
-	elem<T>	*elem<T>::next()
-	{
-		elem<T>		*current;
-
-		//std::cout << "hahaaa" << std::endl;
-		current = this;
-		//std::cout << "[next] val = " << current->get_pair()->first << std::endl;
-		if (current == _ptr_last)
-		{
-			//std::cout << "FIN" << std::endl;
-			return (_end);
-		}
-		if (current->get_right() == NULL)
-		{
-			//std::cout << "pas de droit" << std::endl;
-			current = current->get_parent();
-			if (current->get_right() == this)
-			{
-				//std::cout << "je viens d'ici" << std::endl;
-				current = current->get_parent();
-				while (current && current->get_right() == NULL)
-					current = current->get_parent();
-				//if (current && current->get_parent() == NULL)
-				//	return (current); //je retournais NULL mais pourquoi ?
-			}
-			return (current);
-		}
-		else
-		{
-			current = current->get_right();
-			while (current->get_left() != NULL)
-				current = current->get_left();
-			return (current);
-		}
-	}*/
-
 };
 
 #endif

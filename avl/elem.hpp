@@ -6,7 +6,7 @@
 /*   By: agirona <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 12:00:47 by agirona           #+#    #+#             */
-/*   Updated: 2023/01/19 17:49:03 by agirona          ###   ########lyon.fr   */
+/*   Updated: 2023/01/20 11:27:17 by agirona          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ namespace ft
 	class	elem
 	{
 		public :
+
 			typedef	typename T::first_type		key_type;
 			typedef	typename T::second_type		value_type;
 			typedef	T							pair_type;
@@ -31,7 +32,7 @@ namespace ft
 			elem(const pair_type &pair);
 			~elem();
 
-			//====		Setters		====
+			//====				Setters					====
 
 			void 		set_parent(elem *parent);
 			void 		set_left(elem *left);
@@ -43,7 +44,7 @@ namespace ft
 			void 		set_print(const bool printable);
 			void		set_ptr_last(elem *ptr);
 
-			//====		Getters		====
+			//====				Getters					====
 
 			elem		*get_parent() const;
 			elem		*get_left() const;
@@ -51,27 +52,26 @@ namespace ft
 			elem		*get_end() const;
 			key_type	get_key() const;
 			value_type	get_value() const;
-			pair_type	*get_pair();
+			pair_type	*get_pair(); 
 			bool		get_print() const;
 			elem		*get_ptr_last() const;
 			
-			//====		Iterators		====
+			//====				Iterators				====
 
 			elem		*next();
 			elem		*prev();
-			
 
 		private :
+
 			pair_type	_pair;
 			elem		*_parent;
 			elem		*_left;
 			elem		*_right;
-			elem		*_end; //pointer of real_end tree's variable 
+			elem		*_end; //pointer of real_end tree's variable
 			elem		*_ptr_last;// pointer of max tree's variable
 			bool		_printable;
-
-			elem	*mini(elem *start) const;
-			elem	*maxi(elem *start) const;
+			elem		*mini(elem *start) const;
+			elem		*maxi(elem *start) const;
 	};
 }
 

@@ -106,6 +106,14 @@ namespace ft
 		return (tmp);
 	}
 
+	/*template <class T>
+	typename bidirectional_iterator<T>::difference_type  bidirectional_iterator<T>::operator-(bidirectional_iterator<T> it)
+	{
+	   	return (_it - it.operator->());
+	}*/
+
+
+
 };
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: agirona <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/20 12:16:10 by agirona           #+#    #+#             */
-/*   Updated: 2023/01/19 17:49:04 by agirona          ###   ########lyon.fr   */
+/*   Updated: 2023/01/20 11:27:17 by agirona          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ namespace ft
 			bool	operator!=(const bidirectional_iterator &rhs) const;
 
 			reference	operator*() const;
+			//difference_type	operator-(bidirectional_iterator it);
 			pointer		operator->() const;
 			bidirectional_iterator	&operator++();
 			bidirectional_iterator	operator++(int);
