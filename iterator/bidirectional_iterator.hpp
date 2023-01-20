@@ -6,7 +6,7 @@
 /*   By: agirona <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/20 12:16:10 by agirona           #+#    #+#             */
-/*   Updated: 2023/01/20 11:27:17 by agirona          ###   ########lyon.fr   */
+/*   Updated: 2023/01/20 17:40:10 by agirona          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ namespace ft
 			typedef	T								&reference;
 			typedef	ptrdiff_t						difference_type;
 			typedef	iterator_traits<T>				iterator_category;
-			typedef bidirectional_iterator<const T>	const_it;
 			typedef	elem<T>							elem_type;
 
 			//CONSTRUCTORS
@@ -38,11 +37,10 @@ namespace ft
 
 			bidirectional_iterator	&operator=(const bidirectional_iterator &copy); // avoir si le dereferencement est gerer
 
-			bool	operator==(const const_it &rhs) const;
+			bool	operator==(const bidirectional_iterator &rhs) const;
 			bool	operator!=(const bidirectional_iterator &rhs) const;
 
 			reference	operator*() const;
-			//difference_type	operator-(bidirectional_iterator it);
 			pointer		operator->() const;
 			bidirectional_iterator	&operator++();
 			bidirectional_iterator	operator++(int);
@@ -50,11 +48,58 @@ namespace ft
 			bidirectional_iterator	&operator--();
 			bidirectional_iterator	operator--(int);
 
+		//private :
+
+			elem_type	*_it;
+			pointer		_pair;
+	};
+
+	template <class T>
+	class const_bidirectional_iterator
+	{
+		public :
+			typedef	T								value_type;
+			typedef	const T							*pointer;
+			typedef	const T							&reference;
+			typedef	ptrdiff_t						difference_type;
+			typedef	iterator_traits<T>				iterator_category;
+			typedef	elem<T>							elem_type;
+
+			//CONSTRUCTORS
+			const_bidirectional_iterator();
+			const_bidirectional_iterator(const const_bidirectional_iterator &copy);
+			const_bidirectional_iterator(const bidirectional_iterator<T> &copy);
+			const_bidirectional_iterator(elem_type *copy);
+			~const_bidirectional_iterator();
+
+			const_bidirectional_iterator	&operator=(const const_bidirectional_iterator &copy);
+
+			bool	operator==(const const_bidirectional_iterator &rhs) const;
+			bool	operator!=(const const_bidirectional_iterator &rhs) const;
+
+			reference	operator*() const;
+			pointer		operator->() const;
+			const_bidirectional_iterator	&operator++();
+			const_bidirectional_iterator	operator++(int);
+
+			const_bidirectional_iterator	&operator--();
+			const_bidirectional_iterator	operator--(int);
+			friend bool	operator==(const bidirectional_iterator<T> &lhs, const const_bidirectional_iterator &rhs)
+			{
+				return (lhs.operator->() == rhs.operator->());
+			}
+
+			friend bool	operator!=(const bidirectional_iterator<T> &lhs, const const_bidirectional_iterator &rhs)
+			{
+				return (lhs._it != rhs._it);
+			}
+
 		private :
 
 			elem_type	*_it;
 			pointer		_pair;
 	};
+
 };
 
 #endif

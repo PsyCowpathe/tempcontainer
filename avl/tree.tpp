@@ -105,7 +105,7 @@ namespace ft
 
 
 	template <class T, class A, class C>
-	typename tree<T, A, C>::iterator	tree<T, A, C>::begin()
+	typename tree<T, A, C>::iterator	tree<T, A, C>::begin() const
 	{
 		iterator	it(mini());
 
@@ -113,7 +113,7 @@ namespace ft
 	}
 
 	template <class T, class A, class C>
-	typename tree<T, A, C>::iterator	tree<T, A, C>::end()
+	typename tree<T, A, C>::iterator	tree<T, A, C>::end() const
 	{
 		return (_real_end);
 	}
@@ -166,11 +166,11 @@ namespace ft
 
 		to_delete = &to_replace;
 		prev = to_replace.get_parent();
-		to_delete = to_delete->get_right();
+		to_delete = to_delete->get_left();
 		while (to_delete != NULL)
 		{
 			substitute = to_delete;
-			to_delete = to_delete->get_left();
+			to_delete = to_delete->get_right();
 		}
 		save = *substitute->get_pair();
 		erase(*substitute->get_pair());
@@ -200,7 +200,7 @@ namespace ft
 	//====				Capacity				====
 
 
-	template <class T, class A,class C>
+	template <class T, class A, class C>
 	typename tree<T, A, C>::node	*tree<T, A, C>::new_node(const pair_type &val)
 	{
 		elem<T>		*new_one;
@@ -212,7 +212,7 @@ namespace ft
 		return (new_one);
 	}
 
-	template <class T, class A,class C>
+	template <class T, class A, class C>
 	void	tree<T, A, C>::clear_node(elem<T> *to_clear)
 	{
 		_size -= 1;
@@ -220,6 +220,21 @@ namespace ft
 			_origin = NULL;
 		_alloc.destroy(to_clear);
 		_alloc.deallocate(to_clear, sizeof(elem<T>));
+	}
+
+	template <class T, class A, class C>
+	void	tree<T, A, C>::clear()
+	{
+		iterator	it;
+		iterator	ite;
+
+		it = begin();
+		ite = end();
+		while (it != ite)
+		{
+			erase(*it);
+			it++;
+		}
 	}
 
 
@@ -464,6 +479,11 @@ namespace ft
 		if (_max == _origin)
 		{
 			_max->set_end(NULL);
+			if (_size == 1)
+			{
+				_max = NULL;
+				return ;
+			}
 			_max = _origin->get_left();
 			_max->set_end(_real_end);
 			_real_end->set_parent(_max);
