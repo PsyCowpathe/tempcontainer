@@ -6,7 +6,7 @@
 /*   By: agirona <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/21 18:54:40 by agirona           #+#    #+#             */
-/*   Updated: 2023/01/20 11:27:10 by agirona          ###   ########lyon.fr   */
+/*   Updated: 2023/01/20 17:40:18 by agirona          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 int		main(void)
 {
 	ft::map<int, int>	test;
+	ft::map<int, int>	neww;
 	ft::map<int, int>::iterator	it;
 	ft::map<int, int>::iterator	ite;
 	ft::map<int, int>::reverse_iterator	rite;
@@ -30,9 +31,10 @@ int		main(void)
 	test.insert(ft::make_pair<int, int>(2, 10));*/
 	
 	test.insert(ft::make_pair<int, int>(5, 10));
-	test.insert(ft::make_pair<int, int>(8, 10));
 	test.insert(ft::make_pair<int, int>(10, 10));
-	test.insert(ft::make_pair<int, int>(11, 10));
+	test.insert(ft::make_pair<int, int>(15, 10));
+	test.insert(ft::make_pair<int, int>(20, 10));
+	test.insert(ft::make_pair<int, int>(14, 10));
 
 	it = test.end();
 	it--;
@@ -40,6 +42,10 @@ int		main(void)
 	it--;
 
 	test.erase(it, test.end());
+	test.erase(ft::make_pair<int, int>(5, 10));
+
+	test.insert(ft::make_pair<int, int>(28, 10));
+	test.insert(ft::make_pair<int, int>(42, 10));
 
 	/*test.erase(ft::make_pair<int, int>(0, 10));
 	test.erase(ft::make_pair<int, int>(123, 10));
@@ -71,6 +77,8 @@ int		main(void)
 		std::cout << "it = " << it->first << std::endl;
 		it++;
 	}
+	std::cout << std::endl << "END OF PRINT" << std::endl;
+	neww = test;
 	return (0);
 }
 

@@ -6,7 +6,7 @@
 /*   By: agirona <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 17:40:51 by agirona           #+#    #+#             */
-/*   Updated: 2023/01/20 11:27:19 by agirona          ###   ########lyon.fr   */
+/*   Updated: 2023/01/20 17:40:06 by agirona          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ namespace ft
 			typedef compare									cmp_type;
 			typedef	T										pair_type;
 			typedef	bidirectional_iterator<pair_type>		iterator;
+			typedef const_bidirectional_iterator<const pair_type>					const_iterator;
 
 			//====		Constructors && Destructor		====
 
@@ -42,15 +43,18 @@ namespace ft
 
 			void 				insert(const pair_type &val);
 			void 				erase(const pair_type &val);
+			void				clear();
 
 			//====				Iterators				====
 
-			iterator			begin();
-			iterator			end();
+			iterator			begin() const;
+			iterator			end() const;
+
+
+			node				*_origin; //private !!
 
 		private :
 
-			node				*_origin;
 			size_t				_size;
 			allocator_type		_alloc;
 			cmp_type			cmp;
