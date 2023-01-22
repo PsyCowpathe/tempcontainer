@@ -22,7 +22,7 @@ namespace ft
 	
 
 	template <class T>
-	elem<T>::elem() : _pair(), _parent(NULL), _left(NULL), _right(NULL), _end(NULL), _ptr_last(NULL), _printable(1)
+	elem<T>::elem() : _pair(NULL), _parent(NULL), _left(NULL), _right(NULL), _end(NULL), _ptr_last(NULL), _printable(1)
 	{
 
 	}
@@ -44,19 +44,19 @@ namespace ft
 
 
 	template <class T>
-	void	elem<T>::set_parent(elem<T> *parent)
+	void	elem<T>::set_parent(node *parent)
 	{
 		_parent = parent;
 	}
 
 	template <class T>
-	void	elem<T>::set_left(elem<T> *left)
+	void	elem<T>::set_left(node *left)
 	{
 		_left = left;
 	}
 
 	template <class T>
-	void	elem<T>::set_right(elem<T> *right)
+	void	elem<T>::set_right(node *right)
 	{
 		_right = right;
 	}
@@ -81,7 +81,7 @@ namespace ft
 	}
 
 	template <class T>
-	void	elem<T>::set_end(elem *end)
+	void	elem<T>::set_end(node *end)
 	{
 		_end = end;
 	}
@@ -93,7 +93,7 @@ namespace ft
 	}
 
 	template <class T>
-	void	elem<T>::set_ptr_last(elem<T> *ptr)
+	void	elem<T>::set_ptr_last(node *ptr)
 	{
 		_ptr_last = ptr;
 	}
@@ -159,9 +159,8 @@ namespace ft
 		return (_ptr_last);
 	}
 
-
 	template <class T>
-	elem<T>    *elem<T>::mini(elem<T> *current) const
+	elem<T>    *elem<T>::mini(node *current) const
     {
 		if (current->get_left() == NULL)
 			return (current);
@@ -171,7 +170,7 @@ namespace ft
 	}
 
 	template <class T>
-	elem<T>		*elem<T>::maxi(elem<T> *current) const
+	elem<T>		*elem<T>::maxi(node *current) const
     {
 		if (current->get_right() == NULL)
 			return (current);

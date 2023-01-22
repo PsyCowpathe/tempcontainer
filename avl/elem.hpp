@@ -6,7 +6,7 @@
 /*   By: agirona <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 12:00:47 by agirona           #+#    #+#             */
-/*   Updated: 2023/01/20 17:40:08 by agirona          ###   ########lyon.fr   */
+/*   Updated: 2023/01/22 16:57:47 by agirona          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ namespace ft
 	{
 		public :
 
+			typedef	elem<T>						node;
 			typedef	typename T::first_type		key_type;
 			typedef	typename T::second_type		value_type;
 			typedef	T							pair_type;
@@ -34,15 +35,15 @@ namespace ft
 
 			//====				Setters					====
 
-			void 		set_parent(elem *parent);
-			void 		set_left(elem *left);
-			void 		set_right(elem *right);
+			void 		set_parent(node *parent);
+			void 		set_left(node *left);
+			void 		set_right(node *right);
 			void 		set_key(const key_type &key);
 			void 		set_value(const value_type &value);
 			void 		set_pair(const pair_type &pair);
-			void 		set_end(elem *end);
+			void 		set_end(node *end);
 			void 		set_print(const bool printable);
-			void		set_ptr_last(elem *ptr);
+			void		set_ptr_last(node *ptr);
 
 			//====				Getters					====
 
