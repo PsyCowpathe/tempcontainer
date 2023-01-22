@@ -6,7 +6,7 @@
 /*   By: agirona <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/30 20:29:39 by agirona           #+#    #+#             */
-/*   Updated: 2023/01/20 16:32:42 by agirona          ###   ########lyon.fr   */
+/*   Updated: 2023/01/20 18:17:09 by agirona          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,10 @@ namespace   ft
             bool             operator>(const const_it &lhs) const;//
             bool             operator>=(const const_it &lhs) const;//
 
-			template <class c>
+			/*template <class c>
 			friend random_access_iterator	operator+(const difference_type n, const random_access_iterator it); //hm ?
 			template <class c>
-			friend random_access_iterator	operator-(const difference_type n, const random_access_iterator it); //hm ?
+			friend random_access_iterator	operator-(const difference_type n, const random_access_iterator it); //hm ?*/
 
             pointer                 operator->() const;//
             reference               operator*() const;//

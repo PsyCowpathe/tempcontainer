@@ -27,7 +27,7 @@ namespace ft
 		_origin = NULL;
 		_size = 0;
 		_max = NULL;
-		_real_end = new_node(ft::pair<typename pair_type::first_type, typename pair_type::second_type>());
+		_real_end = new_node(ft::pair<key_type, value_type>());
 	}
 
 	template <class T, class A, class C>
@@ -43,9 +43,9 @@ namespace ft
 	template <class T, class A, class C>
 	void	tree<T, A, C>::insert(const pair_type &val)
 	{
-		elem<T>		*current;
-		elem<T>		*prev;
-		elem<T>		*new_one;
+		node		*current;
+		node		*prev;
+		node		*new_one;
 		int			direction;
 
 		current = _origin;
@@ -54,9 +54,9 @@ namespace ft
 		while (current != NULL)
 		{
 			prev = current;
-			if (cmp(val.first, current->get_key()) && (direction = 1))
+			if (_cmp(val.first, current->get_key()) && (direction = 1))
 				current = current->get_left();
-			else if (cmp(current->get_key(), val.first) && (direction = 2))
+			else if (_cmp(current->get_key(), val.first) && (direction = 2))
 				current = current->get_right();
 			else
 				return ;
@@ -74,20 +74,20 @@ namespace ft
 		balancing(new_one->get_parent());
 	}
 
-	template <class T, class A,class C>
-	void	tree<T, A, C>::erase(const pair_type &val)
+	template <class T, class A, class C>
+	void	tree<T, A, C>::erase(const key_type &val)
 	{
-		elem<T>		*current;
-		elem<T>		*parent;
+		node		*current;
+		node		*parent;
 		int			direction;
 
 		current = _origin;
 		direction = 0;
 		while (current != NULL)
 		{
-			if (cmp(val.first, current->get_key()) && (direction = 1))
+			if (_cmp(val, current->get_key()) && (direction = 1))
 				current = current->get_left();
-			else if (cmp(current->get_key(), val.first) && (direction = 2))
+			else if (_cmp(current->get_key(), val) && (direction = 2))
 				current = current->get_right();
 			else
 			{
@@ -98,6 +98,60 @@ namespace ft
 				return ;
 			}
 		}
+	}
+
+	template <class T, class A, class C>
+	void	tree<T, A, C>::swap(tree<T, A, C> &x)
+	{
+		node			*tmp_origin;
+		node			*tmp_real_end;
+		node			*tmp_max;
+		size_t			tmp_size;
+		allocator_type	tmp_alloc;
+		cmp_type		tmp_cmp;
+
+		tmp_origin = x._origin;
+		tmp_real_end = x._real_end;
+		tmp_max = x._max;
+		tmp_size = x._size;
+		tmp_alloc = x._alloc;
+		tmp_cmp = x._cmp;
+
+		x._origin = _origin;
+		x._real_end = _real_end;
+		x._max = _max;
+		x._size = _size;
+		x._alloc = _alloc;
+		x._cmp = _cmp;
+
+		_origin = tmp_origin;
+		_real_end = tmp_real_end;
+		_max = tmp_max;
+		_size = tmp_size;
+		_alloc = tmp_alloc;
+		_cmp = tmp_cmp;
+	}
+
+
+	//====				Operations				====
+
+
+	template <class T, class A, class C>
+	typename tree<T, A, C>::iterator	tree<T, A, C>::find(const key_type &val) const
+	{	
+		node		*current;
+
+		current = _origin;
+		while (current != NULL)
+		{
+			if (_cmp(val, current->get_key()))
+				current = current->get_left();
+			else if (_cmp(current->get_key(), val))
+				current = current->get_right();
+			else
+				return (current);
+		}
+		return (_real_end);
 	}
 
 
@@ -126,11 +180,11 @@ namespace ft
 	
 
 	template <class T, class A, class C>
-	void	tree<T, A, C>::single_oblitarate(elem<T> &to_delete)
+	void	tree<T, A, C>::single_oblitarate(node &to_delete)
 	{
-		elem<T>	*prev;
-		elem<T>	*tmp;
-		elem<T>	*substitute;
+		node	*prev;
+		node	*tmp;
+		node	*substitute;
 		int			direction;
 
 		prev = to_delete.get_parent();
@@ -157,11 +211,11 @@ namespace ft
 	}
 
 	template <class T, class A, class C>
-	void	tree<T, A, C>::complex_oblitarate(elem<T> &to_replace)
+	void	tree<T, A, C>::complex_oblitarate(node &to_replace)
 	{
-		elem<T>	*substitute;
-		elem<T>	*to_delete;
-		elem<T>	*prev;
+		node	*substitute;
+		node	*to_delete;
+		node	*prev;
 		pair_type	save;
 
 		to_delete = &to_replace;
@@ -173,14 +227,14 @@ namespace ft
 			to_delete = to_delete->get_right();
 		}
 		save = *substitute->get_pair();
-		erase(*substitute->get_pair());
+		erase(substitute->get_pair()->first);
 		to_replace.set_pair(save);
 	}
 
 	template <class T, class A, class C>
-	void	tree<T, A, C>::oblitarate(elem<T> &to_delete, const int &direction)
+	void	tree<T, A, C>::oblitarate(node &to_delete, const int &direction)
 	{
-		elem<T>	*prev;
+		node	*prev;
 
 		prev = to_delete.get_parent();
 		if (to_delete.get_left() == NULL && to_delete.get_right() == NULL)
@@ -203,7 +257,7 @@ namespace ft
 	template <class T, class A, class C>
 	typename tree<T, A, C>::node	*tree<T, A, C>::new_node(const pair_type &val)
 	{
-		elem<T>		*new_one;
+		node		*new_one;
 
 		new_one = _alloc.allocate(sizeof(node_ptr));
 		_alloc.construct(new_one, val);
@@ -213,13 +267,13 @@ namespace ft
 	}
 
 	template <class T, class A, class C>
-	void	tree<T, A, C>::clear_node(elem<T> *to_clear)
+	void	tree<T, A, C>::clear_node(node *to_clear)
 	{
 		_size -= 1;
 		if (_size == 0)
 			_origin = NULL;
 		_alloc.destroy(to_clear);
-		_alloc.deallocate(to_clear, sizeof(elem<T>));
+		_alloc.deallocate(to_clear, sizeof(node));
 	}
 
 	template <class T, class A, class C>
@@ -237,14 +291,26 @@ namespace ft
 		}
 	}
 
+	template <class T, class A, class C>
+	size_t	tree<T, A, C>::size() const
+	{
+		return (_size);
+	}
+
+	template <class T, class A, class C>
+	size_t	tree<T, A, C>::max_size() const
+	{
+		return (_alloc.max_size());
+	}
+	
 
 	//====				Rotators				====
 
 
 	template <class T, class A, class C>
-	void	tree<T, A, C>::LL_rotate(elem<T> *grandpa, elem<T> *parent)
+	void	tree<T, A, C>::LL_rotate(node *grandpa, node *parent)
 	{
-		elem<T>	*tie;
+		node	*tie;
 
 		tie = grandpa->get_parent();
 		grandpa->set_right(parent->get_left());
@@ -265,9 +331,9 @@ namespace ft
 	}
 
 	template <class T, class A, class C>
-	void	tree<T, A, C>::RR_rotate(elem<T> *grandpa, elem<T> *parent)
+	void	tree<T, A, C>::RR_rotate(node *grandpa, node *parent)
 	{
-		elem<T>	*tie;
+		node	*tie;
 
 		tie = grandpa->get_parent();
 		grandpa->set_left(parent->get_right());
@@ -288,11 +354,11 @@ namespace ft
 	}
 
 	template <class T, class A, class C>
-	void	tree<T, A, C>::LR_rotate(elem<T> *grandpa, elem<T> *parent, elem<T> *child)
+	void	tree<T, A, C>::LR_rotate(node *grandpa, node *parent, node *child)
 	{
-		elem<T>	*tie;
-		elem<T>	*ltmp;
-		elem<T>	*rtmp;
+		node	*tie;
+		node	*ltmp;
+		node	*rtmp;
 
 		tie = grandpa->get_parent();
 		ltmp = child->get_left();
@@ -321,11 +387,11 @@ namespace ft
 	}
 
 	template <class T, class A, class C>
-	void	tree<T, A, C>::RL_rotate(elem<T> *grandpa, elem<T> *parent, elem<T> *child)
+	void	tree<T, A, C>::RL_rotate(node *grandpa, node *parent, node *child)
 	{
-		elem<T>	*tie;
-		elem<T>	*ltmp;
-		elem<T>	*rtmp;
+		node	*tie;
+		node	*ltmp;
+		node	*rtmp;
 
 		tie = grandpa->get_parent();
 		ltmp = child->get_left();
@@ -354,7 +420,7 @@ namespace ft
 	}
 
 	template <class T, class A, class C>
-	void	tree<T, A, C>::choose_rotate(elem<T> *current, int factor)
+	void	tree<T, A, C>::choose_rotate(node *current, int factor)
 	{
 		int		left_height;
 		int		right_height;
@@ -388,7 +454,7 @@ namespace ft
 	}
 
 	template <class T, class A, class C>
-	void	tree<T, A, C>::balancing(elem<T> *current)
+	void	tree<T, A, C>::balancing(node *current)
 	{
 		int			left_height;
 		int			right_height;
@@ -462,7 +528,7 @@ namespace ft
 		}
 		else
 		{
-			if (cmp(_max->get_pair()->first, last_add->get_pair()->first))
+			if (_cmp(_max->get_pair()->first, last_add->get_pair()->first))
 			{
 				_max->set_end(NULL);
 				_max = last_add;
@@ -474,7 +540,7 @@ namespace ft
 	}
 	
 	template <class T, class A,class C>
-	void	tree<T, A, C>::is_del_max(const pair_type &val, node *to_delete)
+	void	tree<T, A, C>::is_del_max(const key_type &val, node *to_delete)
 	{
 		if (_max == _origin)
 		{
@@ -491,9 +557,9 @@ namespace ft
 		}
 		if (to_delete == NULL)
 			return ;
-		if (cmp(_max->get_pair()->first, val.first))
+		if (_cmp(_max->get_pair()->first, val))
 			return ;
-		else if (cmp(val.first, _max->get_pair()->first))
+		else if (_cmp(val, _max->get_pair()->first))
 			return ;
 		else
 		{
@@ -506,7 +572,7 @@ namespace ft
 	}
 
 	template <class T, class A, class C>
-	int		tree<T, A, C>::get_sub_height(elem<T> *current)
+	int		tree<T, A, C>::get_sub_height(node *current)
 	{
 		int		left_height;
 		int		right_height;

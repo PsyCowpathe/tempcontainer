@@ -29,8 +29,10 @@ namespace ft
 	}
 
 	template <class T>
-	bidirectional_iterator<T>::bidirectional_iterator(elem_type *copy) : _it(copy), _pair(copy->get_pair())
+	bidirectional_iterator<T>::bidirectional_iterator(elem_type *copy)
 	{
+		_it = copy;
+		_pair = copy->get_pair();
 
 	}
 

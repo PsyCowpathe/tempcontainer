@@ -6,7 +6,7 @@
 /*   By: agirona <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 17:40:51 by agirona           #+#    #+#             */
-/*   Updated: 2023/01/20 17:40:06 by agirona          ###   ########lyon.fr   */
+/*   Updated: 2023/01/22 16:57:47 by agirona          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,15 @@ namespace ft
 	{
 		public :
 
-			typedef	elem<T>									node;
-			typedef	elem<T>									*node_ptr;
-			typedef	Alloc									allocator_type;
-			typedef compare									cmp_type;
-			typedef	T										pair_type;
-			typedef	bidirectional_iterator<pair_type>		iterator;
-			typedef const_bidirectional_iterator<const pair_type>					const_iterator;
+			typedef	elem<T>											node;
+			typedef	elem<T>											*node_ptr;
+			typedef	Alloc											allocator_type;
+			typedef compare											cmp_type;
+			typedef	T												pair_type;
+			typedef	typename pair_type::first_type					key_type;
+			typedef	typename pair_type::second_type					value_type;
+			typedef	bidirectional_iterator<pair_type>				iterator;
+			typedef const_bidirectional_iterator<const pair_type>	const_iterator;
 
 			//====		Constructors && Destructor		====
 
@@ -42,22 +44,30 @@ namespace ft
 			//====				Modifiers				====
 
 			void 				insert(const pair_type &val);
-			void 				erase(const pair_type &val);
+			void 				erase(const key_type &val);
 			void				clear();
+			void				swap(tree &x);
+
+			//====				Capacity				====
+
+			size_t				size() const;
+			size_t				max_size() const;
+
+			//====				Operations				====
+			
+			iterator			find(const key_type &val) const;
 
 			//====				Iterators				====
 
 			iterator			begin() const;
 			iterator			end() const;
 
-
-			node				*_origin; //private !!
-
 		private :
 
+			node				*_origin;
 			size_t				_size;
 			allocator_type		_alloc;
-			cmp_type			cmp;
+			cmp_type			_cmp;
 			node				*_real_end; //pointer on an empty node at the end of the tree
 			node				*_max; 		//pointer on a node with the highter value in the tree
 
@@ -87,7 +97,7 @@ namespace ft
 			node				*mini() const;
 			void				change_max();
 			void				is_new_max(node *new_one);
-			void				is_del_max(const pair_type &val, node *new_one);
+			void				is_del_max(const key_type &val, node *new_one);
 			int					get_sub_height(elem<T> *current);
 
 	};

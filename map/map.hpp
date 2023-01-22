@@ -6,7 +6,7 @@
 /*   By: agirona <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/21 18:48:16 by agirona           #+#    #+#             */
-/*   Updated: 2023/01/20 17:40:04 by agirona          ###   ########lyon.fr   */
+/*   Updated: 2023/01/22 16:57:46 by agirona          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,10 @@
 # include "../avl/tree.tpp"
 # include "../iterator/bidirectional_iterator.tpp"
 # include "../iterator/reverse_iterator.tpp"
+# include "../other/enable_if.hpp"
+# include "../other/is_integral.hpp"
+
+
 
 namespace ft
 {
@@ -67,26 +71,63 @@ namespace ft
 
 			//====				Operators				====
 
-			map					&operator=(const map &x);
+			map										&operator=(const map &x);
+			mapped_type								&operator[](const key_type &k);
 
 			//====				Iterators				====
 
-			iterator			begin();
-			const_iterator 		begin() const;
-			iterator			end();
-			const_iterator		end() const;
-			reverse_iterator	rbegin();
+			iterator								begin();
+			const_iterator 							begin() const;
+			iterator								end();
+			const_iterator							end() const;
+			reverse_iterator						rbegin();
+			const_reverse_iterator					rbegin() const;
+			reverse_iterator 						rend();
+			const_reverse_iterator				 	rend() const;
+
+			//====				Capacity				====
+
+			bool 									empty() const;
+			size_type 								size() const;
+			size_type 								max_size() const;
 
 			//====				Modifiers				====
 			
-			void				insert(const value_type &val);
-			iterator 			insert(iterator position, const value_type& val);
+			pair<iterator, bool>					insert(const value_type &val);
+			iterator 								insert(iterator position, const value_type& val);
 
 			template <class InputIterator>
-			void 				insert(InputIterator first, InputIterator last);
-			void				erase(const value_type &val);
-			void				erase(iterator first, iterator last);
-			void 				clear();
+			typename enable_if<!is_integral<InputIterator>::value, void>::type
+													insert(InputIterator first, InputIterator last);
+			void 									erase(iterator position);	
+			size_type								erase(const key_type &k);
+			void									erase(iterator first, iterator last);
+			void									swap(map &x);
+			void 									clear();
+
+
+			//====				Observers				====
+
+			key_compare								key_comp() const;
+			value_compare							value_comp() const;
+
+			//====				Operations				====
+
+
+			iterator 								find(const key_type &k);
+			const_iterator 							find(const key_type &k) const;
+			size_type 								count(const key_type &k) const;
+			iterator 								lower_bound(const key_type &k);
+			const_iterator 							lower_bound(const key_type &k) const;
+			iterator 								upper_bound(const key_type &k);
+			const_iterator 							upper_bound(const key_type &k) const;
+			pair<const_iterator, const_iterator>	equal_range(const key_type &k) const;
+			pair<iterator,iterator>					equal_range(const key_type &k);
+
+
+			//====				Allocator				====
+
+			allocator_type							get_allocator() const;
 
 		private :
 
