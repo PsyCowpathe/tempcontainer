@@ -6,7 +6,7 @@
 /*   By: agirona <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/21 18:54:40 by agirona           #+#    #+#             */
-/*   Updated: 2023/01/23 15:45:04 by agirona          ###   ########lyon.fr   */
+/*   Updated: 2023/01/23 16:38:14 by agirona          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int		main(void)
 	gg::map<int, int>				test;
 	gg::map<int, int>				swp;
 	gg::map<int, int>::iterator		ret;
-	gg::map<int, int>::iterator		it;
+	//gg::map<int, int>::iterator		it;
 	gg::map<int, int>::iterator		ite;
 	gg::pair<gg::map<int, int>::iterator, bool>	blbl;
 	
@@ -46,6 +46,12 @@ int		main(void)
 	blbl = test.insert(gg::make_pair<int, int>(14, 10));
 	blbl = test.insert(gg::make_pair<int, int>(14, 100));
 
+
+	gg::map<int, int>::iterator it = test.find(0);
+	int &ref = it->second;
+
+	std::cout << "red = " << ref << std::endl;
+/*
 	test.insert(test.end(), gg::make_pair<int, int>(-42, 10));
 	test.insert(test.begin(), test.end());
 
@@ -77,7 +83,7 @@ int		main(void)
 	{
 		std::cout << "it = " << it->first << std::endl;
 		it++;
-	}
+	}*/
 	return (0);
 }
 

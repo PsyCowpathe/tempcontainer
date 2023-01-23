@@ -136,7 +136,8 @@ namespace ft
 	template <class K, class T, class C, class A>
 	typename map<K, T, C, A>::size_type map<K, T, C, A>::max_size() const
 	{
-		return (_tree.max_size());
+		return (_alloc.max_size());
+		//return (_tree.max_size());
 	}
 
 
@@ -334,7 +335,7 @@ namespace ft
 
 		low = lower_bound(k);
 		up = upper_bound(k);
-		return (make_pair<const_iterator, const_iterator>(low, up)); 
+		return (ft::make_pair<const_iterator, const_iterator>(low, up)); 
 	}
 
 	template <class K, class T, class C, class A>
@@ -345,7 +346,7 @@ namespace ft
 
 		low = lower_bound(k);
 		up = upper_bound(k);
-		return (make_pair<iterator, iterator>(low, up)); 
+		return (ft::make_pair<iterator, iterator>(low, up)); 
 	}
 
 
@@ -396,6 +397,16 @@ namespace ft
   	bool	operator>=(const map<Key, T, Compare, Alloc> &lhs, const map<Key, T, Compare, Alloc> &rhs)
 	{
 		return (!(lhs < rhs));
+	}
+
+
+	//====			Other						====
+	
+	
+	template <class Key, class T, class Compare, class Alloc>
+	void	swap(map<Key, T, Compare, Alloc> &x, map<Key, T, Compare, Alloc> &y)
+	{
+		x.swap(y);
 	}
 };
 
