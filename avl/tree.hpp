@@ -6,7 +6,7 @@
 /*   By: agirona <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 17:40:51 by agirona           #+#    #+#             */
-/*   Updated: 2023/01/22 16:57:47 by agirona          ###   ########lyon.fr   */
+/*   Updated: 2023/01/23 15:44:56 by agirona          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@
 # include "../iterator/bidirectional_iterator.tpp"
 # include "../other/pair.hpp"
 # include "../other/make_pair.hpp"
+# include "../other/lexicographical_compare.hpp"
+# include "../other/equal.hpp"
 # include "elem.tpp"
 
 namespace ft
@@ -101,6 +103,17 @@ namespace ft
 			int					get_sub_height(elem<T> *current);
 
 	};
+
+	//====				Relational Operators					====
+	
+	template <class T, class C, class A>
+	bool	operator<(const tree<T, C, A> &lhs, const tree<T, C, A> &rhs);
+
+	template <class T, class C, class A>
+	bool	operator>(const tree<T, C, A> &lhs, const tree<T, C, A> &rhs);
+
+	template <class T, class C, class A>
+	bool	operator==(const tree<T, C, A> &lhs, const tree<T, C, A> &rhs);
 };
 
 #endif

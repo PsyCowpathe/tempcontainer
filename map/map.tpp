@@ -357,6 +357,46 @@ namespace ft
 	{
 		return (_alloc);
 	}
+
+
+	//====			Relational Operators		====
+	
+	
+	template <class Key, class T, class Compare, class Alloc>
+	bool	operator==(const map<Key, T, Compare, Alloc> &lhs, const map<Key, T, Compare, Alloc> &rhs)
+	{
+		return (lhs._tree == rhs._tree);
+	}
+
+	template <class Key, class T, class Compare, class Alloc>
+	bool	operator!=(const map<Key, T, Compare, Alloc> &lhs, const map<Key, T, Compare, Alloc> &rhs)
+	{
+		return (!(lhs == rhs));
+	}
+
+	template <class Key, class T, class Compare, class Alloc>
+  	bool	operator<(const map<Key, T, Compare, Alloc> &lhs, const map<Key, T, Compare, Alloc> &rhs)
+	{
+		return (lhs._tree < rhs._tree);
+	}
+
+	template <class Key, class T, class Compare, class Alloc>
+  	bool	operator<=(const map<Key, T, Compare, Alloc> &lhs, const map<Key, T, Compare, Alloc> &rhs)
+	{
+		return (!(lhs > rhs));
+	}
+
+	template <class Key, class T, class Compare, class Alloc>
+  	bool	operator>(const map<Key, T, Compare, Alloc> &lhs, const map<Key, T, Compare, Alloc> &rhs)
+	{
+		return (rhs < lhs);
+	}
+
+	template <class Key, class T, class Compare, class Alloc>
+  	bool	operator>=(const map<Key, T, Compare, Alloc> &lhs, const map<Key, T, Compare, Alloc> &rhs)
+	{
+		return (!(lhs < rhs));
+	}
 };
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: agirona <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/21 18:48:16 by agirona           #+#    #+#             */
-/*   Updated: 2023/01/22 16:57:46 by agirona          ###   ########lyon.fr   */
+/*   Updated: 2023/01/23 15:44:55 by agirona          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,6 @@
 # include "../iterator/reverse_iterator.tpp"
 # include "../other/enable_if.hpp"
 # include "../other/is_integral.hpp"
-
-
 
 namespace ft
 {
@@ -129,12 +127,46 @@ namespace ft
 
 			allocator_type							get_allocator() const;
 
+			//====				Friend					====
+
+			template <class K, class V, class C, class A>
+			friend bool	operator==(const map<K, V, C, A> &lhs, const map<K, V, C, A> &rhs);
+
+			template <class K, class V, class C, class A>
+  			friend bool	operator<(const map<K, V, C, A> &lhs, const map<K, V, C, A> &rhs);
+
+
+			/*template <class K, class V, class C, class A>
+  			friend bool	operator==(const map<K, V, C, A> &lhs, const map<K, V, C, A> &rhs);
+
+			template <class K, class V, class C, class A>
+  			friend bool	operator<(const map<K, V, C, A> &lhs, const map<K, V, C, A> &rhs);
+
+			template <class K, class V, class C, class A>
+  			friend bool	operator<(const map<K, V, C, A> &lhs, const map<K, V, C, A> &rhs);*/
+
+
 		private :
 
 			tree<used_value_type, key_compare>		_tree;
 			allocator_type							_alloc;
 			key_compare								_comp;
 	};
+
+	//====				Relational Operators					====
+
+	
+	template <class Key, class T, class Compare, class Alloc>
+	bool	operator!=(const map<Key, T, Compare, Alloc> &lhs, const map<Key, T, Compare, Alloc> &rhs);
+
+	template <class Key, class T, class Compare, class Alloc>
+  	bool	operator<=(const map<Key, T, Compare, Alloc> &lhs, const map<Key, T, Compare, Alloc> &rhs);
+
+	template <class Key, class T, class Compare, class Alloc>
+  	bool	operator>(const map<Key, T, Compare, Alloc> &lhs, const map<Key, T, Compare, Alloc> &rhs);
+
+	template <class Key, class T, class Compare, class Alloc>
+  	bool	operator>=(const map<Key, T, Compare, Alloc> &lhs, const map<Key, T, Compare, Alloc> &rhs);
 };
 
 
