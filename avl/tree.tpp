@@ -21,8 +21,8 @@ namespace ft
 	//====		Constructors && Destructor		====
 
 
-	template <class T, class A, class C>
-	tree<T, A, C>::tree()
+	template <class T, class C, class A>
+	tree<T, C, A>::tree()
 	{
 		_origin = NULL;
 		_size = 0;
@@ -30,8 +30,8 @@ namespace ft
 		_real_end = new_node(ft::pair<key_type, value_type>());
 	}
 
-	template <class T, class A, class C>
-	tree<T, A, C>::~tree()
+	template <class T, class C, class A>
+	tree<T, C, A>::~tree()
 	{
 
 	}
@@ -40,8 +40,8 @@ namespace ft
 	//====				Modifiers				====
 
 
-	template <class T, class A, class C>
-	void	tree<T, A, C>::insert(const pair_type &val)
+	template <class T, class C, class A>
+	void	tree<T, C, A>::insert(const pair_type &val)
 	{
 		node		*current;
 		node		*prev;
@@ -74,8 +74,8 @@ namespace ft
 		balancing(new_one->get_parent());
 	}
 
-	template <class T, class A, class C>
-	void	tree<T, A, C>::erase(const key_type &val)
+	template <class T, class C, class A>
+	void	tree<T, C, A>::erase(const key_type &val)
 	{
 		node		*current;
 		node		*parent;
@@ -100,8 +100,8 @@ namespace ft
 		}
 	}
 
-	template <class T, class A, class C>
-	void	tree<T, A, C>::swap(tree<T, A, C> &x)
+	template <class T, class C, class A>
+	void	tree<T, C, A>::swap(tree<T, C, A> &x)
 	{
 		node			*tmp_origin;
 		node			*tmp_real_end;
@@ -136,8 +136,8 @@ namespace ft
 	//====				Operations				====
 
 
-	template <class T, class A, class C>
-	typename tree<T, A, C>::iterator	tree<T, A, C>::find(const key_type &val) const
+	template <class T, class C, class A>
+	typename tree<T, C, A>::iterator	tree<T, C, A>::find(const key_type &val) const
 	{	
 		node		*current;
 
@@ -158,16 +158,16 @@ namespace ft
 	//====				Iterators				====
 
 
-	template <class T, class A, class C>
-	typename tree<T, A, C>::iterator	tree<T, A, C>::begin() const
+	template <class T, class C, class A>
+	typename tree<T, C, A>::iterator	tree<T, C, A>::begin() const
 	{
 		iterator	it(mini());
 
 		return (it);
 	}
 
-	template <class T, class A, class C>
-	typename tree<T, A, C>::iterator	tree<T, A, C>::end() const
+	template <class T, class C, class A>
+	typename tree<T, C, A>::iterator	tree<T, C, A>::end() const
 	{
 		return (_real_end);
 	}
@@ -179,8 +179,8 @@ namespace ft
 	//====					Modifiers					====
 	
 
-	template <class T, class A, class C>
-	void	tree<T, A, C>::single_oblitarate(node &to_delete)
+	template <class T, class C, class A>
+	void	tree<T, C, A>::single_oblitarate(node &to_delete)
 	{
 		node	*prev;
 		node	*tmp;
@@ -210,8 +210,8 @@ namespace ft
 		substitute->set_parent(prev);
 	}
 
-	template <class T, class A, class C>
-	void	tree<T, A, C>::complex_oblitarate(node &to_replace)
+	template <class T, class C, class A>
+	void	tree<T, C, A>::complex_oblitarate(node &to_replace)
 	{
 		node	*substitute;
 		node	*to_delete;
@@ -231,8 +231,8 @@ namespace ft
 		to_replace.set_pair(save);
 	}
 
-	template <class T, class A, class C>
-	void	tree<T, A, C>::oblitarate(node &to_delete, const int &direction)
+	template <class T, class C, class A>
+	void	tree<T, C, A>::oblitarate(node &to_delete, const int &direction)
 	{
 		node	*prev;
 
@@ -254,8 +254,8 @@ namespace ft
 	//====				Capacity				====
 
 
-	template <class T, class A, class C>
-	typename tree<T, A, C>::node	*tree<T, A, C>::new_node(const pair_type &val)
+	template <class T, class C, class A>
+	typename tree<T, C, A>::node	*tree<T, C, A>::new_node(const pair_type &val)
 	{
 		node		*new_one;
 
@@ -266,8 +266,8 @@ namespace ft
 		return (new_one);
 	}
 
-	template <class T, class A, class C>
-	void	tree<T, A, C>::clear_node(node *to_clear)
+	template <class T, class C, class A>
+	void	tree<T, C, A>::clear_node(node *to_clear)
 	{
 		_size -= 1;
 		if (_size == 0)
@@ -276,8 +276,8 @@ namespace ft
 		_alloc.deallocate(to_clear, sizeof(node));
 	}
 
-	template <class T, class A, class C>
-	void	tree<T, A, C>::clear()
+	template <class T, class C, class A>
+	void	tree<T, C, A>::clear()
 	{
 		iterator	it;
 		iterator	ite;
@@ -291,14 +291,14 @@ namespace ft
 		}
 	}
 
-	template <class T, class A, class C>
-	size_t	tree<T, A, C>::size() const
+	template <class T, class C, class A>
+	size_t	tree<T, C, A>::size() const
 	{
 		return (_size);
 	}
 
-	template <class T, class A, class C>
-	size_t	tree<T, A, C>::max_size() const
+	template <class T, class C, class A>
+	size_t	tree<T, C, A>::max_size() const
 	{
 		return (_alloc.max_size());
 	}
@@ -307,8 +307,8 @@ namespace ft
 	//====				Rotators				====
 
 
-	template <class T, class A, class C>
-	void	tree<T, A, C>::LL_rotate(node *grandpa, node *parent)
+	template <class T, class C, class A>
+	void	tree<T, C, A>::LL_rotate(node *grandpa, node *parent)
 	{
 		node	*tie;
 
@@ -330,8 +330,8 @@ namespace ft
 			tie->set_right(parent);
 	}
 
-	template <class T, class A, class C>
-	void	tree<T, A, C>::RR_rotate(node *grandpa, node *parent)
+	template <class T, class C, class A>
+	void	tree<T, C, A>::RR_rotate(node *grandpa, node *parent)
 	{
 		node	*tie;
 
@@ -353,8 +353,8 @@ namespace ft
 			tie->set_right(parent);
 	}
 
-	template <class T, class A, class C>
-	void	tree<T, A, C>::LR_rotate(node *grandpa, node *parent, node *child)
+	template <class T, class C, class A>
+	void	tree<T, C, A>::LR_rotate(node *grandpa, node *parent, node *child)
 	{
 		node	*tie;
 		node	*ltmp;
@@ -386,8 +386,8 @@ namespace ft
 		child->set_parent(tie);
 	}
 
-	template <class T, class A, class C>
-	void	tree<T, A, C>::RL_rotate(node *grandpa, node *parent, node *child)
+	template <class T, class C, class A>
+	void	tree<T, C, A>::RL_rotate(node *grandpa, node *parent, node *child)
 	{
 		node	*tie;
 		node	*ltmp;
@@ -419,8 +419,8 @@ namespace ft
 		child->set_parent(tie);
 	}
 
-	template <class T, class A, class C>
-	void	tree<T, A, C>::choose_rotate(node *current, int factor)
+	template <class T, class C, class A>
+	void	tree<T, C, A>::choose_rotate(node *current, int factor)
 	{
 		int		left_height;
 		int		right_height;
@@ -453,8 +453,8 @@ namespace ft
 		}
 	}
 
-	template <class T, class A, class C>
-	void	tree<T, A, C>::balancing(node *current)
+	template <class T, class C, class A>
+	void	tree<T, C, A>::balancing(node *current)
 	{
 		int			left_height;
 		int			right_height;
@@ -478,8 +478,8 @@ namespace ft
 	//====				Tools					====
 
 	
-	template <class T, class A, class C>
-	typename tree<T, A, C>::node	*tree<T, A, C>::maxi() const
+	template <class T, class C, class A>
+	typename tree<T, C, A>::node	*tree<T, C, A>::maxi() const
 	{
 		node	*current;
 
@@ -489,8 +489,8 @@ namespace ft
 		return (current);
 	}
 
-	template <class T, class A, class C>
-	typename tree<T, A, C>::node	*tree<T, A, C>::mini() const
+	template <class T, class C, class A>
+	typename tree<T, C, A>::node	*tree<T, C, A>::mini() const
 	{
 		node	*current;
 
@@ -502,8 +502,8 @@ namespace ft
 		return (current);
 	}
 
-	template <class T, class A, class C>
-  	void tree<T, A, C>::change_max()
+	template <class T, class C, class A>
+  	void tree<T, C, A>::change_max()
     {
 		node_ptr tmp = mini();
 		while (tmp != _max)
@@ -515,8 +515,8 @@ namespace ft
 		_max->set_ptr_last(_max);
      }
 
-	template <class T, class A,class C>
-	void	tree<T, A, C>::is_new_max(node *last_add)
+	template <class T, class C, class A>
+	void	tree<T, C, A>::is_new_max(node *last_add)
 	{
 		if (_max == NULL)
 		{
@@ -539,8 +539,8 @@ namespace ft
 		}
 	}
 	
-	template <class T, class A,class C>
-	void	tree<T, A, C>::is_del_max(const key_type &val, node *to_delete)
+	template <class T, class C, class A>
+	void	tree<T, C, A>::is_del_max(const key_type &val, node *to_delete)
 	{
 		if (_max == _origin)
 		{
@@ -564,15 +564,18 @@ namespace ft
 		else
 		{
 			_max->set_end(NULL);
-			_max = _max->get_parent();
+			if (_max->get_left() == NULL)
+				_max = _max->get_parent();
+			else
+				_max = _max->get_left();
 			_max->set_end(_real_end);
 			_real_end->set_parent(_max);
 			change_max();
 		}
 	}
 
-	template <class T, class A, class C>
-	int		tree<T, A, C>::get_sub_height(node *current)
+	template <class T, class C, class A>
+	int		tree<T, C, A>::get_sub_height(node *current)
 	{
 		int		left_height;
 		int		right_height;
@@ -589,6 +592,26 @@ namespace ft
 			return (left_height);
 		return (right_height);
 	}
+
+
+	//====			Relational Operators		====
+	
+	template <class T, class C, class A>
+	bool	operator<(const tree<T, C, A> &lhs, const tree<T, C, A> &rhs)
+	{
+		return (lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end()));
+	}
+	template <class T, class C, class A>
+	bool	operator>(const tree<T, C, A> &lhs, const tree<T, C, A> &rhs)
+	{
+		return (lhs < rhs);
+	}
+
+	template <class T, class C, class A>
+	bool	operator==(const tree<T, C, A> &lhs, const tree<T, C, A> &rhs)
+	{
+		return (lhs.size() == rhs.size() && equal(lhs.begin(), lhs.end(), rhs.begin()));
+	}	
 };
 
 #endif
