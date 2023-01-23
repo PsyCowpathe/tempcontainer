@@ -33,7 +33,7 @@ namespace ft
 	template <class T, class C, class A>
 	tree<T, C, A>::~tree()
 	{
-
+		clear_node(_real_end);
 	}
 
 
@@ -599,7 +599,7 @@ namespace ft
 	template <class T, class C, class A>
 	bool	operator<(const tree<T, C, A> &lhs, const tree<T, C, A> &rhs)
 	{
-		return (lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end()));
+		return (ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end()));
 	}
 	template <class T, class C, class A>
 	bool	operator>(const tree<T, C, A> &lhs, const tree<T, C, A> &rhs)
@@ -610,7 +610,7 @@ namespace ft
 	template <class T, class C, class A>
 	bool	operator==(const tree<T, C, A> &lhs, const tree<T, C, A> &rhs)
 	{
-		return (lhs.size() == rhs.size() && equal(lhs.begin(), lhs.end(), rhs.begin()));
+		return (lhs.size() == rhs.size() && ft::equal(lhs.begin(), lhs.end(), rhs.begin()));
 	}	
 };
 

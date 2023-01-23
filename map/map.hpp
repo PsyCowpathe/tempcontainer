@@ -6,7 +6,7 @@
 /*   By: agirona <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/21 18:48:16 by agirona           #+#    #+#             */
-/*   Updated: 2023/01/23 15:44:55 by agirona          ###   ########lyon.fr   */
+/*   Updated: 2023/01/23 16:37:35 by agirona          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,7 +153,7 @@ namespace ft
 			key_compare								_comp;
 	};
 
-	//====				Relational Operators					====
+	//====			Relational Operators				====
 
 	
 	template <class Key, class T, class Compare, class Alloc>
@@ -167,6 +167,12 @@ namespace ft
 
 	template <class Key, class T, class Compare, class Alloc>
   	bool	operator>=(const map<Key, T, Compare, Alloc> &lhs, const map<Key, T, Compare, Alloc> &rhs);
+
+
+	//====			 		Other						====
+
+	template <class Key, class T, class Compare, class Alloc>
+	void	swap(map<Key, T, Compare, Alloc> &x, map<Key, T, Compare, Alloc> &y);
 };
 
 

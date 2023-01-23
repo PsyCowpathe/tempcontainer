@@ -6,7 +6,7 @@
 /*   By: agirona <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/20 12:16:10 by agirona           #+#    #+#             */
-/*   Updated: 2023/01/22 16:57:48 by agirona          ###   ########lyon.fr   */
+/*   Updated: 2023/01/23 16:38:10 by agirona          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ namespace ft
 			typedef	T								&reference;
 			typedef	ptrdiff_t						difference_type;
 			typedef	iterator_traits<T>				iterator_category;
+			//typedef	std::bidirectional_iterator_tag		iterator_category;
 			typedef	elem<T>							elem_type;
 
 			//CONSTRUCTORS
@@ -63,6 +64,7 @@ namespace ft
 			typedef	const T							&reference;
 			typedef	ptrdiff_t						difference_type;
 			typedef	iterator_traits<T>				iterator_category;
+			//typedef		std::bidirectional_iterator_tag	iterator_category;
 			typedef	elem<T>							elem_type;
 
 			//CONSTRUCTORS
