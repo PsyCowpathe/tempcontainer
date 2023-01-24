@@ -136,8 +136,7 @@ namespace ft
 	template <class K, class T, class C, class A>
 	typename map<K, T, C, A>::size_type map<K, T, C, A>::max_size() const
 	{
-		return (_alloc.max_size());
-		//return (_tree.max_size());
+		return (_tree.max_size());
 	}
 
 

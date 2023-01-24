@@ -6,7 +6,7 @@
 /*   By: agirona <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/21 18:48:16 by agirona           #+#    #+#             */
-/*   Updated: 2023/01/23 16:37:35 by agirona          ###   ########lyon.fr   */
+/*   Updated: 2023/01/24 14:57:40 by agirona          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@
 # include "../iterator/reverse_iterator.tpp"
 # include "../other/enable_if.hpp"
 # include "../other/is_integral.hpp"
+
+#include <math.h>
 
 namespace ft
 {
@@ -40,7 +42,7 @@ namespace ft
 			typedef	bidirectional_iterator<used_value_type>				iterator;
 			typedef	const_bidirectional_iterator<used_value_type>		const_iterator;
 			typedef	reverse_iterator<iterator>							reverse_iterator;
-			typedef	ft::reverse_iterator<const_iterator>				const_reverse_iterator; //pq le ft::?
+			typedef	ft::reverse_iterator<const_iterator>				const_reverse_iterator;
 			typedef	ptrdiff_t											difference_type;
 			typedef	size_t												size_type;
 
@@ -135,22 +137,15 @@ namespace ft
 			template <class K, class V, class C, class A>
   			friend bool	operator<(const map<K, V, C, A> &lhs, const map<K, V, C, A> &rhs);
 
-
-			/*template <class K, class V, class C, class A>
-  			friend bool	operator==(const map<K, V, C, A> &lhs, const map<K, V, C, A> &rhs);
-
-			template <class K, class V, class C, class A>
-  			friend bool	operator<(const map<K, V, C, A> &lhs, const map<K, V, C, A> &rhs);
-
-			template <class K, class V, class C, class A>
-  			friend bool	operator<(const map<K, V, C, A> &lhs, const map<K, V, C, A> &rhs);*/
-
-
 		private :
 
 			tree<used_value_type, key_compare>		_tree;
 			allocator_type							_alloc;
 			key_compare								_comp;
+
+			int										test;
+
+			
 	};
 
 	//====			Relational Operators				====
@@ -170,6 +165,7 @@ namespace ft
 
 
 	//====			 		Other						====
+
 
 	template <class Key, class T, class Compare, class Alloc>
 	void	swap(map<Key, T, Compare, Alloc> &x, map<Key, T, Compare, Alloc> &y);

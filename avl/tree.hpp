@@ -6,7 +6,7 @@
 /*   By: agirona <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 17:40:51 by agirona           #+#    #+#             */
-/*   Updated: 2023/01/23 15:44:56 by agirona          ###   ########lyon.fr   */
+/*   Updated: 2023/01/24 14:57:40 by agirona          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ namespace ft
 	{
 		public :
 
+
 			typedef	elem<T>											node;
 			typedef	elem<T>											*node_ptr;
 			typedef	Alloc											allocator_type;
@@ -37,6 +38,7 @@ namespace ft
 			typedef	typename pair_type::second_type					value_type;
 			typedef	bidirectional_iterator<pair_type>				iterator;
 			typedef const_bidirectional_iterator<const pair_type>	const_iterator;
+
 
 			//====		Constructors && Destructor		====
 
@@ -66,12 +68,13 @@ namespace ft
 
 		private :
 
+
 			node				*_origin;
 			size_t				_size;
 			allocator_type		_alloc;
 			cmp_type			_cmp;
-			node				*_real_end; //pointer on an empty node at the end of the tree
-			node				*_max; 		//pointer on a node with the highter value in the tree
+			node				*_real_end; //pointer toward the empty node at the end of the tree
+			node				*_max; 		//pointer toward the node with the highter value in the tree
 
 			//====				Modifiers				====
 

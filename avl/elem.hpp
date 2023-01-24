@@ -6,7 +6,7 @@
 /*   By: agirona <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 12:00:47 by agirona           #+#    #+#             */
-/*   Updated: 2023/01/23 15:44:59 by agirona          ###   ########lyon.fr   */
+/*   Updated: 2023/01/24 14:57:38 by agirona          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,8 +68,8 @@ namespace ft
 			elem		*_parent;
 			elem		*_left;
 			elem		*_right;
-			elem		*_end; //pointer of real_end tree's variable
-			elem		*_ptr_last;// pointer of max tree's variable
+			elem		*_end; //pointer toward real_end tree's variable
+			elem		*_ptr_last;// pointer toward max tree's variable
 			bool		_printable;
 			elem		*mini(elem *start) const;
 			elem		*maxi(elem *start) const;
