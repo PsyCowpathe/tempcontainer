@@ -182,7 +182,7 @@ namespace ft
 			save_start = _start;
 			save_end = _end;
 			save_storage = capacity();
-			allocate_memory(n + size());
+			allocate_memory(n);
 			insert_values(begin(), save_start, save_end);
 			clear_block(save_start, save_end, save_storage);
 		}
@@ -273,7 +273,7 @@ namespace ft
 			save_start = _start;
 			save_end = _end;
 			save_storage = capacity();
-			allocate_memory(size * 2);
+			allocate_memory(size);
 			insert_values(begin(), first, last);
 			clear_block(save_start, save_end, save_storage);
 		}
@@ -297,7 +297,7 @@ namespace ft
 			save_start = _start;
 			save_end = _end;
 			save_storage = capacity();
-			allocate_memory(n * 2);
+			allocate_memory(n);
 			insert_values(begin(), tmp.begin(), tmp.end());
 			clear_block(save_start, save_end, save_storage);
 		}
@@ -340,8 +340,10 @@ namespace ft
 	template <class T, class A>
 	void	vector<T, A>::pop_back()
 	{
-		_alloc.destroy(_end);
-		_end -= 1;
+		if (_end == _start)
+			_alloc.destroy(_start);
+		else
+			_alloc.destroy(--_end);
 	}
 
 	template <class T, class A>
@@ -349,81 +351,99 @@ namespace ft
 	typename enable_if<!is_integral<InputIterator>::value, void>::type
 	vector<T, A>::insert(typename vector<T, A>::iterator position, InputIterator first, InputIterator last)
 	{
-		vector<T, A>::pointer	save_start;
-		vector<T, A>::pointer	save_end;
-		InputIterator			tmp;
-		size_t					save_storage;
-		size_t					count;
+		InputIterator	tmps;
+		iterator		tmp;
+		size_type		n;
+		size_type		count;
+		size_t			i;
 
-		count = 0;
-		tmp = first;
-		while (tmp != last)
+		tmps = first;
+		n = 0;
+		while (tmps != last)
 		{
+			n++;
+            tmps++;
+        }
+		count = &(*position) - _start;
+        if (capacity() < size() + n)
+        {
+			if (capacity() == 0)
+				reserve(n);
+            else
+            {
+				if ((capacity() * 2) < (capacity() + n))
+					reserve(((capacity() *2) + n));
+                else
+                    reserve(capacity()*2);
+			}
+		}
+        tmp = _end - 1;
+        while (tmp >= iterator(_start + count))
+        {
+			_alloc.construct(&(*(tmp + n)), *(tmp));
+            _alloc.destroy(&(*(tmp)));
+            tmp--;
+		}
+        tmp++;
+		i = 0;
+		while (i < n)
+		{
+			_alloc.construct(&(*tmp), *first);
 			tmp++;
-			count++;
+			first++;
+			i++;
 		}
-		if (count + size() > capacity())
-		{
-			save_start = _start;
-			save_end = _end;
-			save_storage = capacity();
-			alloc_insert_values(position, first, last);
-			clear_block(save_start, save_end, save_storage);
-		}
-		else
-			insert_values(position, first, last);
+       	_end += n;
 	}
 
     template <class T, class A>
 	void	vector<T, A>::insert(typename vector<T, A>::iterator position, typename vector<T, A>::size_type n,
 									const typename vector<T, A>::value_type &val)
 	{
-		vector<T, A>						tmp;
-		typename vector<T,A>::size_type		count;
-		vector<T, A>::pointer				save_start;
-		vector<T, A>::pointer				save_end;
-		size_t								save_storage;
+		size_type	count;
+		iterator	tmp;
+		size_t		i;
 
-		count = 0;
-		while (count < n)
+		count = position - begin();
+		if (capacity() < size() + n)
 		{
-			tmp.push_back(val);
-			count++;
+			if (capacity() == 0)
+				reserve(n);
+			else
+			{
+				if ((capacity() * 2) < capacity() + n)
+					reserve(((capacity() * 2) + n));
+				else
+					reserve(capacity() * 2);
+			}
 		}
-		if (size() + n > capacity())
+		tmp = end() - 1;
+		while (tmp >= begin() + count)
+       	{
+			_alloc.construct(&(*(tmp + n)), *(tmp));
+			_alloc.destroy(&(*(tmp)));
+			tmp--;
+		}
+		tmp++;
+		i = 0;
+		while (i < n)
 		{
-			save_start = _start;
-			save_end = _end;
-			save_storage = capacity();
-			alloc_insert_values(position, tmp.begin(), tmp.end());
-			clear_block(save_start, save_end, save_storage);
+			_alloc.construct(&(*tmp), val);
+			tmp++;
+			i++;
 		}
-		else
-			insert_values(position, tmp.begin(), tmp.end());			
+		_end += n;
 	}
 
     template <class T, class A>
 	typename vector<T, A>::iterator		vector<T, A>::insert(typename vector<T, A>::iterator position,
 																const typename vector<T, A>::value_type &val)
 	{
-		vector<T, A>			tmp;
-		vector<T, A>::pointer	save_start;
-		vector<T, A>::pointer	save_end;
-		vector<T, A>::iterator	ret;
-		size_t					save_storage;
+		size_type	index;
 
-		tmp.push_back(val);
-		if (size() + 1 > capacity())
-		{
-			save_start = _start;
-			save_end = _end;
-			save_storage = capacity();
-			ret = alloc_insert_values(position, tmp.begin(), tmp.end());
-			clear_block(save_start, save_end, save_storage);
-		}
-		else
-			ret = insert_values(position, tmp.begin(), tmp.end());			
-		return (ret);
+		index = position - begin();
+		insert(position, 1, val);
+		return (begin() + index);
 	}
 
 	template <class T, class A>
@@ -574,24 +594,24 @@ namespace ft
 
 		origin_start = _start;
 		origin_end = _end;
-		size = ((new_end - new_start) + (origin_end - origin_start)) * 2;
+		size = ((new_end - new_start) + (origin_end - origin_start));
 		allocate_memory(size);
 		while (origin_start != pos)
 		{
-			*_end = *origin_start; //change
+			*_end = *origin_start;
 			origin_start++;
 			_end++;
 		}
 		first_insert = _end;
 		while (new_start != new_end)
 		{
-			*_end = *new_start; //change
+			*_end = *new_start;
 			new_start++;
 			_end++;
 		}
 		while (origin_start != origin_end)
 		{
-			*_end = *origin_start; //change
+			*_end = *origin_start;
 			origin_start++;
 			_end++;
 		}
@@ -620,24 +640,24 @@ namespace ft
 			tmp++;
 			size++;
 		}
-		size = (size + (origin_end - origin_start)) * 2;
+		size = (size + (origin_end - origin_start)); 
 		allocate_memory(size);
 		while (origin_start != pos)
 		{
-			*_end = *origin_start; //change
+			*_end = *origin_start;
 			origin_start++;
 			_end++;
 		}
 		first_insert = _end;
 		while (new_start != new_end)
 		{
-			*_end = *new_start; //change
+			*_end = *new_start;
 			new_start++;
 			_end++;
 		}
 		while (origin_start != origin_end)
 		{
-			*_end = *origin_start; //change
+			*_end = *origin_start;
 			origin_start++;
 			_end++;
 		}
@@ -661,7 +681,7 @@ namespace ft
 		{
 			while (new_start != new_end)
 			{
-				*_end = *new_start; //change
+				*_end = *new_start;
 				++_end;
 				++new_start;
 			}
@@ -682,14 +702,14 @@ namespace ft
 			while (it != pos)
 			{
 				if (size() != 0)
-					*(it + shift) = *it; //change
+					*(it + shift) = *it;
 				it--;
 			}
 			*(it + shift) = *it;
 			first_insert = it;
 			while (new_start != new_end)
 			{
-				*it = *new_start; //change
+				*it = *new_start;
 				new_start++;
 				it++;
 			}
@@ -711,7 +731,7 @@ namespace ft
 		{
 			while (new_start != new_end)
 			{
-				*_end = *new_start; //change
+				*_end = *new_start;
 				++_end;
 				++new_start;
 			}
@@ -726,14 +746,14 @@ namespace ft
 			while (it != pos)
 			{
 				if (size() != 0)
-					*(it + shift) = *it; //change
+					*(it + shift) = *it;
 				it--;
 			}
 			*(it + shift) = *it;
 			first_insert = it;
 			while (new_start != new_end)
 			{
-				*it = *new_start; //change
+				*it = *new_start;
 				new_start++;
 				it++;
 			}
@@ -759,7 +779,7 @@ namespace ft
 		first_shift = it - shift;
 		while (it != ite)
 		{
-			*(it - shift) = *it; //change
+			*(it - shift) = *it;
 			_alloc.destroy(&(*it));
 			it++;
 		}

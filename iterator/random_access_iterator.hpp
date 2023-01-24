@@ -6,7 +6,7 @@
 /*   By: agirona <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/30 20:29:39 by agirona           #+#    #+#             */
-/*   Updated: 2023/01/20 18:17:09 by agirona          ###   ########lyon.fr   */
+/*   Updated: 2023/01/24 15:00:01 by agirona          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,41 +28,36 @@ namespace   ft
             typedef iterator_traits<T>  								iterator_category;
 			typedef	random_access_iterator<const T>						const_it;
 
-            //CONSTRUCTOR
-            random_access_iterator(); //
-            random_access_iterator(pointer ptr); //
-            random_access_iterator(const random_access_iterator &copy); //
+            //CONSTRUCTORS
+			
+            random_access_iterator(); 
+            random_access_iterator(pointer ptr); 
+            random_access_iterator(const random_access_iterator &copy); 
             ~random_access_iterator();
 
 			operator	const_it() const { return const_it(_it); }
 
-            bool             operator!=(const const_it &lhs) const;//
-            bool             operator==(const const_it &lhs) const;//
-            bool             operator<(const const_it &lhs) const;//
-            bool             operator<=(const const_it &lhs) const;//
-            bool             operator>(const const_it &lhs) const;//
-            bool             operator>=(const const_it &lhs) const;//
+            bool             operator!=(const const_it &lhs) const;
+            bool             operator==(const const_it &lhs) const;
+            bool             operator<(const const_it &lhs) const;
+            bool             operator<=(const const_it &lhs) const;
+            bool             operator>(const const_it &lhs) const;
+            bool             operator>=(const const_it &lhs) const;
 
-			/*template <class c>
-			friend random_access_iterator	operator+(const difference_type n, const random_access_iterator it); //hm ?
-			template <class c>
-			friend random_access_iterator	operator-(const difference_type n, const random_access_iterator it); //hm ?*/
-
-            pointer                 operator->() const;//
-            reference               operator*() const;//
-            random_access_iterator  &operator=(const random_access_iterator &copy);//
-            //random_access_iterator  &operator=(const random_access_iterator &copy) const;//
-            random_access_iterator  &operator++();//
-            random_access_iterator  operator++(int);//
-            random_access_iterator  &operator--();//
-            random_access_iterator  operator--(int);//
-            random_access_iterator  operator+(const difference_type n) const;//
-            random_access_iterator  operator-(const difference_type n) const;//
+            pointer                 operator->() const;
+            reference               operator*() const;
+            random_access_iterator  &operator=(const random_access_iterator &copy);
+            random_access_iterator  &operator++();
+            random_access_iterator  operator++(int);
+            random_access_iterator  &operator--();
+            random_access_iterator  operator--(int);
+            random_access_iterator  operator+(const difference_type n) const;
+            random_access_iterator  operator-(const difference_type n) const;
             difference_type         operator+(random_access_iterator it) const;
             difference_type         operator-(const const_it it) const;
-            random_access_iterator  &operator+= (difference_type n);//
-            random_access_iterator  &operator-= (difference_type n);//
-            reference               operator[](difference_type n) const;//
+            random_access_iterator  &operator+= (difference_type n);
+            random_access_iterator  &operator-= (difference_type n);
+            reference               operator[](difference_type n) const;
 
         private :
             pointer                         _it;

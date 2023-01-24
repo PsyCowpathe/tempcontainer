@@ -6,7 +6,7 @@
 /*   By: agirona <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 18:54:26 by agirona           #+#    #+#             */
-/*   Updated: 2023/01/23 15:44:56 by agirona          ###   ########lyon.fr   */
+/*   Updated: 2023/01/24 15:03:19 by agirona          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,7 +128,6 @@ namespace ft
             pointer             _storage_end;
 
            	void				allocate_memory(size_type size);
-           // void              deallocate_memory(const pointer start, const pointer end);
            	pointer        		set_range(const pointer &start, const pointer &end, const value_type &val);
            	pointer             set_storage_end(const pointer &start, const size_t &size);
 			iterator			alloc_insert_values(const iterator pos, iterator new_start, iterator new_end);

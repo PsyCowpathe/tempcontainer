@@ -6,7 +6,7 @@
 /*   By: agirona <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/20 12:16:10 by agirona           #+#    #+#             */
-/*   Updated: 2023/01/23 16:38:10 by agirona          ###   ########lyon.fr   */
+/*   Updated: 2023/01/24 14:58:54 by agirona          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ namespace ft
 			typedef	T								&reference;
 			typedef	ptrdiff_t						difference_type;
 			typedef	iterator_traits<T>				iterator_category;
-			//typedef	std::bidirectional_iterator_tag		iterator_category;
 			typedef	elem<T>							elem_type;
 
 			//CONSTRUCTORS
@@ -36,7 +35,7 @@ namespace ft
 			bidirectional_iterator(elem_type *copy);
 			~bidirectional_iterator();
 
-			bidirectional_iterator	&operator=(const bidirectional_iterator &copy); // avoir si le dereferencement est gerer
+			bidirectional_iterator	&operator=(const bidirectional_iterator &copy);
 
 			bool	operator==(const bidirectional_iterator &rhs) const;
 			bool	operator!=(const bidirectional_iterator &rhs) const;
@@ -48,8 +47,6 @@ namespace ft
 
 			bidirectional_iterator	&operator--();
 			bidirectional_iterator	operator--(int);
-
-		//private :
 
 			elem_type	*_it;
 			pointer		_pair;
@@ -64,7 +61,6 @@ namespace ft
 			typedef	const T							&reference;
 			typedef	ptrdiff_t						difference_type;
 			typedef	iterator_traits<T>				iterator_category;
-			//typedef		std::bidirectional_iterator_tag	iterator_category;
 			typedef	elem<T>							elem_type;
 
 			//CONSTRUCTORS
@@ -96,12 +92,9 @@ namespace ft
 				return (lhs._it != rhs._it);
 			}
 
-		private :
-
 			elem_type	*_it;
 			pointer		_pair;
 	};
-
 };
 
 #endif
