@@ -21,13 +21,13 @@ namespace ft
 	
 
 	template <class T>
-	elem<T>::elem() : _pair(NULL), _parent(NULL), _left(NULL), _right(NULL), _end(NULL), _ptr_last(NULL), _printable(1)
+	elem<T>::elem() : _pair(NULL), _parent(NULL), _left(NULL), _right(NULL), _end(NULL), _ptr_last(NULL), _printable(1), _height(0)
 	{
 
 	}
 
 	template <class T>
-	elem<T>::elem(const pair_type &pair) : _pair(pair), _parent(NULL), _left(NULL), _right(NULL), _end(NULL), _ptr_last(NULL), _printable(1)
+	elem<T>::elem(const pair_type &pair) : _pair(pair), _parent(NULL), _left(NULL), _right(NULL), _end(NULL), _ptr_last(NULL), _printable(1), _height(0)
 	{
 
 	}
@@ -97,27 +97,15 @@ namespace ft
 		_ptr_last = ptr;
 	}
 
+	template <class T>
+	void	elem<T>::set_height(size_t height)
+	{
+		_height = height;
+	}
+
 
 	//====				Getters					====
 
-
-	template <class T>
-	elem<T>	*elem<T>::get_parent() const
-	{
-		return (_parent); 
-	}
-
-	template <class T>
-	elem<T>	*elem<T>::get_left() const
-	{
-		return (_left); 
-	}
-
-	template <class T>
-	elem<T>	*elem<T>::get_right() const
-	{
-		return (_right); 
-	}
 
 	template <class T>
 	typename elem<T>::key_type	elem<T>::get_key() const
@@ -126,58 +114,18 @@ namespace ft
 	}
 
 	template <class T>
-	typename elem<T>::value_type	elem<T>::get_value() const
-	{
-		return (_pair.second); 
-	}
-
-	template <class T>
 	typename elem<T>::pair_type	*elem<T>::get_pair()
 	{
-		if (get_print() == 1)
+		if (_printable == 1)
 			return (&_pair); 
 		else
 			return (NULL);
 	}
 
-	template <class T>
-	elem<T>	*elem<T>::get_end() const
-	{
-		return (_end);
-	}
 
-	template <class T>
-	bool	elem<T>::get_print() const
-	{
-		return (_printable);
-	}
+	//====				Iterators				====
 
-	template <class T>
-	elem<T>	*elem<T>::get_ptr_last() const
-	{
-		return (_ptr_last);
-	}
-
-	template <class T>
-	elem<T>    *elem<T>::mini(node *current) const
-    {
-		if (current->get_left() == NULL)
-			return (current);
-		while (current->get_left())
-			current = current->get_left();
-		return (current);
-	}
-
-	template <class T>
-	elem<T>		*elem<T>::maxi(node *current) const
-    {
-		if (current->get_right() == NULL)
-			return (current);
-        while (current->get_right())
-            current = current->get_right();
-        return (current);
-    }
-
+	
 	template <class T>
 	elem<T>	*elem<T>::next()
 	{
@@ -187,13 +135,13 @@ namespace ft
 		 prev = this;
          if (prev == _ptr_last)
 			 return (_end);
-         if (prev->get_right())
-             return (mini(prev->get_right()));
-         current = prev->get_parent();
-         while (current && prev == current->get_right())
+         if (prev->_right)
+             return (mini(prev->_right));
+         current = prev->_parent;
+         while (current && prev == current->_right)
          {
 			 prev = current;
-             current = current->get_parent();
+             current = current->_parent;
          }
          return (current);
 	}
@@ -205,16 +153,43 @@ namespace ft
 		elem<T>		*current;
 
 		prev = this;
-        if (prev->get_left() != NULL)
-			return (maxi(prev->get_left()));
-		current = prev->get_parent();
-        while (current && prev == current->get_left())
+        if (prev->_left != NULL)
+			return (maxi(prev->_left));
+		current = prev->_parent;
+        while (current && prev == current->_left)
        	{
 			prev = current;
-            current = current->get_parent();
+            current = current->_parent;
         }
         return (current);
     }
+
+
+	//==========			Private functions			==========
+
+	//====						Tools					====
+
+
+	template <class T>
+	elem<T>    *elem<T>::mini(node *current) const
+    {
+		if (current->_left == NULL)
+			return (current);
+		while (current->_left)
+			current = current->_left;
+		return (current);
+	}
+
+	template <class T>
+	elem<T>		*elem<T>::maxi(node *current) const
+    {
+		if (current->_right == NULL)
+			return (current);
+        while (current->_right)
+            current = current->_right;
+        return (current);
+    }
+
 };
 
 #endif

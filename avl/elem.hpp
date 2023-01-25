@@ -6,7 +6,7 @@
 /*   By: agirona <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 12:00:47 by agirona           #+#    #+#             */
-/*   Updated: 2023/01/24 14:57:38 by agirona          ###   ########lyon.fr   */
+/*   Updated: 2023/01/25 18:56:51 by agirona          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,25 +44,21 @@ namespace ft
 			void 		set_end(node *end);
 			void 		set_print(const bool printable);
 			void		set_ptr_last(node *ptr);
+			void		set_height(size_t height);
 
 			//====				Getters					====
 
-			elem		*get_parent() const;
-			elem		*get_left() const;
-			elem		*get_right() const;
-			elem		*get_end() const;
-			key_type	get_key() const;
-			value_type	get_value() const;
 			pair_type	*get_pair(); 
-			bool		get_print() const;
-			elem		*get_ptr_last() const;
+			key_type	get_key() const;
 			
 			//====				Iterators				====
 
 			elem		*next();
 			elem		*prev();
 
-		private :
+
+
+		//private :
 
 			pair_type	_pair;
 			elem		*_parent;
@@ -71,6 +67,10 @@ namespace ft
 			elem		*_end; //pointer toward real_end tree's variable
 			elem		*_ptr_last;// pointer toward max tree's variable
 			bool		_printable;
+			size_t		_height;
+
+			//====				Tools					====
+
 			elem		*mini(elem *start) const;
 			elem		*maxi(elem *start) const;
 	};
