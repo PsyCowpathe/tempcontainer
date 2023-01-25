@@ -10,6 +10,8 @@
 /*                                                                              */
 /* **************************************************************************** */
 
+#ifndef STACK_TPP
+# define STACK_TPP
 # include "stack.hpp"
 
 namespace ft
@@ -56,3 +58,5 @@ namespace ft
 		_ctnr.pop_back();
 	}
 }
+
+#endif
