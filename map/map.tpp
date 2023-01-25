@@ -146,24 +146,13 @@ namespace ft
 	template <class K, class T, class C, class A>
 	pair<typename map<K, T, C, A>::iterator, bool>	map<K, T, C, A>::insert(const value_type &val)
 	{
-		bool		wich;
-		iterator	ret;
-
-		wich = false;
-		ret = find(val.first);
-		if (ret == end())
-		{
-			wich = true;
-			ret = insert(begin(), val);
-		}
-		return (ft::make_pair<iterator, bool>(ret, wich));
+		return (_tree.insert(val));
 	}
 
 	template <class K, class T, class C, class A>
 	typename map<K, T, C, A>::iterator	map<K, T, C, A>::insert(iterator, const value_type &val)
 	{
-		_tree.insert(val);
-		return (find(val.first));
+		return (insert(val).first);
 	}
 
 	template <class K, class T, class C, class A>

@@ -6,7 +6,7 @@
 /*   By: agirona <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 17:40:51 by agirona           #+#    #+#             */
-/*   Updated: 2023/01/24 14:57:40 by agirona          ###   ########lyon.fr   */
+/*   Updated: 2023/01/25 19:06:45 by agirona          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,24 +47,24 @@ namespace ft
 
 			//====				Modifiers				====
 
-			void 				insert(const pair_type &val);
-			void 				erase(const key_type &val);
-			void				clear();
-			void				swap(tree &x);
+			ft::pair<iterator, bool>	insert(const pair_type &val);
+			void 						erase(const key_type &val);
+			void						clear();
+			void						swap(tree &x);
 
 			//====				Capacity				====
 
-			size_t				size() const;
-			size_t				max_size() const;
+			size_t						size() const;
+			size_t						max_size() const;
 
 			//====				Operations				====
 			
-			iterator			find(const key_type &val) const;
+			iterator					find(const key_type &val) const;
 
 			//====				Iterators				====
 
-			iterator			begin() const;
-			iterator			end() const;
+			iterator					begin() const;
+			iterator					end() const;
 
 		private :
 
@@ -103,7 +103,8 @@ namespace ft
 			void				change_max();
 			void				is_new_max(node *new_one);
 			void				is_del_max(const key_type &val, node *new_one);
-			int					get_sub_height(elem<T> *current);
+			void				update_height(node *current);
+			void				solo_update_height(node *current);
 
 	};
 

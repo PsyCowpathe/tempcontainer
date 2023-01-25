@@ -6,7 +6,7 @@
 /*   By: agirona <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/21 18:48:16 by agirona           #+#    #+#             */
-/*   Updated: 2023/01/25 10:54:29 by agirona          ###   ########lyon.fr   */
+/*   Updated: 2023/01/25 19:05:00 by agirona          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,10 +142,6 @@ namespace ft
 			tree<used_value_type, key_compare>		_tree;
 			allocator_type							_alloc;
 			key_compare								_comp;
-
-			int										test;
-
-			
 	};
 
 	//====			Relational Operators				====
