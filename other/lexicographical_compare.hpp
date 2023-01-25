@@ -6,11 +6,11 @@
 /*   By: agirona <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 19:30:17 by agirona           #+#    #+#             */
-/*   Updated: 2023/01/24 15:02:18 by agirona          ###   ########lyon.fr   */
+/*   Updated: 2023/01/24 15:51:17 by agirona          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LEXICOGRAPHICAL_COMPARE_IF_HPP
+#ifndef LEXICOGRAPHICAL_COMPARE_HPP
 # define LEXICOGRAPHICAL_COMPARE_HPP
 
 namespace ft
