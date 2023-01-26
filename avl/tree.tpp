@@ -508,19 +508,6 @@ namespace ft
 	}
 
 	template <class T, class C, class A>
-  	void tree<T, C, A>::change_max()
-    {
-		node_ptr tmp = mini();
-		while (tmp != _max)
-		{
-			tmp->set_end(_real_end);
-			tmp->set_ptr_last(_max);
-			tmp = tmp->next();
-		}
-		_max->set_ptr_last(_max);
-     }
-
-	template <class T, class C, class A>
 	void	tree<T, C, A>::is_new_max(node *last_add)
 	{
 		if (_max == NULL)
@@ -541,7 +528,6 @@ namespace ft
 				_real_end->set_parent(_max);
 				last_add->_parent->set_ptr_last(NULL);
 				_max->set_ptr_last(_max);
-				//change_max();
 			}
 		}
 	}
@@ -561,7 +547,6 @@ namespace ft
 			_max->set_end(_real_end);
 			_real_end->set_parent(_max);
 			_max->set_ptr_last(_max);
-			//change_max();
 		}
 		if (to_delete == NULL)
 			return ;
