@@ -539,7 +539,9 @@ namespace ft
 				_max = last_add;
 				_max->set_end(_real_end);
 				_real_end->set_parent(_max);
-				change_max();
+				last_add->_parent->set_ptr_last(NULL);
+				_max->set_ptr_last(_max);
+				//change_max();
 			}
 		}
 	}
@@ -558,7 +560,8 @@ namespace ft
 			_max = _origin->_left;
 			_max->set_end(_real_end);
 			_real_end->set_parent(_max);
-			change_max();
+			_max->set_ptr_last(_max);
+			//change_max();
 		}
 		if (to_delete == NULL)
 			return ;
@@ -575,7 +578,9 @@ namespace ft
 				_max = _max->_left;
 			_max->set_end(_real_end);
 			_real_end->set_parent(_max);
-			change_max();
+			if (to_delete->_parent)
+				to_delete->_parent->set_ptr_last(NULL);
+			_max->set_ptr_last(_max);
 		}
 	}
 
